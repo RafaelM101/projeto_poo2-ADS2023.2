@@ -1,4 +1,4 @@
-public class ModeloServiço implements Serviço{
+abstract class ModeloServiço implements Serviço{
 
     private Float preço;
     private Integer codigo, dia, mes, ano, hora, minutos;
