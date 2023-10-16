@@ -1,3 +1,5 @@
+package funcionarios;
+
 public class Veterinario extends Funcionario{
 	private String CRMV;
 	private String especializacao;

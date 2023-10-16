@@ -1,3 +1,5 @@
+package funcionarios;
+
 public class Funcionario {
 	protected String matricula;
 	protected double salario;
