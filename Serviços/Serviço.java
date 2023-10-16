@@ -1,3 +1,5 @@
+package Serviços;
+
 public interface Serviço {
 
     public void Agendar();
