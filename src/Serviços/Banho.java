@@ -1,3 +1,5 @@
+package Serviços;
+
 public class Banho extends ModeloServiço {
 
     private String animal;

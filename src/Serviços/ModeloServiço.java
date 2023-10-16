@@ -1,4 +1,6 @@
-abstract class ModeloServiço implements Serviço{
+package Serviços;
+
+abstract class ModeloServiço implements Serviço {
 
     private Float preço;
     private Integer codigo, dia, mes, ano, hora, minutos;
