@@ -1,4 +1,5 @@
-package Serviços;
+package servicos.servicos;
+
 
 abstract class ModeloServiço implements Serviço {
 
