@@ -1,4 +1,4 @@
-package Serviços;
+package servicos.servicos;
 
 public class Banho extends ModeloServiço {
 
