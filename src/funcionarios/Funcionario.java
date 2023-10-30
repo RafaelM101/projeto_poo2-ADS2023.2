@@ -1,4 +1,4 @@
-package funcionarios.funcionarios;
+package funcionarios;
 
 public class Funcionario {
 	protected String matricula;
