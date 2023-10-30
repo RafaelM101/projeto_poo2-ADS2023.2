@@ -1,4 +1,4 @@
-package funcionarios;
+package funcionarios.funcionarios;
 
 public class Veterinario extends Funcionario{
 	private String CRMV;
@@ -8,5 +8,9 @@ public class Veterinario extends Funcionario{
 		super(matricula, salario, CPF, nome, setor);
 		this.CRMV = CRMV;
 		this.especializacao = especializacao;
+	}
+	
+	public String getCRMV() {
+		return this.CRMV;
 	}
 }
