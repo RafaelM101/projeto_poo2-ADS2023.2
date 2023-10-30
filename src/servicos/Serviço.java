@@ -1,4 +1,4 @@
-package servicos.servicos;
+package servicos;
 
 
 public interface Serviço {

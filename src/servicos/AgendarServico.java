@@ -1,4 +1,4 @@
-package servicos.servicos;
+package servicos;
 
 import Pets.Cachorro;
 import Pets.Gato;
