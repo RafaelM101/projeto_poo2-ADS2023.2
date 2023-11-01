@@ -9,22 +9,27 @@ public class Agendamento{
 
     private Funcionario nome_funcionario;
     private Float preco;
-    private static ArrayList<String> agenda;
+    //Criar classe enum ListaServico posteriormente
+    //private ListaServico tipo_agendamento;
     private Pet pet;
 
 
-    public AgendarServico(Funcionario nome_funcionario, Float preco) {
+    public Agendamento(Funcionario nome_funcionario, Float preco) {
         this.nome_funcionario = nome_funcionario;
         this.preco = preco;
     }
 
-    public void Agendar(String tipoServiço, Funcionario nome_funcionario, String dia_hora  ) {
-        
-
-
-        
+    public void agendar() {
+              
     }
-
+    
+    public void cancelar() {
+    	
+    }
+    
+    public void efetuar() {
+    	
+    }
     
 }
 

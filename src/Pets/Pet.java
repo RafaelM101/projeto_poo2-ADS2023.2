@@ -3,6 +3,8 @@ package Pets;
 import java.time.LocalDate;
 import java.time.Period;
 
+import components.CRUD;
+
 public abstract class Pet{
     protected String nomePet;
     protected String matriculaPet;
