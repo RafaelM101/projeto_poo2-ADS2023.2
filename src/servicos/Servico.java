@@ -4,20 +4,18 @@ import Pets.Pet;
 import funcionarios.Funcionario;
 
 import java.time.LocalTime;
-import java.util.ArrayList;
 
-public class Agendamento{
+public class Servico {
 
     private Funcionario nome_funcionario;
     private Float preco;
-    ListaServicos tipo_agendamento;
-    Pet pet_agendamento;
-
-    LocalTime horario_agendamento;
-
+    private ListaServicos tipo_agendamento;
+    private Pet pet_agendamento;
+    private LocalTime horario_agendamento;
 
 
-    public Agendamento(Funcionario nome_funcionario, Float preco) {
+
+    public Servico(Funcionario nome_funcionario, Float preco) {
 
     }
 
