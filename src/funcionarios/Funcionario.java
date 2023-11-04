@@ -92,6 +92,13 @@ public class Funcionario implements CRUD{
 		
 	}
 
+	public static Funcionario consultarFuncionario(String matricula) {
+		for (Funcionario funcionario : lista_funcionarios) {
+			if (funcionario.getMatricula().equals(matricula)) {
+				return funcionario;}
+		}
+		return null;
+	}
 	public void deletar() {
 		// TODO Stub de método gerado automaticamente
 		
