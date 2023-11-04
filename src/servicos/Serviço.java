@@ -1,4 +1,5 @@
-package Serviços;
+package servicos;
+
 
 public interface Serviço {
 
