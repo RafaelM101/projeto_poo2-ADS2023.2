@@ -1,11 +1,17 @@
 package funcionarios;
 
-public class Funcionario {
+import java.util.ArrayList;
+import java.util.Scanner;
+
+import components.CRUD;
+
+public class Funcionario implements CRUD{
 	protected String matricula;
 	protected double salario;
 	protected String CPF;
 	protected String nome;
 	protected String setor;
+	protected static ArrayList<Funcionario> lista_funcionarios = new ArrayList<>();
 		
 	public Funcionario(String matricula, double salario, String CPF, String nome, String setor) {
 		this.matricula = matricula;
@@ -14,6 +20,7 @@ public class Funcionario {
 		this.nome = nome;
 		this.setor = setor;
 	}
+	
 
 	public String getMatricula() {
 		return matricula;
@@ -53,5 +60,47 @@ public class Funcionario {
 
 	public void setSetor(String setor) {
 		this.setor = setor;
+	}
+	
+	public static void cadastrar() {
+		Scanner teclado = new Scanner(System.in);
+		System.out.print("Digite a matrícula do funcionário: ");
+		String matricula = teclado.nextLine();
+		System.out.print("Digite o salário do funcionário: ");
+		double salario = teclado.nextDouble();
+		teclado.nextLine();
+		System.out.print("Digite o CPF do funcionário: ");
+		String CPF = teclado.nextLine();
+		System.out.print("Digite nome do funcionário: ");
+		String nome = teclado.nextLine();
+		System.out.print("Digite o setor do funcionário: ");
+		String setor = teclado.nextLine();
+		Funcionario func = new Funcionario(matricula, salario, CPF, nome, setor);
+		teclado.close();
+		lista_funcionarios.add(func);	
+	}
+
+	public static void listar() {
+		for(Funcionario funcionario: lista_funcionarios) {
+			System.out.println(funcionario.nome);
+		}
+		
+	}
+
+	public static void atualizar() {
+		
+		
+	}
+
+	public static Funcionario consultarFuncionario(String matricula) {
+		for (Funcionario funcionario : lista_funcionarios) {
+			if (funcionario.getMatricula().equals(matricula)) {
+				return funcionario;}
+		}
+		return null;
+	}
+	public void deletar() {
+		// TODO Stub de método gerado automaticamente
+		
 	}
 }

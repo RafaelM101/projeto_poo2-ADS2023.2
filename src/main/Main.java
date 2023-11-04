@@ -1,15 +1,21 @@
 package main;
 
-import java.time.LocalDate;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Scanner;
 
-import Pets.Gato;
-import funcionarios.funcionarios.Funcionario;
-import funcionarios.funcionarios.Veterinario;
+import funcionarios.Funcionario;
+import servicos.AgendaDia;
 
 public class Main {
 
     public static void main(String[] args) {
-        System.out.println("S");
+
+        Funcionario.cadastrar();
+        Funcionario.listar();
+
+        HashMap<Date, AgendaDia> AgendaDiaria = new HashMap<Date, AgendaDia>();
+        
     }
 }
 
