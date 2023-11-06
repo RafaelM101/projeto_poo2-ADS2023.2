@@ -1,34 +1,25 @@
 package Pets;
 
-import java.time.LocalDate;
-import java.time.Period;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import Tutores.Tutor;
 import components.CRUD;
-import funcionarios.Funcionario;
 
-public abstract class Pet{
+public abstract class Pet implements CRUD {
     protected String nomePet;
     protected String matriculaPet;
-    protected LocalDate dataNascimentoPet;
     protected Integer idadePet;
-
+    protected Tutor donoPet;
     protected static ArrayList<Pet> lista_pets = new ArrayList<>();
 
-    public Pet(String nomePet, String matriculaPet, LocalDate dataNascimentoPet) {
+    public Pet(String nomePet, String matriculaPet, Integer idadePet, Tutor donoPet) {
         this.nomePet = nomePet;
         this.matriculaPet = matriculaPet;
-        this.dataNascimentoPet = dataNascimentoPet;
-        this.idadePet = this.getIdade();
+        this.idadePet = idadePet;
+        this.donoPet = donoPet;
     }
     
-    public int getIdade() {
-        LocalDate dataAtual = LocalDate.now();
-        Period periodo = Period.between(dataNascimentoPet, dataAtual);
-        return periodo.getYears();
-    }
-
     public String getNomePet() {
         return nomePet;
     }
@@ -45,20 +36,36 @@ public abstract class Pet{
         this.matriculaPet = matriculaPet;
     }
     
-    public LocalDate getDataNascimentoPet() {
-        return dataNascimentoPet;
-    }
-    
-    public void setDataNascimentoPet(LocalDate dataNascimentoPet) {
-        this.dataNascimentoPet = dataNascimentoPet;
-    }
-    
     public Integer getIdadePet() {
         return idadePet;
     }
     
-    public void setIdadePet() {
-        this.idadePet = this.getIdade();
+    public void setIdadePet(Integer idadePet) {
+        this.idadePet = idadePet;
+    }
+    
+    public Tutor getDonoPet() {
+        return donoPet;
+    }
+
+    public void setDonoPet(Tutor donoPet) {
+        this.donoPet = donoPet;
+    }
+
+    public static void cadastrar() {
+
+    }
+
+    public static void listar() {
+
+    }
+
+    public static void atualizar() {
+
+    }
+
+    public static void deletar() {
+
     }
 
     public static Pet consultarPet(String matricula) {
