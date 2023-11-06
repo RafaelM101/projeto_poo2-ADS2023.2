@@ -2,12 +2,18 @@ package Pets;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.ArrayList;
+
+import components.CRUD;
+import funcionarios.Funcionario;
 
 public abstract class Pet{
     protected String nomePet;
     protected String matriculaPet;
     protected LocalDate dataNascimentoPet;
     protected Integer idadePet;
+
+    protected static ArrayList<Pet> lista_pets = new ArrayList<>();
 
     public Pet(String nomePet, String matriculaPet, LocalDate dataNascimentoPet) {
         this.nomePet = nomePet;
@@ -52,6 +58,14 @@ public abstract class Pet{
     
     public void setIdadePet() {
         this.idadePet = this.getIdade();
+    }
+
+    public static Pet consultarPet(String matricula) {
+        for (Pet pet : lista_pets) {
+            if (pet.getMatriculaPet().equals(matricula)) {
+                return pet;}
+        }
+        return null;
     }
 
 }

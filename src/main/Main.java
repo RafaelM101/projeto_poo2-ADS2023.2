@@ -1,12 +1,24 @@
 package main;
 
-import funcionarios.funcionarios.Funcionario;
-import funcionarios.funcionarios.Veterinario;
+import java.time.LocalDate;
+
+import java.util.HashMap;
+import java.util.Scanner;
+
+import funcionarios.Funcionario;
+import servicos.AgendaDia;
 
 public class Main {
 
     public static void main(String[] args) {
-    	Veterinario n = new Veterinario("l", 2, "l","l", "l", "l", "l");
-    	System.out.println(n.getCRMV());
+
+        Funcionario.cadastrar();
+        Funcionario.listar();
+
+        HashMap<LocalDate, AgendaDia> AgendaDiaria = new HashMap<LocalDate, AgendaDia>();
+        
     }
 }
+
+
+
