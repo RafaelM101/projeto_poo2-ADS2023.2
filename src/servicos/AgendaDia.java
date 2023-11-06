@@ -2,12 +2,13 @@ package servicos;
 import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 public class AgendaDia {
 
     private HashMap<LocalTime, Servico> Agendamentos_dia = new HashMap<>();
-    private Set<LocalTime> HoraDisponivel = new HashSet<>();
+    private Set<LocalTime> HoraDisponivel = new LinkedHashSet<>();
 
 
     public AgendaDia(){
@@ -21,22 +22,26 @@ public class AgendaDia {
     }
     }
 
-    public void agendarHorario(String horario, Servico servico){
-        LocalTime horario_escolhido = LocalTime.parse(horario);
-        if(HoraDisponivel.contains(horario_escolhido)){
-            Agendamentos_dia.put(horario_escolhido, servico);
-            HoraDisponivel.remove(horario_escolhido);
+    @Override
+    public String toString() {
+        return "Horários Disponíveis:" + HoraDisponivel;
+    }
+
+
+    public void agendarHorario(LocalTime horario, Servico servico){
+        if(HoraDisponivel.contains(horario)){
+            Agendamentos_dia.put(horario, servico);
+            HoraDisponivel.remove(horario);
         }}
 
-    public void desmarcarHorario(String horario){
-        LocalTime horario_escolhido = LocalTime.parse(horario);
-        if(Agendamentos_dia.get(horario_escolhido)!=null){
-            Agendamentos_dia.remove(horario_escolhido);
-            HoraDisponivel.add(horario_escolhido);
+    public void desmarcarHorario(LocalTime horario){
+        if(Agendamentos_dia.get(horario)!=null){
+            Agendamentos_dia.remove(horario);
+            HoraDisponivel.add(horario);
         }
     }
 
-    public void mudarHorario(String horario, Servico servico){
+    public void mudarHorario(LocalTime horario, Servico servico){
         desmarcarHorario(horario);
         agendarHorario(horario, servico);
     }

@@ -3,6 +3,7 @@ package Pets;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import components.CRUD;
 import funcionarios.Funcionario;
@@ -67,5 +68,8 @@ public abstract class Pet{
         }
         return null;
     }
-
+    public static void cadastrar(){
+        Gato gato = new Gato("leon", "123", LocalDate.now(), "SRD");
+        lista_pets.add(gato);
+    }
 }
