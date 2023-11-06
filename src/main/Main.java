@@ -1,6 +1,7 @@
 package main;
 
-import java.util.Date;
+import java.time.LocalDate;
+
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -14,7 +15,7 @@ public class Main {
         Funcionario.cadastrar();
         Funcionario.listar();
 
-        HashMap<Date, AgendaDia> AgendaDiaria = new HashMap<Date, AgendaDia>();
+        HashMap<LocalDate, AgendaDia> AgendaDiaria = new HashMap<LocalDate, AgendaDia>();
         
     }
 }
