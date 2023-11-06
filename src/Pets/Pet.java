@@ -1,18 +1,22 @@
 package Pets;
 
 import java.util.ArrayList;
+
+import Tutores.Tutor;
 import components.CRUD;
 
 public abstract class Pet implements CRUD {
     protected String nomePet;
     protected String matriculaPet;
     protected Integer idadePet;
+    protected Tutor donoPet;
     protected static ArrayList<Pet> lista_pets = new ArrayList<>();
 
-    public Pet(String nomePet, String matriculaPet, Integer idadePet) {
+    public Pet(String nomePet, String matriculaPet, Integer idadePet, Tutor donoPet) {
         this.nomePet = nomePet;
         this.matriculaPet = matriculaPet;
         this.idadePet = idadePet;
+        this.donoPet = donoPet;
     }
     
     public String getNomePet() {
@@ -38,6 +42,14 @@ public abstract class Pet implements CRUD {
     public void setIdadePet(Integer idadePet) {
         this.idadePet = idadePet;
     }
+    
+    public Tutor getDonoPet() {
+        return donoPet;
+    }
+
+    public void setDonoPet(Tutor donoPet) {
+        this.donoPet = donoPet;
+    }
 
     public static void cadastrar() {
 
@@ -52,7 +64,7 @@ public abstract class Pet implements CRUD {
     }
 
     public static void deletar() {
-        
+
     }
 
     public static Pet consultarPet(String matricula) {
