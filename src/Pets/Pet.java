@@ -1,6 +1,7 @@
 package Pets;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import Tutores.Tutor;
 import components.CRUD;
@@ -74,5 +75,8 @@ public abstract class Pet implements CRUD {
         }
         return null;
     }
-
+    public static void cadastrar(){
+        Gato gato = new Gato("leon", "123", LocalDate.now(), "SRD");
+        lista_pets.add(gato);
+    }
 }
