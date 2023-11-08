@@ -11,7 +11,6 @@ public class Tutor implements CRUD {
     private String cpf_Tutor;
     private String telefoneTutor;
     private String emailTutor;
-
     private ArrayList<Pet> pets = new ArrayList<>();
     private Endereco enderecoTutor;
     protected static ArrayList<Tutor> lista_tutores = new ArrayList<>();

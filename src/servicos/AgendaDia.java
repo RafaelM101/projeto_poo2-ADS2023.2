@@ -25,7 +25,7 @@ public class AgendaDia {
 
     @Override
     public String toString() {
-        return "Horários Disponíveis:" + "\n" + HoraDisponivel;
+        return HoraDisponivel + "Horários Disponíveis:" + "\n";
     }
 
 

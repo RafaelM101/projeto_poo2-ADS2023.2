@@ -1,10 +1,12 @@
 package funcionarios;
 
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 import components.CRUD;
 import servicos.AgendaDia;
+import servicos.Servico;
 
 public class Funcionario implements CRUD{
 	protected String matricula;
@@ -12,14 +14,29 @@ public class Funcionario implements CRUD{
 	protected String CPF;
 	protected String nome;
 	protected String setor;
+
+	private HashMap<LocalDate, AgendaDia> AgendaDiariaFuncionario;
 	protected static ArrayList<Funcionario> lista_funcionarios = new ArrayList<>();
 		
 	public Funcionario(String matricula, double salario, String CPF, String nome, String setor) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		this.matricula = matricula;
 		this.salario = salario;
 		this.CPF = CPF;
 		this.nome = nome;
 		this.setor = setor;
+		this.AgendaDiariaFuncionario = new LinkedHashMap<>();
+
+		LocalDate date_agenda = LocalDate.now();
+		formatter.format(date_agenda);
+
+		for (int i = 0; i < 8; i++) {
+			LocalDate currentDate = date_agenda.plusDays(i);
+			AgendaDia agendaDia = new AgendaDia();
+			String dateFormatted = currentDate.format(formatter);
+			System.out.println(dateFormatted + " = " + agendaDia);
+			AgendaDiariaFuncionario.put(currentDate, agendaDia);
+		}
 	}
 	
 
@@ -156,5 +173,27 @@ public class Funcionario implements CRUD{
 	public void deletar() {
 		// TODO Stub de método gerado automaticamente
 		
+	}
+	//METODOS RELACIONADOS À AGENDA DO FUNCIONÁRIO
+	public void agendarHorario(Servico novo_servico){
+		AgendaDia agenda = AgendaDiariaFuncionario.get(novo_servico.getData_servico());
+		agenda.agendarHorario(novo_servico.getHora_servico(), novo_servico);
+	}
+	public void desmarcarHorario(Servico servico){
+		AgendaDia agenda = AgendaDiariaFuncionario.get(servico.getData_servico());
+		agenda.desmarcarHorario(servico.getHora_servico());
+	}
+
+	public void remarcarHorario(Servico servico){
+		AgendaDia agenda = AgendaDiariaFuncionario.get(servico.getData_servico());
+		agenda.mudarHorario(servico.getHora_servico(), servico);
+	}
+	public void listarHorarios(){
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		for (Map.Entry<LocalDate, AgendaDia> entry : AgendaDiariaFuncionario.entrySet()) {
+			LocalDate data_agenda = entry.getKey();
+			String dateFormatted = data_agenda.format(formatter);
+			System.out.println(dateFormatted + " = " + entry.getValue() + "\n");
+		}
 	}
 }
