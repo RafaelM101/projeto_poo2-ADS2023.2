@@ -1,9 +1,7 @@
 package Pets;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
-import Tutores.Endereco;
 import Tutores.Tutor;
 import components.CRUD;
 
@@ -53,18 +51,6 @@ public abstract class Pet implements CRUD {
         this.donoPet = donoPet;
     }
 
-    public static void listar() {
-
-    }
-
-    public static void atualizar() {
-
-    }
-
-    public static void deletar() {
-
-    }
-
     public static Pet consultarPet(String matricula) {
         for (Pet pet : lista_pets) {
             if (pet.getMatriculaPet().equals(matricula)) {
@@ -105,8 +91,56 @@ public abstract class Pet implements CRUD {
             Gato novo_cachorro = new Gato(nome_pet,matricula_pet,idade_pet,donoPet,racaCachorro);
             donoPet.adicionarPet(novo_cachorro);
             lista_pets.add(novo_cachorro);
-            }
-
-
+        }
     }
+    
+    public static void listar() {
+        for(Pet pet : lista_pets) {
+            System.out.println("Nome do Pet: " + pet.getNomePet());
+        }
+    }
+
+    public static void atualizar() {
+        System.out.print("Digite a matrícula do Pet que deseja atualizar: ");
+        String matriculaBuscar = teclado.nextLine();
+        Pet pet = consultarPet(matriculaBuscar);
+        if (pet instanceof Pet) {
+            System.out.println("Matrícula encontrada!");
+            System.out.println("Vamos atualizar o cadastro do Pet");
+            
+            //Nome do Pet
+            System.out.print("Digite o novo Nome: ");
+            String novoNome = teclado.nextLine();
+            pet.setNomePet(novoNome);
+            
+            //Matrícula do Pet
+            System.out.print("Digite a nova Matrícula: ");
+            String novaMatricula = teclado.nextLine();
+            pet.setMatriculaPet(novaMatricula);
+            
+            //Idade do Pet
+            System.out.print("Digite a nova Idade: ");
+            int novaIdade = teclado.nextInt();
+            teclado.nextLine();
+            pet.setIdadePet(novaIdade);
+
+            System.out.println("O cadastro do seu Pet foi atualizado com sucesso!");
+
+        } else {
+            System.out.println("Matrícula não encontrada!");
+        }
+    }
+
+    public static void deletar() {
+        System.out.print("Digite a matrícula do Pet que deseja deletar: ");
+        String deletarMatricula = teclado.nextLine();
+        Pet delPet = consultarPet(deletarMatricula);
+        if(delPet instanceof Pet) {
+            lista_pets.remove(delPet);
+            System.out.println("Pet deletado com sucesso!");
+        } else {
+            System.out.println("Matrícula não encontrada!");
+        }
+    }
+
 }

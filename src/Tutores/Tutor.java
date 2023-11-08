@@ -1,8 +1,6 @@
 package Tutores;
 
 import java.util.ArrayList;
-import java.util.Scanner;
-
 import Pets.Pet;
 import components.CRUD;
 
