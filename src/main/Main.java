@@ -49,7 +49,7 @@ public class Main {
                 String dateFormatted = date_agenda.format(formatter);
                 System.out.println(dateFormatted + " = " + entry.getValue() + "\n");
             }
-
+            Funcionario.listar();
             System.out.println("Pressione Enter para voltar ao menu inicial...");
             teclado.nextLine(); // Aguarda a tecla Enter
         }

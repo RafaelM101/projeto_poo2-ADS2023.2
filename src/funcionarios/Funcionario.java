@@ -81,7 +81,7 @@ public class Funcionario implements CRUD{
 
 	public static void listar() {
 		for(Funcionario funcionario: lista_funcionarios) {
-			System.out.println(funcionario.nome);
+			System.out.printf("Nome: %s\nMatricula: %s\nSalário: %.2f\nCPF: %s\nSetor: %s\n",funcionario.nome, funcionario.matricula, funcionario.salario, funcionario.CPF, funcionario.setor);
 		}
 		
 	}
