@@ -6,11 +6,13 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import components.CRUD;
+import components.Matricula;
+import components.TipoEntidade;
 import servicos.AgendaDia;
 import servicos.Servico;
 
 public class Funcionario implements CRUD{
-	protected String matricula;
+	protected Matricula matricula;
 	protected double salario;
 	protected String CPF;
 	protected String nome;
@@ -19,9 +21,9 @@ public class Funcionario implements CRUD{
 	private HashMap<LocalDate, AgendaDia> AgendaDiariaFuncionario;
 	protected static ArrayList<Funcionario> lista_funcionarios = new ArrayList<>();
 		
-	public Funcionario(String matricula, double salario, String CPF, String nome, String setor) {
+	public Funcionario( Double salario, String CPF, String nome, String setor) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		this.matricula = matricula;
+		this.matricula = Matricula.gerarMatricula(TipoEntidade.FUNCIONARIO);
 		this.salario = salario;
 		this.CPF = CPF;
 		this.nome = nome;
@@ -34,20 +36,15 @@ public class Funcionario implements CRUD{
 		for (int i = 0; i < 8; i++) {
 			LocalDate currentDate = date_agenda.plusDays(i);
 			AgendaDia agendaDia = new AgendaDia();
-			String dateFormatted = currentDate.format(formatter);
-			System.out.println(dateFormatted + " = " + agendaDia);
 			AgendaDiariaFuncionario.put(currentDate, agendaDia);
 		}
 	}
 	
 
 	public String getMatricula() {
-		return matricula;
+		return matricula.numero_matricula;
 	}
 
-	public void setMatricula(String matricula) {
-		this.matricula = matricula;
-	}
 
 	public double getSalario() {
 		return salario;
@@ -57,24 +54,9 @@ public class Funcionario implements CRUD{
 		this.salario = salario;
 	}
 
-	public String getCPF() {
-		return CPF;
-	}
-
-	public void setCPF(String cPF) {
-		CPF = cPF;
-	}
 
 	public String getNome() {
 		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public String getSetor() {
-		return setor;
 	}
 
 	public void setSetor(String setor) {
@@ -82,18 +64,21 @@ public class Funcionario implements CRUD{
 	}
 	
 	public static void cadastrar() {
-		System.out.print("Digite a matrícula do funcionário: ");
-		String matricula = teclado.nextLine();
+		System.out.print("Digite nome do funcionário: ");
+		String nome = teclado.nextLine();
+		System.out.print("Digite o sobrenome do funcionário: ");
+		String sobrenome = teclado.next();
+		nome += " "+sobrenome;
+		teclado.nextLine();
 		System.out.print("Digite o salário do funcionário: ");
 		double salario = teclado.nextDouble();
 		teclado.nextLine();
 		System.out.print("Digite o CPF do funcionário: ");
 		String CPF = teclado.nextLine();
-		System.out.print("Digite nome do funcionário: ");
-		String nome = teclado.nextLine();
 		System.out.print("Digite o setor do funcionário: ");
 		String setor = teclado.nextLine();
-		Funcionario func = new Funcionario(matricula, salario, CPF, nome, setor);
+		Funcionario func = new Funcionario(salario, CPF, nome, setor);
+		System.out.printf("Matrícula do Funcionário %s: %s%n", nome, func.getMatricula());;
 		lista_funcionarios.add(func);	
 	}
 
@@ -115,20 +100,6 @@ public class Funcionario implements CRUD{
 					switch (option.toLowerCase()) {
 						case "sair":
 							return;
-						case "matricula":
-							System.out.printf("Digite a nova matrícula do funcionário %s: ", funcionario.nome);
-							String novaMatricula = teclado.nextLine();
-							//Implementar um bloco try-catch posteriormente
-							funcionario.setMatricula(novaMatricula);
-							System.out.println("Matrícula atualizada com sucesso!");
-							break;
-						case "cpf":
-							System.out.printf("Digite novo CPF do funcionário %s: ", funcionario.nome);
-							String novoCPF = teclado.nextLine();
-							//Implementar um bloco try-catch posteriormente
-							funcionario.setCPF(novoCPF);
-							System.out.println("CPF atualizado com sucesso!");
-							break;
 						case "salario":
 							System.out.printf("Digite novo salário do funcionário %s: ", funcionario.nome);
 							double novoSalario = teclado.nextDouble();
@@ -136,14 +107,6 @@ public class Funcionario implements CRUD{
 							//Implementar um bloco try-catch posteriormente
 							funcionario.setSalario(novoSalario);
 							System.out.println("Salário atualizado com sucesso!");
-							break;
-						case "nome":
-							System.out.printf("Digite a nova matrícula do funcionário %s: ", funcionario.nome);
-							String novoNome = teclado.nextLine();
-							//Implementar um bloco try-catch posteriormente
-							funcionario.setNome(novoNome);
-							System.out.println("Nome atualizado com sucesso!");
-							System.out.printf("Olá %s :)\n", funcionario.nome);
 							break;
 						case "setor":
 							System.out.printf("Digite a nova matrícula do funcionário %s: ", funcionario.nome);
