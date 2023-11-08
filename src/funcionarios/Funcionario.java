@@ -1,6 +1,7 @@
 package funcionarios;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -176,14 +177,21 @@ public class Funcionario implements CRUD{
 	}
 	//METODOS RELACIONADOS À AGENDA DO FUNCIONÁRIO
 	public void agendarHorario(Servico novo_servico){
+		if(verificarHorario(novo_servico.getData_servico(), novo_servico.getHora_servico()))
+			{
 		AgendaDia agenda = AgendaDiariaFuncionario.get(novo_servico.getData_servico());
 		agenda.agendarHorario(novo_servico.getHora_servico(), novo_servico);
+		}
+		else System.out.println("Horário escolhido não está disponível. Verifique outro funcionário.");
 	}
 	public void desmarcarHorario(Servico servico){
 		AgendaDia agenda = AgendaDiariaFuncionario.get(servico.getData_servico());
 		agenda.desmarcarHorario(servico.getHora_servico());
 	}
-
+	public boolean verificarHorario(LocalDate data, LocalTime hora){
+		AgendaDia agenda = AgendaDiariaFuncionario.get(data);
+		return agenda.verificarHorario(hora);
+	}
 	public void remarcarHorario(Servico servico){
 		AgendaDia agenda = AgendaDiariaFuncionario.get(servico.getData_servico());
 		agenda.mudarHorario(servico.getHora_servico(), servico);
