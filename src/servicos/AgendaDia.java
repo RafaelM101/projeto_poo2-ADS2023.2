@@ -1,5 +1,6 @@
 package servicos;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -24,7 +25,7 @@ public class AgendaDia {
 
     @Override
     public String toString() {
-        return "Horários Disponíveis:" + HoraDisponivel;
+        return HoraDisponivel + "Horários Disponíveis:" + "\n";
     }
 
 
