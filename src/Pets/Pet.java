@@ -72,7 +72,7 @@ public abstract class Pet implements CRUD {
         }
         return null;
     }
-    
+
     public static void cadastrar(){
         System.out.print("Digite o nome do Pet: ");
         String nome_pet = teclado.nextLine();
@@ -93,15 +93,18 @@ public abstract class Pet implements CRUD {
         Tutor donoPet = Tutor.consultarTutor(cpf_tutor);
         System.out.println("Digite a espécie do Pet: GATO OU CACHORRO: ");
         String tipo_pet = teclado.next().toUpperCase();
+        teclado.nextLine();
         if(tipo_pet.equals("GATO")){
             System.out.println("Digite a raça do seu gato: ");
             String racaGato = teclado.next();
+            teclado.nextLine();
             Gato novo_gato = new Gato(nome_pet,matricula_pet,idade_pet,donoPet,racaGato);
             donoPet.adicionarPet(novo_gato);
             lista_pets.add(novo_gato);
         } else if(tipo_pet.equals("CACHORRO")){
             System.out.println("Digite a raça do seu cachorro: ");
             String racaCachorro = teclado.next();
+            teclado.nextLine();
             Gato novo_cachorro = new Gato(nome_pet,matricula_pet,idade_pet,donoPet,racaCachorro);
             donoPet.adicionarPet(novo_cachorro);
             lista_pets.add(novo_cachorro);

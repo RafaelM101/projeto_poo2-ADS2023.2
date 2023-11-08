@@ -63,7 +63,7 @@ public class Funcionario implements CRUD{
 		this.setor = setor;
 	}
 	
-	public static void cadastrar(Scanner teclado) {
+	public static void cadastrar() {
 		System.out.print("Digite a matrícula do funcionário: ");
 		String matricula = teclado.nextLine();
 		System.out.print("Digite o salário do funcionário: ");

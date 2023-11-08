@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 
-public class Servico {
+public class Servico implements CRUD{
 
     private Funcionario nome_funcionario;
     private Float preco;
@@ -33,7 +33,7 @@ public class Servico {
         this.pet_agendamento = pet_agendamento;
     }
 
-    public static Servico cadastrar(Scanner teclado) {
+    public static Servico cadastrar() {
 
         System.out.println("Insira o tipo do serviço que será realizado: BANHO, TOSA ou CONSULTA:");
         String servico = teclado.nextLine();
@@ -56,6 +56,7 @@ public class Servico {
 
         System.out.println("Insira a matrícula do Funcionário que irá realizar esse serviço: ");
         String matricula = teclado.next();
+        teclado.nextLine();
         if (Funcionario.consultarFuncionario(matricula)==null) {
             System.out.println("Funcionário não encontrado.");
             return null;
@@ -69,20 +70,20 @@ public class Servico {
         }
         System.out.println("Insira a matrícula do Pet que irá receber esse serviço: ");
         String matriculaPet = teclado.next();
+        teclado.nextLine();
         if (Pet.consultarPet(matriculaPet) == null) {
             System.out.println("Pet não encontrado.");
             return null;
 
         }
         Pet pet_servico = Pet.consultarPet(matriculaPet);
-
         System.out.println("Insira a data que será realizada o serviço: ");
-        String data = teclado.next();
-        LocalDate data_escolhida = LocalDate.parse(data);
-        formatter.format(data_escolhida);
+        String data = teclado.nextLine();
+        LocalDate data_escolhida = LocalDate.parse(data, formatter);
 
         System.out.println("Insira o horário que será realizado o serviço: ");
         String horario = teclado.next();
+        teclado.nextLine();
         LocalTime horario_escolhido = LocalTime.parse(horario);
 
         Servico novo_servico = new Servico(funcionario_servico, preco_servico, tipo_servico, pet_servico);
