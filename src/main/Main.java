@@ -36,8 +36,6 @@ public class Main {
 
             Servico.cadastrar();
 
-
-            Servico.listar();
             System.out.println("Pressione Enter para voltar ao menu inicial...");
             input.nextLine(); // Aguarda a tecla Enter
         }
