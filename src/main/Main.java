@@ -2,35 +2,56 @@ package main;
 
 import java.time.LocalDate;
 
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Scanner;
+
 import Pets.Gato;
-import funcionarios.funcionarios.Funcionario;
-import funcionarios.funcionarios.Veterinario;
+import Pets.Pet;
+import Tutores.Tutor;
+import funcionarios.Funcionario;
+import servicos.AgendaDia;
+import servicos.Servico;
 
 public class Main {
 
     public static void main(String[] args) {
-    	Veterinario n = new Veterinario("l", 2, "l","l", "l", "l", "l");
-    	System.out.println(n.getCRMV());
+        Scanner teclado = new Scanner(System.in);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-        Funcionario cu = new Funcionario( "123", 1.500, "123", "Tabica", "IF");
-        System.out.println(cu.getNome());
-        System.out.println(cu.getSalario());
-        System.out.println(cu.getCPF());
-        System.out.println(cu.getSetor());
+            HashMap<LocalDate, AgendaDia> AgendaDiaria = new LinkedHashMap<>();
+            LocalDate date_agenda = LocalDate.now();
+            formatter.format(date_agenda);
 
-        Gato g = new Gato("Pablo Vittar", "123" , LocalDate.now(), "whiskas");
-        System.out.println(g.getNomePet());
-        System.out.println(g.getMatriculaPet());
-        System.out.println(g.getIdade());
-        System.out.println(g.getRacaGato());
+        for (int i = 0; i < 8; i++) {
+            LocalDate currentDate = date_agenda.plusDays(i);
+            AgendaDia agendaDia = new AgendaDia();
+            String dateFormatted = currentDate.format(formatter);
+            System.out.println(dateFormatted + " = " + agendaDia);
+            AgendaDiaria.put(currentDate, agendaDia);
+        }
+            System.out.println("\nCADASTRANDO TUTOR:");
+            Tutor.cadastrar();
+            System.out.println("\nCADASTRANDO PET:");
+            Pet.cadastrar();
+            System.out.println("\nCADASTRANDO FUNCIONARIO:");
+            Funcionario.cadastrar();
+            System.out.println("\nCADASTRANDO SERVIÇO:");
+            Servico novo_servico = Servico.cadastrar();
+           assert novo_servico != null;
+            System.out.println("\nIMPRIMINDO AGENDA ATUALIZADA:");
+            AgendaDia agendaDia = AgendaDiaria.get(novo_servico.getData_servico());
+            agendaDia.agendarHorario(novo_servico.getHora_servico(), novo_servico);
+            for (Map.Entry<LocalDate, AgendaDia> entry : AgendaDiaria.entrySet()) {
+                date_agenda = entry.getKey();
+                String dateFormatted = date_agenda.format(formatter);
+                System.out.println(dateFormatted + " = " + entry.getValue() + "\n");
+            }
+
+            System.out.println("Pressione Enter para voltar ao menu inicial...");
+            teclado.nextLine(); // Aguarda a tecla Enter
+        }
 
     }
-}
-
-
-
-//	protected String matricula;
-// protected double salario;
-// protected String CPF;
-// protected String nome;
-// protected String setor;
