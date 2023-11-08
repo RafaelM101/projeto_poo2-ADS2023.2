@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import components.CRUD;
+import servicos.AgendaDia;
 
 public class Funcionario implements CRUD{
 	protected String matricula;
@@ -63,7 +64,6 @@ public class Funcionario implements CRUD{
 	}
 	
 	public static void cadastrar() {
-		Scanner teclado = new Scanner(System.in);
 		System.out.print("Digite a matrícula do funcionário: ");
 		String matricula = teclado.nextLine();
 		System.out.print("Digite o salário do funcionário: ");
@@ -76,13 +76,12 @@ public class Funcionario implements CRUD{
 		System.out.print("Digite o setor do funcionário: ");
 		String setor = teclado.nextLine();
 		Funcionario func = new Funcionario(matricula, salario, CPF, nome, setor);
-		teclado.close();
 		lista_funcionarios.add(func);	
 	}
 
 	public static void listar() {
 		for(Funcionario funcionario: lista_funcionarios) {
-			System.out.println(funcionario.nome);
+			System.out.printf("Nome: %s\nMatricula: %s\nSalário: %.2f\nCPF: %s\nSetor: %s\n",funcionario.nome, funcionario.matricula, funcionario.salario, funcionario.CPF, funcionario.setor);
 		}
 		
 	}
@@ -92,6 +91,13 @@ public class Funcionario implements CRUD{
 		
 	}
 
+	public static Funcionario consultarFuncionario(String matricula) {
+		for (Funcionario funcionario : lista_funcionarios) {
+			if (funcionario.getMatricula().equals(matricula)) {
+				return funcionario;}
+		}
+		return null;
+	}
 	public void deletar() {
 		// TODO Stub de método gerado automaticamente
 		

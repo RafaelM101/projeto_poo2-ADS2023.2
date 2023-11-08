@@ -1,12 +1,12 @@
 package Pets;
 
-import java.time.LocalDate;
+import Tutores.Tutor;
 
 public class Gato extends Pet{
     private String racaGato;
     
-    public Gato(String nomePet, String matriculaPet, LocalDate dataNascimentoPet, String racaGato) {
-        super(nomePet, matriculaPet, dataNascimentoPet);
+    public Gato(String nomePet, String matriculaPet, Integer idadePet, Tutor donoPet, String racaGato) {
+        super(nomePet, matriculaPet, idadePet, donoPet);
         this.racaGato = racaGato;
     }
 
