@@ -70,7 +70,6 @@ public class Servico implements CRUD{
 
         System.out.println("Insira o tipo do serviço que será realizado: BANHO, TOSA ou CONSULTA:");
         String servico = teclado.nextLine();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         ListaServicos tipo_servico;
         Float preco_servico = 0.00f;
         if (servico.equals(ListaServicos.BANHO.toString())) {
@@ -133,12 +132,13 @@ public class Servico implements CRUD{
     public static void listar() {
         System.out.println("Deseja listar por data específica?:  DIGITE S ou N");
         String option = teclado.next().toUpperCase().strip();
+        teclado.nextLine();
         if(option.equals("S")){
             System.out.println("Digite a data dos serviços que deseja listar: ");
             String data = teclado.nextLine();
-            LocalDate data_escolhida = LocalDate.parse(data);
+            LocalDate data_escolhida = LocalDate.parse(data, formatter);
             for( Servico servico : lista_servicos){
-                if(servico.getData_servico()==data_escolhida) {
+                if(servico.getData_servico().equals(data_escolhida)) {
                     Collections.sort(lista_servicos, new ServicoComparator());
                     System.out.println(servico.toString());
                     }
@@ -172,7 +172,7 @@ public class Servico implements CRUD{
                 case "DATA":
                     System.out.println("Digite a nova DATA do serviço: ");
                     String data_nova = teclado.nextLine().strip();
-                    servico_atualizar.setData_servico(LocalDate.parse(data_nova));
+                    servico_atualizar.setData_servico(LocalDate.parse(data_nova, formatter));
                     funcionario.desmarcarHorario(servico_atualizar);
                     if(funcionario.verificarHorario(servico_atualizar.getData_servico(),servico_atualizar.getHora_servico())){
                         funcionario.agendarHorario(servico_atualizar);}
@@ -258,9 +258,7 @@ public class Servico implements CRUD{
     }
 
     public static Servico ConsultarServico(String data_servico, String hora_servico){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate data_escolhida = LocalDate.parse(data_servico);
-        formatter.format(data_escolhida);
+        LocalDate data_escolhida = LocalDate.parse(data_servico, formatter);
         LocalTime horario_escolhido = LocalTime.parse(hora_servico);
         for (Servico servico : lista_servicos){
             if(servico.getData_servico().isEqual(data_escolhida) && servico.getHora_servico().equals(horario_escolhido)){
