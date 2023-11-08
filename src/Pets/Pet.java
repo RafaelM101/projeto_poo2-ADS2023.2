@@ -73,6 +73,12 @@ public abstract class Pet implements CRUD {
         return null;
     }
 
+    @Override
+    public String toString() {
+        return
+                "Pet: " + nomePet;
+    }
+
     public static void cadastrar(){
         System.out.print("Digite o nome do Pet: ");
         String nome_pet = teclado.nextLine();
@@ -91,6 +97,7 @@ public abstract class Pet implements CRUD {
             else return;
         }
         Tutor donoPet = Tutor.consultarTutor(cpf_tutor);
+
         System.out.println("Digite a espécie do Pet: GATO OU CACHORRO: ");
         String tipo_pet = teclado.next().toUpperCase();
         teclado.nextLine();

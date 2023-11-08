@@ -9,7 +9,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.Collections;
+import java.util.Comparator;
 
 
 public class Servico implements CRUD{
@@ -33,12 +34,23 @@ public class Servico implements CRUD{
         this.pet_agendamento = pet_agendamento;
     }
 
-    public static Servico cadastrar() {
+    @Override
+    public String toString() {
+        return  "Data: " + data_servico + "\n" +
+                "Horário: " + hora_servico + "\n" +
+                "Funcionário:" + nome_funcionario.getNome() + "\n" +
+                "Tipo do serviço: " + tipo_agendamento + "\n" +
+                "Preço: R$" + preco + "\n" +
+                "Nome do pet: "+ pet_agendamento.getNomePet() + "\n";
+
+    }
+
+    public static void cadastrar() {
 
         System.out.println("Insira o tipo do serviço que será realizado: BANHO, TOSA ou CONSULTA:");
         String servico = teclado.nextLine();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        ListaServicos tipo_servico = ListaServicos.NULO;
+        ListaServicos tipo_servico;
         Float preco_servico = 0.00f;
         if (servico.equals(ListaServicos.BANHO.toString())) {
             tipo_servico = ListaServicos.BANHO;
@@ -51,7 +63,7 @@ public class Servico implements CRUD{
             preco_servico = 60.00f;
         } else {
             System.out.println("Serviço não encontrado.");
-            return null;
+            return;
         }
 
         System.out.println("Insira a matrícula do Funcionário que irá realizar esse serviço: ");
@@ -59,13 +71,13 @@ public class Servico implements CRUD{
         teclado.nextLine();
         if (Funcionario.consultarFuncionario(matricula)==null) {
             System.out.println("Funcionário não encontrado.");
-            return null;
+            return;
         }
         Funcionario funcionario_servico = Funcionario.consultarFuncionario(matricula);
         if (tipo_servico.equals(ListaServicos.CONSULTA)) {
             if (!(funcionario_servico instanceof Veterinario)) {
                 System.out.println("Apenas veterinários podem realizar consultas.");
-                return null;
+                return;
             }
         }
         System.out.println("Insira a matrícula do Pet que irá receber esse serviço: ");
@@ -73,7 +85,7 @@ public class Servico implements CRUD{
         teclado.nextLine();
         if (Pet.consultarPet(matriculaPet) == null) {
             System.out.println("Pet não encontrado.");
-            return null;
+            return;
 
         }
         Pet pet_servico = Pet.consultarPet(matriculaPet);
@@ -90,8 +102,7 @@ public class Servico implements CRUD{
         novo_servico.setData_servico(data_escolhida);
         novo_servico.setHora_servico(horario_escolhido);
         lista_servicos.add(novo_servico);
-        return novo_servico;
-
+        funcionario_servico.agendarHorario(novo_servico);
     }
 
     public LocalDate getData_servico() {
@@ -100,6 +111,8 @@ public class Servico implements CRUD{
     public LocalTime getHora_servico() {
         return hora_servico;
     }
+
+    public Funcionario getNome_funcionario() {return nome_funcionario;}
 
     public void setData_servico(LocalDate data_servico) {
         this.data_servico = data_servico;
@@ -123,10 +136,51 @@ public class Servico implements CRUD{
         }
         return null;
     }
-    public static void listar() {}
-    public static void atualizar() {
+    public static void listar() {
+        System.out.println("Deseja listar por data específica?:  DIGITE S ou N");
+        String option = teclado.next().toUpperCase().strip();
+        if(option.equals("S")){
+            System.out.println("Digite a data dos serviços que deseja listar: ");
+            String data = teclado.nextLine();
+            LocalDate data_escolhida = LocalDate.parse(data);
+            for( Servico servico : lista_servicos){
+                if(servico.getData_servico()==data_escolhida) {
+                    Collections.sort(lista_servicos, new ServicoComparator());
+                    System.out.println(servico.toString());
+                    }
+            }
+        } else if(option.equals("N")) {
+            Collections.sort(lista_servicos, new ServicoComparator());
+            System.out.println("Lista de serviços cadastrados");
+            for( Servico servico : lista_servicos){
+                System.out.println(servico.toString());
+            }
+        } else {
+            System.out.println("Opção inválida.");
+        }
 
     }
-    public static void deletar() {}
+    public static void atualizar() {
+      
+
+    }
+    public static void deletar(){
+        System.out.println("Insira a data que será realizada o serviço: ");
+        String data = teclado.nextLine();
+
+        System.out.println("Insira o horário que será realizado o serviço: ");
+        String horario = teclado.next();
+        teclado.nextLine();
+
+        if(Servico.ConsultarServico(data, horario)==null){
+            System.out.println("Serviço não encontrado.");}
+        else {
+            Servico servico_delete = ConsultarServico(data,horario);
+            Funcionario funcionario_servico = Funcionario.consultarFuncionario(servico_delete.getNome_funcionario().getMatricula());
+            funcionario_servico.desmarcarHorario(servico_delete);
+            lista_servicos.remove(servico_delete);
+
+        }
+    }
 }
 
