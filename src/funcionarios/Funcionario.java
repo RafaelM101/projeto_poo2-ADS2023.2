@@ -87,7 +87,62 @@ public class Funcionario implements CRUD{
 	}
 
 	public static void atualizar() {
-		
+		System.out.print("Digite a matrícula do funcionário que deseja atualizar os dados: ");
+		String matFuncionarioAtt = teclado.nextLine();
+		for(Funcionario funcionario: lista_funcionarios){
+			if(funcionario.matricula.equals(matFuncionarioAtt)){
+				while (true) {
+					System.out.print("Digite o campo que deseja mudar: ");
+					String option = teclado.nextLine();
+					switch (option.toLowerCase()) {
+						case "sair":
+							return;
+						case "matricula":
+							System.out.printf("Digite a nova matrícula do funcionário %s: ", funcionario.nome);
+							String novaMatricula = teclado.nextLine();
+							//Implementar um bloco try-catch posteriormente
+							funcionario.setMatricula(novaMatricula);
+							System.out.println("Matrícula atualizada com sucesso!");
+							break;
+						case "cpf":
+							System.out.printf("Digite novo CPF do funcionário %s: ", funcionario.nome);
+							String novoCPF = teclado.nextLine();
+							//Implementar um bloco try-catch posteriormente
+							funcionario.setCPF(novoCPF);
+							System.out.println("CPF atualizado com sucesso!");
+							break;
+						case "salario":
+							System.out.printf("Digite novo salário do funcionário %s: ", funcionario.nome);
+							double novoSalario = teclado.nextDouble();
+							teclado.nextLine();
+							//Implementar um bloco try-catch posteriormente
+							funcionario.setSalario(novoSalario);
+							System.out.println("Salário atualizado com sucesso!");
+							break;
+						case "nome":
+							System.out.printf("Digite a nova matrícula do funcionário %s: ", funcionario.nome);
+							String novoNome = teclado.nextLine();
+							//Implementar um bloco try-catch posteriormente
+							funcionario.setNome(novoNome);
+							System.out.println("Nome atualizado com sucesso!");
+							System.out.printf("Olá %s :)\n", funcionario.nome);
+							break;
+						case "setor":
+							System.out.printf("Digite a nova matrícula do funcionário %s: ", funcionario.nome);
+							String novoSetor = teclado.nextLine();
+							//Implementar um bloco try-catch posteriormente
+							funcionario.setSetor(novoSetor);
+							System.out.println("Matrícula atualizada com sucesso!");
+							break;
+						default:
+							System.out.println("Opção não existe!");
+							break;
+					}
+					System.out.println("Caso não precise fazer mais nenhuma alteração digite sair...");
+
+				}
+			}
+		}
 		
 	}
 
