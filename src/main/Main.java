@@ -10,6 +10,7 @@ import java.util.Scanner;
 
 import Pets.Gato;
 import Pets.Pet;
+import Tutores.Tutor;
 import funcionarios.Funcionario;
 import servicos.AgendaDia;
 import servicos.Servico;
@@ -20,31 +21,37 @@ public class Main {
         Scanner teclado = new Scanner(System.in);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-        while (true) {
             HashMap<LocalDate, AgendaDia> AgendaDiaria = new LinkedHashMap<>();
-            LocalDate date = LocalDate.now();
-            formatter.format(date);
+            LocalDate date_agenda = LocalDate.now();
+            formatter.format(date_agenda);
 
-            for (int i = 0; i < 8; i++) {
-                AgendaDiaria.put(date.plusDays(i), new AgendaDia());
-            }
-
-            // Pet.cadastrar();
-            // Funcionario.cadastrar(teclado);
-
-            // Servico novo_servico = Servico.cadastrar(teclado);
-            // assert novo_servico != null;
-
+        for (int i = 0; i < 8; i++) {
+            LocalDate currentDate = date_agenda.plusDays(i);
+            AgendaDia agendaDia = new AgendaDia();
+            String dateFormatted = currentDate.format(formatter);
+            System.out.println(dateFormatted + " = " + agendaDia);
+            AgendaDiaria.put(currentDate, agendaDia);
+        }
+            System.out.println("\nCADASTRANDO TUTOR:");
+            Tutor.cadastrar();
+            System.out.println("\nCADASTRANDO PET:");
+            Pet.cadastrar();
+            System.out.println("\nCADASTRANDO FUNCIONARIO:");
+            Funcionario.cadastrar();
+            System.out.println("\nCADASTRANDO SERVIÇO:");
+            Servico novo_servico = Servico.cadastrar();
+           assert novo_servico != null;
+            System.out.println("\nIMPRIMINDO AGENDA ATUALIZADA:");
+            AgendaDia agendaDia = AgendaDiaria.get(novo_servico.getData_servico());
+            agendaDia.agendarHorario(novo_servico.getHora_servico(), novo_servico);
             for (Map.Entry<LocalDate, AgendaDia> entry : AgendaDiaria.entrySet()) {
-                date = entry.getKey();
-                String dateFormatted = date.format(formatter);
+                date_agenda = entry.getKey();
+                String dateFormatted = date_agenda.format(formatter);
                 System.out.println(dateFormatted + " = " + entry.getValue() + "\n");
             }
 
             System.out.println("Pressione Enter para voltar ao menu inicial...");
-
             teclado.nextLine(); // Aguarda a tecla Enter
         }
 
-    }
     }
