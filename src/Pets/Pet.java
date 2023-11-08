@@ -3,6 +3,7 @@ package Pets;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import Tutores.Endereco;
 import Tutores.Tutor;
 import components.CRUD;
 
@@ -52,10 +53,6 @@ public abstract class Pet implements CRUD {
         this.donoPet = donoPet;
     }
 
-    public static void cadastrar() {
-
-    }
-
     public static void listar() {
 
     }
@@ -75,8 +72,41 @@ public abstract class Pet implements CRUD {
         }
         return null;
     }
+    
     public static void cadastrar(){
-        Gato gato = new Gato("leon", "123", LocalDate.now(), "SRD");
-        lista_pets.add(gato);
+        System.out.print("Digite o nome do Pet: ");
+        String nome_pet = teclado.nextLine();
+        System.out.print("Digite a matrícula do Pet: ");
+        String matricula_pet = teclado.nextLine();
+        System.out.print("Digite a idade do Pet: ");
+        Integer idade_pet = teclado.nextInt();
+        teclado.nextLine();
+        System.out.print("Digite o CPF do tutor:  ");
+        String cpf_tutor = teclado.nextLine();
+        if(Tutor.consultarTutor(cpf_tutor)==null){
+            System.out.println("Tutor não encontrado, deseja cadastrar? Digite Y para SIM e N para NÃO");
+            String escolha = teclado.next();
+            escolha = String.valueOf(escolha.charAt(0));
+            if(escolha.equals("Y")) Tutor.cadastrar();
+            else return;
+        }
+        Tutor donoPet = Tutor.consultarTutor(cpf_tutor);
+        System.out.println("Digite a espécie do Pet: GATO OU CACHORRO: ");
+        String tipo_pet = teclado.next().toUpperCase();
+        if(tipo_pet.equals("GATO")){
+            System.out.println("Digite a raça do seu gato: ");
+            String racaGato = teclado.next();
+            Gato novo_gato = new Gato(nome_pet,matricula_pet,idade_pet,donoPet,racaGato);
+            donoPet.adicionarPet(novo_gato);
+            lista_pets.add(novo_gato);
+        } else if(tipo_pet.equals("CACHORRO")){
+            System.out.println("Digite a raça do seu cachorro: ");
+            String racaCachorro = teclado.next();
+            Gato novo_cachorro = new Gato(nome_pet,matricula_pet,idade_pet,donoPet,racaCachorro);
+            donoPet.adicionarPet(novo_cachorro);
+            lista_pets.add(novo_cachorro);
+            }
+
+
     }
 }

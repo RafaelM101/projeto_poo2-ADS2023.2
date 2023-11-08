@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import components.CRUD;
+import servicos.AgendaDia;
 
 public class Funcionario implements CRUD{
 	protected String matricula;

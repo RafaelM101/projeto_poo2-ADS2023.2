@@ -10,6 +10,7 @@ import java.util.Scanner;
 
 import Pets.Gato;
 import Pets.Pet;
+import Tutores.Tutor;
 import funcionarios.Funcionario;
 import servicos.AgendaDia;
 import servicos.Servico;
@@ -20,7 +21,6 @@ public class Main {
         Scanner teclado = new Scanner(System.in);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-        while (true) {
             HashMap<LocalDate, AgendaDia> AgendaDiaria = new LinkedHashMap<>();
             LocalDate date = LocalDate.now();
             formatter.format(date);
@@ -28,12 +28,12 @@ public class Main {
             for (int i = 0; i < 8; i++) {
                 AgendaDiaria.put(date.plusDays(i), new AgendaDia());
             }
+            Tutor.cadastrar();
+            Pet.cadastrar();
+            Funcionario.cadastrar(teclado);
 
-            // Pet.cadastrar();
-            // Funcionario.cadastrar(teclado);
-
-            // Servico novo_servico = Servico.cadastrar(teclado);
-            // assert novo_servico != null;
+            Servico novo_servico = Servico.cadastrar(teclado);
+           assert novo_servico != null;
 
             for (Map.Entry<LocalDate, AgendaDia> entry : AgendaDiaria.entrySet()) {
                 date = entry.getKey();
@@ -42,9 +42,7 @@ public class Main {
             }
 
             System.out.println("Pressione Enter para voltar ao menu inicial...");
-
             teclado.nextLine(); // Aguarda a tecla Enter
         }
 
-    }
     }
