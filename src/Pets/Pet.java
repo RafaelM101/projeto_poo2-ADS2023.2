@@ -54,15 +54,53 @@ public abstract class Pet implements CRUD {
     }
 
     public static void listar() {
-
+        for(Pet pet : lista_pets) {
+            System.out.println("Nome do Pet: " + pet.getNomePet());
+        }
     }
 
     public static void atualizar() {
+        System.out.print("Digite a matrícula do Pet que deseja atualizar: ");
+        String matriculaBuscar = teclado.nextLine();
+        Pet pet = consultarPet(matriculaBuscar);
+        if (pet instanceof Pet) {
+            System.out.println("Matrícula encontrada!");
+            System.out.println("Vamos atualizar o cadastro do Pet");
+
+            //Nome do Pet
+            System.out.print("Digite o novo Nome: ");
+            String novoNome = teclado.nextLine();
+            pet.setNomePet(novoNome);
+
+            //Matrícula do Pet
+            System.out.print("Digite a nova Matrícula: ");
+            String novaMatricula = teclado.nextLine();
+            pet.setMatriculaPet(novaMatricula);
+
+            //Idade do Pet
+            System.out.print("Digite a nova Idade: ");
+            int novaIdade = teclado.nextInt();
+            teclado.nextLine();
+            pet.setIdadePet(novaIdade);
+
+            System.out.println("O cadastro do seu Pet foi atualizado com sucesso!");
+
+        } else {
+            System.out.println("Matrícula não encontrada!");
+        }
 
     }
 
     public static void deletar() {
-
+        System.out.print("Digite a matrícula do Pet que deseja deletar: ");
+        String deletarMatricula = teclado.nextLine();
+        Pet delPet = consultarPet(deletarMatricula);
+        if(delPet instanceof Pet) {
+            lista_pets.remove(delPet);
+            System.out.println("Pet deletado com sucesso!");
+        } else {
+            System.out.println("Matrícula não encontrada!");
+        }
     }
 
     public static Pet consultarPet(String matricula) {
@@ -71,6 +109,12 @@ public abstract class Pet implements CRUD {
                 return pet;}
         }
         return null;
+    }
+
+    @Override
+    public String toString() {
+        return
+                "Pet: " + nomePet;
     }
 
     public static void cadastrar(){
@@ -91,6 +135,7 @@ public abstract class Pet implements CRUD {
             else return;
         }
         Tutor donoPet = Tutor.consultarTutor(cpf_tutor);
+
         System.out.println("Digite a espécie do Pet: GATO OU CACHORRO: ");
         String tipo_pet = teclado.next().toUpperCase();
         teclado.nextLine();

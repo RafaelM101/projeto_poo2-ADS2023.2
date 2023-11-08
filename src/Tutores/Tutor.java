@@ -11,7 +11,6 @@ public class Tutor implements CRUD {
     private String cpf_Tutor;
     private String telefoneTutor;
     private String emailTutor;
-
     private ArrayList<Pet> pets = new ArrayList<>();
     private Endereco enderecoTutor;
     protected static ArrayList<Tutor> lista_tutores = new ArrayList<>();
@@ -87,46 +86,36 @@ public class Tutor implements CRUD {
         System.out.print("Digite o CPF do tutor que deseja atualizar: ");
         String cpfBuscar = teclado.nextLine();
         Tutor tutor = consultarTutor(cpfBuscar);
-        if (tutor instanceof Tutor) {
-            System.out.println("CPF encontrado!");
-            System.out.print("Digite a opção do que deseja atualizar: " +
-            "(Nome, CPF, Telefone, Email, Endereco) ");
-            String escolhaAtt = teclado.nextLine();
-            // Vai alterar o atributo especifico que o usuario escolher
-            if(escolhaAtt.equalsIgnoreCase("Nome")) {
-                System.out.print("Digite o novo Nome: ");
-                String novoNome = teclado.nextLine();
-                tutor.setNomeTutor(novoNome);
-            } else if(escolhaAtt.equalsIgnoreCase("CPF")) {
-                System.out.print("Digite o novo CPF: ");
-                String novoCPF = teclado.nextLine();
-                tutor.setCPF_Tutor(novoCPF);
-            } else if(escolhaAtt.equalsIgnoreCase("Telefone")) {
-                System.out.print("Digite o novo Telefone: ");
-                String novoTelefone = teclado.nextLine();
-                tutor.setTelefoneTutor(novoTelefone);
-            } else if(escolhaAtt.equalsIgnoreCase("Email")) {
-                System.out.print("Digite o novo Email: ");
-                String novoEmail = teclado.nextLine();
-                tutor.setEmailTutor(novoEmail);
-            } else if(escolhaAtt.equalsIgnoreCase("Endereco")) {
-                Endereco endereco = tutor.getEnderecoTutor();
-                System.out.print("Digite a nova Rua: ");
-                String novaRua = teclado.nextLine();
-                endereco.setRua(novaRua);
-                System.out.print("Digite o novo Bairro: ");
-                String novoBairro = teclado.nextLine();
-                endereco.setBairro(novoBairro);
-                System.out.print("Digite o novo Número: ");
-                int novoNumero = teclado.nextInt();
-                teclado.nextLine();
-                endereco.setNumero(novoNumero);
-            } else {
-                System.out.println("Opção Inválida!");
-            }   
-        } else {
-            System.out.println("CPF não encontrado!");
-        }
+        System.out.println("Vamos atualizar o cadastro do Tutor");
+
+        //Novo Nome do Tutor
+        System.out.print("Digite o novo Nome: ");
+        String novoNome = teclado.nextLine();
+        tutor.setNomeTutor(novoNome);
+
+        //Novo Telefone
+        System.out.print("Digite o novo Telefone: ");
+        String novoTelefone = teclado.nextLine();
+        tutor.setTelefoneTutor(novoTelefone);
+
+        //Novo Email
+        System.out.print("Digite o novo Email: ");
+        String novoEmail = teclado.nextLine();
+        tutor.setEmailTutor(novoEmail);
+
+        //Novo Endereço
+        System.out.println("Vamos atualizar o endereço do Tutor");
+        Endereco endereco = tutor.getEnderecoTutor();
+        System.out.print("Digite a nova Rua: ");
+        String novaRua = teclado.nextLine();
+        endereco.setRua(novaRua);
+        System.out.print("Digite o novo Bairro: ");
+        String novoBairro = teclado.nextLine();
+        endereco.setBairro(novoBairro);
+        System.out.print("Digite o novo Número: ");
+        int novoNumero = teclado.nextInt();
+        teclado.nextLine();
+        endereco.setNumero(novoNumero);
     }
     
     public static void deletar() {
