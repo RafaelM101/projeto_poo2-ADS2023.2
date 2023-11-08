@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import components.CRUD;
+import servicos.AgendaDia;
 
 public class Funcionario implements CRUD{
 	protected String matricula;
@@ -62,8 +63,7 @@ public class Funcionario implements CRUD{
 		this.setor = setor;
 	}
 	
-	public static void cadastrar() {
-		Scanner teclado = new Scanner(System.in);
+	public static void cadastrar(Scanner teclado) {
 		System.out.print("Digite a matrícula do funcionário: ");
 		String matricula = teclado.nextLine();
 		System.out.print("Digite o salário do funcionário: ");
@@ -76,7 +76,6 @@ public class Funcionario implements CRUD{
 		System.out.print("Digite o setor do funcionário: ");
 		String setor = teclado.nextLine();
 		Funcionario func = new Funcionario(matricula, salario, CPF, nome, setor);
-		teclado.close();
 		lista_funcionarios.add(func);	
 	}
 
