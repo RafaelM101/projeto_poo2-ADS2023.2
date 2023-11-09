@@ -16,7 +16,7 @@ public class Main {
 
 //Modulo MENU PRINCIPAL(Rafael): Escolher entre os Módulo TUTOR, PET, FUNCIONARIO e AGENDAR SERVIÇO.
 //Modulo TUTOR(Kerlen): Cadastrar Tutor, Listar Todos os Tutores,
-//atualizar tutor existente, apagar tutor, Consultar Tutor por CPF.
+//atualizar tutor existente, apagar tutor, Consultar Tutor por CPF, EXIBIR ENDEREÇO e TELEFONE DE TUTOR.
 
 //Modulo Funcionario: (Emmanuel )Cadastrar - Normal ou Veterinario, Listar Todos, Listar por matrícula, Atualizar Salário, Apagar
 
