@@ -1,6 +1,7 @@
 package main;
 
 
+import Pets.Gato;
 import Pets.Pet;
 import Tutores.Tutor;
 import funcionarios.Funcionario;
@@ -65,11 +66,14 @@ public class Main {
             }
     }}
     public static void main(String[] args) {
-        Funcionario.cadastrar();
-        Menu_AgendarServico();
-        }
-
+        //Funcionario.cadastrar();
+        //Menu_AgendarServico();
+        //Tutor.cadastrar();
+        //Pet.cadastrar();
+        //Pet.cadastrar();
     }
+
+}
 
 //Modulo MENU PRINCIPAL(Rafael): Escolher entre os Módulo TUTOR, PET, FUNCIONARIO e AGENDAR SERVIÇO.
 //Modulo TUTOR(Kerlen): Cadastrar Tutor, Listar Todos os Tutores,

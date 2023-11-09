@@ -1,22 +1,27 @@
 package Pets;
 
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 import Tutores.Endereco;
 import Tutores.Tutor;
 import components.CRUD;
+import components.Matricula;
+import components.RacasCachorro;
+import components.RacasGato;
+import components.TipoEntidade;
 
 public abstract class Pet implements CRUD {
     protected String nomePet;
-    protected String matriculaPet;
+    protected Matricula matriculaPet;
     protected Integer idadePet;
     protected Tutor donoPet;
     protected static ArrayList<Pet> lista_pets = new ArrayList<>();
 
-    public Pet(String nomePet, String matriculaPet, Integer idadePet, Tutor donoPet) {
+    public Pet(String nomePet, Integer idadePet, Tutor donoPet) {
         this.nomePet = nomePet;
-        this.matriculaPet = matriculaPet;
+        this.matriculaPet = Matricula.gerarMatricula(TipoEntidade.PET);
         this.idadePet = idadePet;
         this.donoPet = donoPet;
     }
@@ -30,13 +35,13 @@ public abstract class Pet implements CRUD {
     }
     
     public String getMatriculaPet() {
-        return matriculaPet;
+        return matriculaPet.numero_matricula;
     }
     
-    public void setMatriculaPet(String matriculaPet) {
+    public void setMatriculaPet(Matricula matriculaPet) {
         this.matriculaPet = matriculaPet;
     }
-    
+
     public Integer getIdadePet() {
         return idadePet;
     }
@@ -52,13 +57,21 @@ public abstract class Pet implements CRUD {
     public void setDonoPet(Tutor donoPet) {
         this.donoPet = donoPet;
     }
-
+    //Consultar se existe um Pet com essa Matricula
+    public static Pet consultarPet(String matricula) {
+        for (Pet pet : lista_pets) {
+            if (pet.getMatriculaPet().equals(matricula)) {
+                return pet;}
+        }
+        return null;
+    }
+    //Lista os Pets pelo nome
     public static void listar() {
         for(Pet pet : lista_pets) {
             System.out.println("Nome do Pet: " + pet.getNomePet());
         }
     }
-
+    //Atualiza o cadastro(Idade) de um Pet
     public static void atualizar() {
         System.out.print("Digite a matrícula do Pet que deseja atualizar: ");
         String matriculaBuscar = teclado.nextLine();
@@ -66,23 +79,11 @@ public abstract class Pet implements CRUD {
         if (pet instanceof Pet) {
             System.out.println("Matrícula encontrada!");
             System.out.println("Vamos atualizar o cadastro do Pet");
-
-            //Nome do Pet
-            System.out.print("Digite o novo Nome: ");
-            String novoNome = teclado.nextLine();
-            pet.setNomePet(novoNome);
-
-            //Matrícula do Pet
-            System.out.print("Digite a nova Matrícula: ");
-            String novaMatricula = teclado.nextLine();
-            pet.setMatriculaPet(novaMatricula);
-
             //Idade do Pet
             System.out.print("Digite a nova Idade: ");
             int novaIdade = teclado.nextInt();
             teclado.nextLine();
             pet.setIdadePet(novaIdade);
-
             System.out.println("O cadastro do seu Pet foi atualizado com sucesso!");
 
         } else {
@@ -90,7 +91,7 @@ public abstract class Pet implements CRUD {
         }
 
     }
-
+    //Deleta um Pet da lista_pets
     public static void deletar() {
         System.out.print("Digite a matrícula do Pet que deseja deletar: ");
         String deletarMatricula = teclado.nextLine();
@@ -102,26 +103,11 @@ public abstract class Pet implements CRUD {
             System.out.println("Matrícula não encontrada!");
         }
     }
-
-    public static Pet consultarPet(String matricula) {
-        for (Pet pet : lista_pets) {
-            if (pet.getMatriculaPet().equals(matricula)) {
-                return pet;}
-        }
-        return null;
-    }
-
-    @Override
-    public String toString() {
-        return
-                "Pet: " + nomePet;
-    }
-
+    //Cadastrar um Pet
     public static void cadastrar(){
+        System.out.println("\n| Cadastro de Pet |\n");
         System.out.print("Digite o nome do Pet: ");
         String nome_pet = teclado.nextLine();
-        System.out.print("Digite a matrícula do Pet: ");
-        String matricula_pet = teclado.nextLine();
         System.out.print("Digite a idade do Pet: ");
         Integer idade_pet = teclado.nextInt();
         teclado.nextLine();
@@ -139,22 +125,86 @@ public abstract class Pet implements CRUD {
         System.out.println("Digite a espécie do Pet: GATO OU CACHORRO: ");
         String tipo_pet = teclado.next().toUpperCase();
         teclado.nextLine();
+        //Se a espécie for um Gato
         if(tipo_pet.equals("GATO")){
-            System.out.println("Digite a raça do seu gato: ");
-            String racaGato = teclado.next();
+            System.out.print("Escolha a Raça do seu Gato:\n 1 - SRD,\n" + 
+            " 2 - PERSA,\n" + 
+            " 3 - SIAMES,\n" + 
+            " 4 - BENGAL\n: ");
+            Integer escolhaRacaGato = teclado.nextInt();
             teclado.nextLine();
-            Gato novo_gato = new Gato(nome_pet,matricula_pet,idade_pet,donoPet,racaGato);
+            RacasGato racasGato = null;
+            switch (escolhaRacaGato) {
+                case 1: {
+                    racasGato = RacasGato.SRD;
+                    break;
+                }
+                case 2: {
+                    racasGato = RacasGato.PERSA;
+                    break;
+                }
+                case 3: {
+                    racasGato = RacasGato.SIAMES;
+                    break;
+                }
+                case 4: {
+                    racasGato = RacasGato.BENGAL;
+                    break;
+                }
+                default: {
+                    System.out.println("Escolha Inválida.");
+                    break;
+                }
+            }
+            Gato novo_gato = new Gato(nome_pet,idade_pet,donoPet,racasGato);
             donoPet.adicionarPet(novo_gato);
             lista_pets.add(novo_gato);
+            System.out.println("Gato cadastrado com sucesso!");
+        //Se a espécie for um Cachorro
         } else if(tipo_pet.equals("CACHORRO")){
-            System.out.println("Digite a raça do seu cachorro: ");
-            String racaCachorro = teclado.next();
+            System.out.print("Escolha a raça do seu cachorro: \n 1 - SRD,\n" + 
+            " 2 - LABRADOR,\n" + 
+            " 3 - PINSCHER,\n" +
+            " 4 - POODLE\n: ");
+            Integer escolhaRacaCachorro = teclado.nextInt();
             teclado.nextLine();
-            Gato novo_cachorro = new Gato(nome_pet,matricula_pet,idade_pet,donoPet,racaCachorro);
+            RacasCachorro racasCachorro = null;
+            switch (escolhaRacaCachorro) {
+                case 1: {
+                    racasCachorro = RacasCachorro.SRD;
+                    break;
+                }
+                case 2: {
+                    racasCachorro = RacasCachorro.LABRADOR;
+                    break;
+                }
+                case 3: {
+                    racasCachorro = RacasCachorro.PINSCHER;
+                    break;
+                }
+                case 4: {
+                    racasCachorro = RacasCachorro.POODLE;
+                    break;
+                }
+                default: {
+                    System.out.println("Escolha Inválida.");
+                    break;
+                }
+            }
+            Cachorro novo_cachorro = new Cachorro(nome_pet,idade_pet,donoPet,racasCachorro);
             donoPet.adicionarPet(novo_cachorro);
             lista_pets.add(novo_cachorro);
-            }
-
-
+            System.out.println("Cachorro cadastrado com sucesso!");
+        //Se a espécie for Inválida
+        } else {
+            System.out.println("Espécie do Pet Inválida.");
+        }
     }
+    
+    @Override
+    public String toString() {
+        return
+                "Pet: " + nomePet;
+    }
+
 }
