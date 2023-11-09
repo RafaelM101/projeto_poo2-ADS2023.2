@@ -5,24 +5,21 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-import components.CRUD;
-import components.Matricula;
-import components.TipoEntidade;
+import components.*;
 import servicos.AgendaDia;
 import servicos.Servico;
 
 public class Funcionario implements CRUD{
 	protected Matricula matricula;
-	protected double salario;
+	protected Double salario;
 	protected String CPF;
 	protected String nome;
-	protected String setor;
+	protected Setores setor;
 
 	private HashMap<LocalDate, AgendaDia> AgendaDiariaFuncionario;
 	protected static ArrayList<Funcionario> lista_funcionarios = new ArrayList<>();
 		
-	public Funcionario( Double salario, String CPF, String nome, String setor) {
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+	public Funcionario( Double salario, String CPF, String nome, Setores setor) {
 		this.matricula = Matricula.gerarMatricula(TipoEntidade.FUNCIONARIO);
 		this.salario = salario;
 		this.CPF = CPF;
@@ -59,7 +56,7 @@ public class Funcionario implements CRUD{
 		return nome;
 	}
 
-	public void setSetor(String setor) {
+	public void setSetor(Setores setor) {
 		this.setor = setor;
 	}
 	
@@ -71,15 +68,49 @@ public class Funcionario implements CRUD{
 		nome += " "+sobrenome;
 		teclado.nextLine();
 		System.out.print("Digite o salário do funcionário: ");
-		double salario = teclado.nextDouble();
+		Double salario = teclado.nextDouble();
 		teclado.nextLine();
 		System.out.print("Digite o CPF do funcionário: ");
 		String CPF = teclado.nextLine();
-		System.out.print("Digite o setor do funcionário: ");
-		String setor = teclado.nextLine();
-		Funcionario func = new Funcionario(salario, CPF, nome, setor);
-		System.out.printf("Matrícula do Funcionário %s: %s%n", nome, func.getMatricula());;
-		lista_funcionarios.add(func);	
+		System.out.print("Escolha o setor do funcionário:\nDigite 1 PARA SERVICOS_GERAIS ou 2 PARA CLINICA_VET :");
+		Integer escolha = teclado.nextInt();
+		teclado.nextLine();
+		Setores setor = null;
+		if(escolha==1){
+			setor = Setores.SERVICOS_GERAIS;
+			Funcionario func = new Funcionario(salario, CPF, nome, setor);
+			System.out.printf("Matrícula do Funcionário %s: %s%n", nome, func.getMatricula());;
+			lista_funcionarios.add(func);
+		} else if (escolha==2) {
+			setor =Setores.CLINICA_VET;
+			System.out.println("Insira o CRMV do Veterinário: ");
+			String crmv = teclado.nextLine();
+			System.out.println("Escolha a Especialização do Veterinário:\n 1 - CLINICO,\n" +
+					" 2 - CIRURGIAO,\n" +
+					" 3 - ORTOPEDISTA,\n" +
+					" 4 - ONCOLOGISTA\n:");
+			EspecializacoesVet espec = null;
+			Integer escolha_espec = teclado.nextInt();
+			switch (escolha_espec){
+				case 1:
+					espec = EspecializacoesVet.CLINICO;
+					break;
+				case 2:
+					espec = EspecializacoesVet.CIRURGIAO;
+					break;
+				case 3:
+					espec = EspecializacoesVet.ORTOPEDISTA;
+					break;
+				case 4:
+					espec = EspecializacoesVet.ONCOLOGISTA;
+					break;
+				default:
+					System.out.println("Escolha inválida.");
+					break;
+			} Veterinario vet = new Veterinario(salario, CPF, nome, setor, crmv, espec);
+				lista_funcionarios.add(vet);
+		}else System.out.println("OPÇÃO INVÁLIDA.");
+
 	}
 
 	public static void listar() {
@@ -107,13 +138,6 @@ public class Funcionario implements CRUD{
 							//Implementar um bloco try-catch posteriormente
 							funcionario.setSalario(novoSalario);
 							System.out.println("Salário atualizado com sucesso!");
-							break;
-						case "setor":
-							System.out.printf("Digite a nova matrícula do funcionário %s: ", funcionario.nome);
-							String novoSetor = teclado.nextLine();
-							//Implementar um bloco try-catch posteriormente
-							funcionario.setSetor(novoSetor);
-							System.out.println("Matrícula atualizada com sucesso!");
 							break;
 						default:
 							System.out.println("Opção não existe!");

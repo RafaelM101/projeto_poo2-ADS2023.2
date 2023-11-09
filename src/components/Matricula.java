@@ -9,7 +9,6 @@ public class Matricula {
     public String numero_matricula;
 
     public static Set<Matricula> matriculas_pet = new HashSet<>();
-    public static Set<Matricula> matriculas_tutor = new HashSet<>();
     public static Set<Matricula> matriculas_funcionario = new HashSet<>();
 
     public static Set<Matricula> lista_matriculas = new HashSet<>();
@@ -38,9 +37,6 @@ public class Matricula {
                 switch (tipo_entidade) {
                     case PET:
                         matriculas_pet.add(nova_matricula);
-                        return nova_matricula;
-                    case TUTOR:
-                        matriculas_tutor.add(nova_matricula);
                         return nova_matricula;
                     case FUNCIONARIO:
                         matriculas_funcionario.add(nova_matricula);
