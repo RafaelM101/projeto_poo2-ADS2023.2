@@ -6,10 +6,67 @@ import Tutores.Tutor;
 import funcionarios.Funcionario;
 import servicos.Servico;
 
+import java.util.Scanner;
+
 public class Main {
 
+    public static void Menu_AgendarServico(){
+        Scanner teclado = new Scanner(System.in);
+        while(true){
+            System.out.println("MÓDULO DE AGENDAMENTO DE SERVIÇOS");
+            System.out.println("Digite a opção desejada: ");
+            System.out.print("""
+                    1 - Cadastrar um novo agendamento.
+                    2 - Remarcar/Alterar um agendamento.
+                    3 - Desmarcar um agendamento.
+                    4 - Listar todos os agendamentos.
+                    5 - Exibir Agenda de um Funcionário específico.
+                    6 - Voltar ao menu inicial.
+                    DIGITE A OPÇÃO ESCOLHIDA:\s""");
+            int escolha_user = teclado.nextInt();
+            teclado.nextLine();
+            switch (escolha_user){
+                case 1:
+                    Servico.cadastrar();
+                    System.out.println("Pressione enter para voltar ao menu do MODULO DE AGENDAMENTO DE SERVIÇOS...");
+                    teclado.next();
+                    teclado.nextLine();
+                    break;
+                case 2:
+                    Servico.atualizar();
+                    System.out.println("Pressione enter para voltar ao menu MODULO DE AGENDAMENTO DE SERVIÇOS...");
+                    teclado.next();
+                    teclado.nextLine();
+                    break;
+                case 3:
+                    Servico.deletar();
+                    System.out.println("Pressione enter para voltar ao menu do MODULO DE AGENDAMENTO DE SERVIÇOS...");
+                    teclado.next();
+                    teclado.nextLine();
+                    break;
+                case 4:
+                    Servico.listar();
+                    System.out.println("Pressione enter para voltar ao menu do MODULO DE AGENDAMENTO DE SERVIÇOS...");
+                    teclado.next();
+                    teclado.nextLine();
+                    break;
+                case 5:
+                    System.out.println("Digite a matrícula do funcionário desejado:");
+                    String matricula_func = teclado.nextLine().strip();
+                    Funcionario funcionario_agenda = Funcionario.consultarFuncionario(matricula_func);
+                    funcionario_agenda.listarHorarios();
+                    System.out.println("Pressione enter para voltar ao MODULO DE AGENDAMENTO DE SERVIÇOS...");
+                    teclado.next();
+                    break;
+                default:
+                    System.out.println("Pressione enter para voltar ao menu inicial...");
+                    teclado.nextLine();
+                    return;
+            }
+    }}
     public static void main(String[] args) {
         Funcionario.cadastrar();
+        Menu_AgendarServico();
         }
 
     }
