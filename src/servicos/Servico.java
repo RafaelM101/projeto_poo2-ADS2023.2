@@ -164,7 +164,7 @@ public class Servico implements CRUD{
         Servico servico_atualizar = Servico.ConsultarServico(data, horario);
         Funcionario funcionario = servico_atualizar.getNome_funcionario();
         while (true) {
-            System.out.print("Digite o campo que deseja mudar: DATA, HORARIO, TIPO ou FUNCIONARIO");
+            System.out.print("Digite o campo que deseja mudar:\n DATA, HORARIO, TIPO ou FUNCIONARIO:");
             String option = teclado.nextLine().strip();
             switch (option.toUpperCase()) {
                 case "SAIR":
@@ -187,7 +187,7 @@ public class Servico implements CRUD{
                     }
                     break;
                 case "TIPO":
-                    System.out.println("Digite o novo TIPO do serviço: BANHO, TOSA, CONSULTA");
+                    System.out.println("Digite o novo TIPO do serviço: \nBANHO, TOSA, CONSULTA:");
                     String novo_tipo = teclado.next().strip().toUpperCase();
                     teclado.nextLine();
                     switch (novo_tipo){

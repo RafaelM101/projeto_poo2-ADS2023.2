@@ -78,7 +78,13 @@ public class Tutor implements CRUD {
     
     public static void listar() {
         for (Tutor tutor : lista_tutores ) {
-            System.out.println("Nome: " + tutor.getNomeTutor());
+            System.out.println("Nome: " + tutor.getNomeTutor() +
+            "\nCPF: " + tutor.getCPF_Tutor() );
+            System.out.println("Pets: ");
+            for (Pet pet : tutor.pets){
+                System.out.print(" "+pet.getNomePet()+" "+pet.getMatriculaPet());
+            }
+
         }
     }
     
