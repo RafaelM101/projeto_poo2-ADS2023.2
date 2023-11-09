@@ -47,6 +47,9 @@ public class AgendaDia {
         agendarHorario(horario, servico);
     }
 
+    public boolean verificarHorario(LocalTime horario){;
+        return HoraDisponivel.contains(horario);
+    }
     public HashMap<LocalTime, Servico> getAgendamentos_dia() {
         return Agendamentos_dia;
     }
