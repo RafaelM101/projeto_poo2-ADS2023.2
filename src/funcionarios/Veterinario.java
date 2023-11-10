@@ -16,6 +16,10 @@ public class Veterinario extends Funcionario{
 		this.especializacao = especializacao;
 	}
 	
+	public String getEscpecializacao() {
+		return especializacao.toString();
+	}
+
 	public String getCRMV() {
 		return this.CRMV;
 	}

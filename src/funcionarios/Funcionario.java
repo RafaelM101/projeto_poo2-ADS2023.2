@@ -37,6 +37,13 @@ public class Funcionario implements CRUD{
 		}
 	}
 	
+	public String getSetor() {
+		return setor.toString();
+	}
+
+	public String getCPF() {
+		return CPF;
+	}
 
 	public String getMatricula() {
 		return matricula.numero_matricula;
@@ -115,7 +122,7 @@ public class Funcionario implements CRUD{
 
 	public static void listar() {
 		for(Funcionario funcionario: lista_funcionarios) {
-			System.out.printf("Nome: %s\nMatricula: %s\nSalário: %.2f\nCPF: %s\nSetor: %s\n",funcionario.nome, funcionario.matricula, funcionario.salario, funcionario.CPF, funcionario.setor);
+			System.out.printf("\nNome: %s\nMatricula: %s%nSalário: %.2f\nCPF: %s\nSetor: %s\n",funcionario.nome, funcionario.getMatricula(), funcionario.salario, funcionario.CPF, funcionario.setor);
 		}
 		
 	}
@@ -124,28 +131,14 @@ public class Funcionario implements CRUD{
 		System.out.print("Digite a matrícula do funcionário que deseja atualizar os dados: ");
 		String matFuncionarioAtt = teclado.nextLine();
 		for(Funcionario funcionario: lista_funcionarios){
-			if(funcionario.matricula.equals(matFuncionarioAtt)){
-				while (true) {
-					System.out.print("Digite o campo que deseja mudar: ");
-					String option = teclado.nextLine();
-					switch (option.toLowerCase()) {
-						case "sair":
-							return;
-						case "salario":
-							System.out.printf("Digite novo salário do funcionário %s: ", funcionario.nome);
-							double novoSalario = teclado.nextDouble();
-							teclado.nextLine();
-							//Implementar um bloco try-catch posteriormente
-							funcionario.setSalario(novoSalario);
-							System.out.println("Salário atualizado com sucesso!");
-							break;
-						default:
-							System.out.println("Opção não existe!");
-							break;
-					}
-					System.out.println("Caso não precise fazer mais nenhuma alteração digite sair...");
-
-				}
+			if(funcionario.matricula.numero_matricula.equals(matFuncionarioAtt)){
+				System.out.printf("Digite novo salário do funcionário %s: ", funcionario.nome);
+				double novoSalario = teclado.nextDouble();
+				teclado.nextLine();
+				//Implementar um bloco try-catch posteriormente
+				funcionario.setSalario(novoSalario);
+				System.out.println("Salário atualizado com sucesso!");
+				break;				
 			}
 		}
 		
