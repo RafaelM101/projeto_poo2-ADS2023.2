@@ -34,10 +34,9 @@ public class Main {
                     break;
                 case 2:
                     System.out.print("""
-                            \n
                             Digite 1 para exibir todos os funcionários.
                             Digite 2 para exibir por matrícula.
-                            DIGITE A OPÇÃO ESCOLHIDA:""");
+                            DIGITE A OPÇÃO ESCOLHIDA: """);
                     int escolha_listar = teclado.nextInt();
                     teclado.nextLine();
                     System.out.println("\n");
@@ -55,8 +54,12 @@ public class Main {
                             System.out.printf("Nome: %s\nMatricula: %s%nSalário: %.2f\nCPF: %s\nSetor: %s\n",funcionario_consulta.getNome(), funcionario_consulta.getMatricula(), funcionario_consulta.getSalario(), funcionario_consulta.getCPF(), funcionario_consulta.getSetor());
                         }
                     }
+                    break;
                 case 3:
                     Funcionario.atualizar();
+                    break;
+                case 4:
+                    Funcionario.deletar();
                     break;            
                 default:
                     //possível exception
