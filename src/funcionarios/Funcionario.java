@@ -37,6 +37,13 @@ public class Funcionario implements CRUD{
 		}
 	}
 	
+	public String getSetor() {
+		return setor.toString();
+	}
+
+	public String getCPF() {
+		return CPF;
+	}
 
 	public String getMatricula() {
 		return matricula.numero_matricula;
@@ -72,8 +79,9 @@ public class Funcionario implements CRUD{
 		teclado.nextLine();
 		System.out.print("Digite o CPF do funcionário: ");
 		String CPF = teclado.nextLine();
-		System.out.print("Escolha o setor do funcionário:\nDigite 1 PARA SERVICOS_GERAIS ou 2 PARA CLINICA_VET :");
+		System.out.print("Escolha o setor do funcionário:\nDigite 1 PARA SERVICOS_GERAIS ou 2 PARA CLINICA_VET : ");
 		Integer escolha = teclado.nextInt();
+		//implementar try catch pois se o número do setor for diferente de 1 ou 2 o funcionario fica com setor NULL
 		teclado.nextLine();
 		Setores setor = null;
 		if(escolha==1){
@@ -115,7 +123,7 @@ public class Funcionario implements CRUD{
 
 	public static void listar() {
 		for(Funcionario funcionario: lista_funcionarios) {
-			System.out.printf("Nome: %s\nMatricula: %s\nSalário: %.2f\nCPF: %s\nSetor: %s\n",funcionario.nome, funcionario.matricula, funcionario.salario, funcionario.CPF, funcionario.setor);
+			System.out.printf("\nNome: %s\nMatricula: %s%nSalário: %.2f\nCPF: %s\nSetor: %s\n",funcionario.nome, funcionario.getMatricula(), funcionario.salario, funcionario.CPF, funcionario.setor);
 		}
 		
 	}
@@ -124,28 +132,14 @@ public class Funcionario implements CRUD{
 		System.out.print("Digite a matrícula do funcionário que deseja atualizar os dados: ");
 		String matFuncionarioAtt = teclado.nextLine();
 		for(Funcionario funcionario: lista_funcionarios){
-			if(funcionario.matricula.equals(matFuncionarioAtt)){
-				while (true) {
-					System.out.print("Digite o campo que deseja mudar: ");
-					String option = teclado.nextLine();
-					switch (option.toLowerCase()) {
-						case "sair":
-							return;
-						case "salario":
-							System.out.printf("Digite novo salário do funcionário %s: ", funcionario.nome);
-							double novoSalario = teclado.nextDouble();
-							teclado.nextLine();
-							//Implementar um bloco try-catch posteriormente
-							funcionario.setSalario(novoSalario);
-							System.out.println("Salário atualizado com sucesso!");
-							break;
-						default:
-							System.out.println("Opção não existe!");
-							break;
-					}
-					System.out.println("Caso não precise fazer mais nenhuma alteração digite sair...");
-
-				}
+			if(funcionario.matricula.numero_matricula.equals(matFuncionarioAtt)){
+				System.out.printf("Digite novo salário do funcionário %s: ", funcionario.nome);
+				double novoSalario = teclado.nextDouble();
+				teclado.nextLine();
+				//Implementar um bloco try-catch posteriormente
+				funcionario.setSalario(novoSalario);
+				System.out.println("Salário atualizado com sucesso!");
+				break;				
 			}
 		}
 		
@@ -158,8 +152,17 @@ public class Funcionario implements CRUD{
 		}
 		return null;
 	}
-	public void deletar() {
-		// TODO Stub de método gerado automaticamente
+	public static void deletar() {
+		System.out.print("Digite a matrícula do funcionário que deseja demitir: ");
+		String matFuncionarioDel = teclado.nextLine();
+		for(Funcionario funcionario: lista_funcionarios) {
+			if(funcionario.matricula.numero_matricula.equals(matFuncionarioDel)) {
+				lista_funcionarios.remove(funcionario);
+				//implementar try catch
+				System.out.println("Removido com sucesso!");
+				break;
+			}
+		}
 		
 	}
 	//METODOS RELACIONADOS À AGENDA DO FUNCIONÁRIO
@@ -184,11 +187,10 @@ public class Funcionario implements CRUD{
 		agenda.mudarHorario(servico.getHora_servico(), servico);
 	}
 	public void listarHorarios(){
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		for (Map.Entry<LocalDate, AgendaDia> entry : AgendaDiariaFuncionario.entrySet()) {
 			LocalDate data_agenda = entry.getKey();
 			String dateFormatted = data_agenda.format(formatter);
-			System.out.println(dateFormatted + " = " + entry.getValue() + "\n");
+			System.out.println(dateFormatted + " = " + entry.getValue());
 		}
 	}
 }
