@@ -4,14 +4,72 @@ package main;
 import Pets.Pet;
 import Tutores.Tutor;
 import funcionarios.Funcionario;
+import funcionarios.Veterinario;
 import servicos.Servico;
 
 import java.util.Scanner;
 
 public class Main {
+    public static Scanner teclado = new Scanner(System.in);
+    public static void menu_Funcionario(){
+        while (true) {
+            System.out.println("");
+            System.out.println("MÓDULO DE AGENDAMENTO DE SERVIÇOS");
+            System.out.println("Digite a opção desejada: ");
+            System.out.println("");
+            System.out.print("""
+                    1 - Cadastrar um novo funcionário.
+                    2 - Listar funcionarios.
+                    3 - Atualizar salário de um funcionário.
+                    4 - Demitir um funcionário.
+                    DIGITE A OPÇÃO ESCOLHIDA:""");
+            int escolha_user = teclado.nextInt();
+            teclado.nextLine();
+            System.out.println("");
+            switch (escolha_user) {
+                case 6:
+                    return;
+                case 1:
+                    Funcionario.cadastrar();
+                    break;
+                case 2:
+                    System.out.print("""
+                            Digite 1 para exibir todos os funcionários.
+                            Digite 2 para exibir por matrícula.
+                            DIGITE A OPÇÃO ESCOLHIDA: """);
+                    int escolha_listar = teclado.nextInt();
+                    teclado.nextLine();
+                    System.out.println("\n");
+                    if(escolha_listar == 1) {
+                        Funcionario.listar();
+                    }
+                    else if(escolha_listar == 2){
+                        String matricula_consulta = teclado.nextLine();
+                        Funcionario funcionario_consulta = Funcionario.consultarFuncionario(matricula_consulta);
+                        if(funcionario_consulta instanceof Veterinario) {
+                            Veterinario vet_consulta = (Veterinario) funcionario_consulta;
+                            System.out.printf("Nome: %s\nMatricula: %s%nSalário: %.2f\nCPF: %s\nSetor: %s\nCRMV: %s\nEspecialização: %s\n",vet_consulta.getNome(), vet_consulta.getMatricula(), vet_consulta.getSalario(), vet_consulta.getCPF(), vet_consulta.getSetor(), vet_consulta.getCRMV(), vet_consulta.getEscpecializacao());
+                        }
+                        else{
+                            System.out.printf("Nome: %s\nMatricula: %s%nSalário: %.2f\nCPF: %s\nSetor: %s\n",funcionario_consulta.getNome(), funcionario_consulta.getMatricula(), funcionario_consulta.getSalario(), funcionario_consulta.getCPF(), funcionario_consulta.getSetor());
+                        }
+                    }
+                    break;
+                case 3:
+                    Funcionario.atualizar();
+                    break;
+                case 4:
+                    Funcionario.deletar();
+                    break;            
+                default:
+                    //possível exception
+                    System.out.println("Opção inválida");
+                    break;
+            }
+        }
+    }
 
     public static void Menu_AgendarServico(){
-        Scanner teclado = new Scanner(System.in);
         while(true){
             System.out.println("MÓDULO DE AGENDAMENTO DE SERVIÇOS");
             System.out.println("Digite a opção desejada: ");
@@ -61,12 +119,11 @@ public class Main {
                 default:
                     System.out.println("Pressione enter para voltar ao menu inicial...");
                     teclado.nextLine();
-                    return;
+                    break;
             }
     }}
     public static void main(String[] args) {
-        Funcionario.cadastrar();
-        Menu_AgendarServico();
+        menu_Funcionario();
         }
 
     }
