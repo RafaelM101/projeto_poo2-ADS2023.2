@@ -3,6 +3,7 @@ package main;
 
 import Pets.Gato;
 import Pets.Pet;
+import Tutores.Endereco;
 import Tutores.Tutor;
 import funcionarios.Funcionario;
 import funcionarios.Veterinario;
@@ -30,8 +31,7 @@ public class Main {
                     menu_Funcionario();
                     break;
                 case 2:
-                    System.out.println("Menu ainda não foi implementado, pressione enter para voltar...");
-                    teclado.nextLine();
+                    menu_Tutor();
                     break;
                 case 3:
                     Menu_AgendarServico();
@@ -156,13 +156,74 @@ public class Main {
                     return;
             }
     }}
+    public static void menu_Tutor() {
+        while (true) {
+            System.out.println("\t\t\tMÓDULO DE GERENCIAMENTO DE TUTOR");
+            System.out.println("Digite a opção desejada: ");
+            System.out.print("""
+                1 - Cadastrar um novo tutor.
+                2 - Lista todos os tutores.
+                3 - Atualizar o cadastro de um tutor existente.
+                4 - Apagar o cadastro de um tutor.
+                5 - Consultar tutor.
+                6 - Voltar ao menu inicial.
+                DIGITE A OPÇÃO ESCOLHIDA:\s""");
+            int escolha_user = teclado.nextInt();
+            teclado.nextLine();
+            switch (escolha_user){
+                case 1: {
+                    Tutor.cadastrar();
+                    System.out.println("Pressione enter para voltar ao menu do MODULO DE GERENCIAMENTO DE TUTOR...");
+                    teclado.nextLine();
+                    break;
+                } case 2: {
+                    Tutor.listar();
+                    System.out.println("Pressione enter para voltar ao menu MODULO DE GERENCIAMENTO DE TUTOR...");
+                    teclado.nextLine();
+                    break;
+                } case 3: {
+                    Tutor.atualizar();
+                    System.out.println("Pressione enter para voltar ao menu do MODULO DE GERENCIAMENTO DE TUTOR...");
+                    teclado.nextLine();
+                    break;
+                } case 4: {
+                    Tutor.deletar();
+                    System.out.println("Pressione enter para voltar ao menu do MODULO DE GERENCIAMENTO DE TUTOR...");
+                    teclado.nextLine();
+                    break; 
+                } case 5: {
+                    System.out.println("Insira o CPF do Tutor que deseja consultar: ");
+                    String cpfConsulta = teclado.nextLine();
+                    Tutor tutorConsultado = Tutor.consultarTutor(cpfConsulta);
+                    if (tutorConsultado instanceof Tutor) {
+                        System.out.println("Nome: " + tutorConsultado.getNomeTutor());
+                        Endereco enderecoTutor = tutorConsultado.getEnderecoTutor();
+                        System.out.println("Endereço: \n" 
+                            +"- Rua: " + enderecoTutor.getRua() +"\n"
+                            +"- Bairro: " + enderecoTutor.getBairro() +"\n"
+                            +"- Número: " + enderecoTutor.getNumero());
+                        System.out.println("Telefone: " + tutorConsultado.getTelefoneTutor());
+                        System.out.println("Email: " + tutorConsultado.getEmailTutor());
+                    } else {
+                        System.out.println("CPF inválido OU Não consta no sistema.");
+                    }
+                    System.out.println("Pressione enter para voltar ao menu do MODULO DE GERENCIAMENTO DE TUTOR...");
+                    teclado.nextLine();
+                    break;
+                } default: {
+                    System.out.println("Pressione enter para voltar ao menu inicial...");
+                    teclado.nextLine();
+                    return;
+                }
+            }   
+        }
+    } 
     public static void main(String[] args) {
         menu_Principal();
-        }
-
     }
 
 }
+
 
 //Modulo MENU PRINCIPAL(Rafael): Escolher entre os Módulo TUTOR, PET, FUNCIONARIO e AGENDAR SERVIÇO.
 //Modulo TUTOR(Kerlen): Cadastrar Tutor, Listar Todos os Tutores,
