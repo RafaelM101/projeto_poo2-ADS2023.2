@@ -187,11 +187,10 @@ public class Funcionario implements CRUD{
 		agenda.mudarHorario(servico.getHora_servico(), servico);
 	}
 	public void listarHorarios(){
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		for (Map.Entry<LocalDate, AgendaDia> entry : AgendaDiariaFuncionario.entrySet()) {
 			LocalDate data_agenda = entry.getKey();
 			String dateFormatted = data_agenda.format(formatter);
-			System.out.println(dateFormatted + " = " + entry.getValue() + "\n");
+			System.out.println(dateFormatted + " = " + entry.getValue());
 		}
 	}
 }

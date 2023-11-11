@@ -11,17 +11,51 @@ import java.util.Scanner;
 
 public class Main {
     public static Scanner teclado = new Scanner(System.in);
+    public static void menu_Principal() {
+        while (true) {
+            System.out.println("\t\t\tSISTEMA DE GERENCIAMENTO AMIGOPET");
+            System.out.println("Escolha o módulo que deseja acessar: ");
+            System.out.print("""
+                    1 - MODULO DE GERENCIAMENTO DE FUNCIONÁRIOS
+                    2 - MODULO DE GERENCIAMENTO DE TUTORES
+                    3 - MODULO DE AGENDAMENTO DE SERVIÇOS
+                    4 - MODULO DE GERENCIAMENTO DE PETS
+                    5 - FINALIZAR PROGRAMA
+                    DIGITE A OPÇÃO ESCOLHIDA:  """);
+            int escolha_user = teclado.nextInt();
+            teclado.nextLine();
+            switch (escolha_user) {
+                case 1:
+                    menu_Funcionario();
+                    break;
+                case 2:
+                    System.out.println("Menu ainda não foi implementado, pressione enter para voltar...");
+                    teclado.nextLine();
+                    break;
+                case 3:
+                    Menu_AgendarServico();
+                    break;
+                case 4:
+                    System.out.println("Menu inda não foi implementado pressione enter para voltar...");
+                    teclado.nextLine();
+                    break;
+                default:
+                    return;
+            }
+        }
+    }
     public static void menu_Funcionario(){
         while (true) {
             System.out.println("");
-            System.out.println("MÓDULO DE AGENDAMENTO DE SERVIÇOS");
-            System.out.println("Digite a opção desejada: ");
+            System.out.println("\t\t\tMÓDULO DE GERENCIAMENTO DE FUNCIONÁRIOS");
+            System.out.println("Escolha a ação que deseja realizar: ");
             System.out.println("");
             System.out.print("""
                     1 - Cadastrar um novo funcionário.
                     2 - Listar funcionarios.
                     3 - Atualizar salário de um funcionário.
                     4 - Demitir um funcionário.
+                    5 - Voltar ao menu principal.
                     DIGITE A OPÇÃO ESCOLHIDA:""");
             int escolha_user = teclado.nextInt();
             teclado.nextLine();
@@ -60,7 +94,9 @@ public class Main {
                     break;
                 case 4:
                     Funcionario.deletar();
-                    break;            
+                    break;
+                case 5:
+                    return;
                 default:
                     //possível exception
                     System.out.println("Opção inválida");
@@ -87,26 +123,23 @@ public class Main {
                 case 1:
                     Servico.cadastrar();
                     System.out.println("Pressione enter para voltar ao menu do MODULO DE AGENDAMENTO DE SERVIÇOS...");
-                    teclado.next();
                     teclado.nextLine();
                     break;
                 case 2:
                     Servico.atualizar();
                     System.out.println("Pressione enter para voltar ao menu MODULO DE AGENDAMENTO DE SERVIÇOS...");
-                    teclado.next();
                     teclado.nextLine();
                     break;
                 case 3:
                     Servico.deletar();
                     System.out.println("Pressione enter para voltar ao menu do MODULO DE AGENDAMENTO DE SERVIÇOS...");
-                    teclado.next();
                     teclado.nextLine();
                     break;
                 case 4:
                     Servico.listar();
                     System.out.println("Pressione enter para voltar ao menu do MODULO DE AGENDAMENTO DE SERVIÇOS...");
-                    teclado.next();
                     teclado.nextLine();
+
                     break;
                 case 5:
                     System.out.println("Digite a matrícula do funcionário desejado:");
@@ -114,16 +147,16 @@ public class Main {
                     Funcionario funcionario_agenda = Funcionario.consultarFuncionario(matricula_func);
                     funcionario_agenda.listarHorarios();
                     System.out.println("Pressione enter para voltar ao MODULO DE AGENDAMENTO DE SERVIÇOS...");
-                    teclado.next();
+                    teclado.nextLine();
                     break;
                 default:
                     System.out.println("Pressione enter para voltar ao menu inicial...");
                     teclado.nextLine();
-                    break;
+                    return;
             }
     }}
     public static void main(String[] args) {
-        menu_Funcionario();
+        menu_Principal();
         }
 
     }

@@ -7,10 +7,8 @@ import funcionarios.Veterinario;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 
 
 public class Servico implements CRUD{
@@ -69,9 +67,9 @@ public class Servico implements CRUD{
     public static void cadastrar() {
 
         System.out.println("Insira o tipo do serviço que será realizado: BANHO, TOSA ou CONSULTA:");
-        String servico = teclado.nextLine();
+        String servico = teclado.nextLine().toUpperCase();
         ListaServicos tipo_servico;
-        Float preco_servico = 0.00f;
+        float preco_servico;
         if (servico.equals(ListaServicos.BANHO.toString())) {
             tipo_servico = ListaServicos.BANHO;
             preco_servico = 45.00f;
@@ -87,8 +85,7 @@ public class Servico implements CRUD{
         }
 
         System.out.println("Insira a matrícula do Funcionário que irá realizar esse serviço: ");
-        String matricula = teclado.next();
-        teclado.nextLine();
+        String matricula = teclado.nextLine();
         if (Funcionario.consultarFuncionario(matricula)==null) {
             System.out.println("Funcionário não encontrado.");
             return;
@@ -189,6 +186,7 @@ public class Servico implements CRUD{
                 case "TIPO":
                     System.out.println("Digite o novo TIPO do serviço: \nBANHO, TOSA, CONSULTA:");
                     String novo_tipo = teclado.next().strip().toUpperCase();
+                    novo_tipo= novo_tipo.toUpperCase();
                     teclado.nextLine();
                     switch (novo_tipo){
                         case "BANHO":
