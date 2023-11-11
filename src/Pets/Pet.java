@@ -204,7 +204,8 @@ public abstract class Pet implements CRUD {
     @Override
     public String toString() {
         return
-                "Pet: " + nomePet;
+                "Pet: " + nomePet + "\n"+
+                "Matrícula: " + matriculaPet;
     }
 
 }
