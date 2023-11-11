@@ -1,8 +1,6 @@
 package Tutores;
 
 import java.util.ArrayList;
-import java.util.Scanner;
-
 import Pets.Pet;
 import components.CRUD;
 
@@ -55,6 +53,7 @@ public class Tutor implements CRUD {
     }
 
     public static void cadastrar() {
+        System.out.println("\n| Cadastro de Tutor |\n");
         System.out.print("Digite o nome do Tutor: ");
         String nome = teclado.nextLine();
         System.out.print("Digite o CPF do Tutor: ");

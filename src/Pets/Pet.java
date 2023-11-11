@@ -1,10 +1,6 @@
 package Pets;
 
-import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Scanner;
-
-import Tutores.Endereco;
 import Tutores.Tutor;
 import components.CRUD;
 import components.Matricula;
