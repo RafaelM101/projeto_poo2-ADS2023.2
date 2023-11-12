@@ -73,6 +73,7 @@ public class Tutor implements CRUD {
         Endereco endereco = new Endereco(rua,bairro,numero);
         Tutor tutor = new Tutor(nome, cpf, telefone, email, endereco);
         lista_tutores.add(tutor);
+        System.out.println("Tutor cadastrado com sucesso!");
     }
     
     public static void listar() {
@@ -121,6 +122,7 @@ public class Tutor implements CRUD {
         int novoNumero = teclado.nextInt();
         teclado.nextLine();
         endereco.setNumero(novoNumero);
+        System.out.println("O cadastro foi atualizado com sucesso!");
     }
     
     public static void deletar() {
