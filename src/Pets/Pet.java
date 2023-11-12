@@ -102,14 +102,14 @@ public abstract class Pet implements CRUD {
     //Cadastrar um Pet
     public static void cadastrar(){
         System.out.println("\n| Cadastro de Pet |\n");
-        System.out.print("Digite o CPF do tutor dono do pet:  ");
+        System.out.print("Digite o CPF do tutor dono do pet: ");
         String cpf_tutor = teclado.nextLine();
         //Verifica se o Tutor já e cadastrado, se não cadastra um Tutor
         if(Tutor.consultarTutor(cpf_tutor)==null){
-            System.out.println("Tutor não encontrado, deseja cadastrar? Digite Y para SIM e N para NÃO");
-            String escolha = teclado.next();
+            System.out.println("Tutor não encontrado, deseja cadastrar? Digite Y para SIM e N para NÃO: ");
+            String escolha = teclado.nextLine();
             escolha = String.valueOf(escolha.charAt(0));
-            if(escolha.equals("Y")) {
+            if(escolha.equalsIgnoreCase("Y")) {
                 Tutor.cadastrar();
             } else {
                 return;

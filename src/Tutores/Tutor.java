@@ -54,7 +54,7 @@ public class Tutor implements CRUD {
 
     public static void cadastrar() {
         System.out.println("\n| Cadastro de Tutor |\n");
-        System.out.print("Digite o nome do Tutor: ");
+        System.out.println("Digite o nome do Tutor: ");
         String nome = teclado.nextLine();
         System.out.print("Digite o CPF do Tutor: ");
         String cpf = teclado.nextLine();
@@ -82,7 +82,7 @@ public class Tutor implements CRUD {
             "\nCPF: " + tutor.getCPF_Tutor() );
             System.out.println("Pets: ");
             for (Pet pet : tutor.pets){
-                System.out.print(" "+pet.getNomePet()+" "+pet.getMatriculaPet());
+                System.out.println(" "+pet.getNomePet()+" "+pet.getMatriculaPet());
             }
 
         }
