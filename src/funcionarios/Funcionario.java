@@ -34,8 +34,11 @@ public class Funcionario implements CRUD{
 			LocalDate currentDate = date_agenda.plusDays(i);
 			AgendaDia agendaDia = new AgendaDia();
 			AgendaDiariaFuncionario.put(currentDate, agendaDia);
+			if(currentDate.equals(LocalDate.now())){
+				agendaDia.removerHorario(LocalTime.now());
+			}
+			}
 		}
-	}
 	
 	public String getSetor() {
 		return setor.toString();
@@ -186,11 +189,23 @@ public class Funcionario implements CRUD{
 		AgendaDia agenda = AgendaDiariaFuncionario.get(servico.getData_servico());
 		agenda.mudarHorario(servico.getHora_servico(), servico);
 	}
-	public void listarHorarios(){
+	public void listarAgenda(){
 		for (Map.Entry<LocalDate, AgendaDia> entry : AgendaDiariaFuncionario.entrySet()) {
 			LocalDate data_agenda = entry.getKey();
 			String dateFormatted = data_agenda.format(formatter);
-			System.out.println(dateFormatted + " = " + entry.getValue());
+			AgendaDia agendaDia = entry.getValue();
+			System.out.println("DATA: " + dateFormatted);
+			agendaDia.imprimirAgenda();
 		}
 	}
+
+	public void imprimirAgendaDia(LocalDate dia){
+		AgendaDia agenda_escolhida = AgendaDiariaFuncionario.get(dia);
+
+		System.out.printf("\tFUNCIONÁRIO %s\n\tAGENDA DIA: %s ",this.nome,formatter.format(dia));
+		System.out.println(" ");
+		agenda_escolhida.imprimirAgenda();
+	}
+
+
 }
