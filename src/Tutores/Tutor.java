@@ -51,10 +51,13 @@ public class Tutor implements CRUD {
     public void setEnderecoTutor(Endereco enderecoTutor) {
         this.enderecoTutor = enderecoTutor;
     }
+    public ArrayList<Pet> getPets() {
+        return pets;
+    }
 
     public static void cadastrar() {
         System.out.println("\n| Cadastro de Tutor |\n");
-        System.out.println("Digite o nome do Tutor: ");
+        System.out.print("Digite o nome do Tutor: ");
         String nome = teclado.nextLine();
         System.out.print("Digite o CPF do Tutor: ");
         String cpf = teclado.nextLine();
@@ -139,6 +142,9 @@ public class Tutor implements CRUD {
     }
     public void adicionarPet(Pet pet){
         pets.add(pet);
+    }
+    public void deletarPet(Pet pet) {
+        pets.remove(pet);
     }
     public static Tutor consultarTutor(String cpf) {
 		for (Tutor tutor : lista_tutores) {
