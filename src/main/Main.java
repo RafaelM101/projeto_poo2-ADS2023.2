@@ -145,7 +145,7 @@ public class Main {
                     System.out.println("Digite a matrícula do funcionário desejado:");
                     String matricula_func = teclado.nextLine().strip();
                     Funcionario funcionario_agenda = Funcionario.consultarFuncionario(matricula_func);
-                    funcionario_agenda.listarHorarios();
+                    funcionario_agenda.listarAgenda();
                     System.out.println("Pressione enter para voltar ao MODULO DE AGENDAMENTO DE SERVIÇOS...");
                     teclado.nextLine();
                     break;
