@@ -37,8 +37,7 @@ public class Main {
                     Menu_AgendarServico();
                     break;
                 case 4:
-                    System.out.println("Menu inda não foi implementado pressione enter para voltar...");
-                    teclado.nextLine();
+                    menu_Pet();
                     break;
                 default:
                     return;
@@ -192,7 +191,7 @@ public class Main {
                     teclado.nextLine();
                     break; 
                 } case 5: {
-                    System.out.println("Insira o CPF do Tutor que deseja consultar: ");
+                    System.out.print("Insira o CPF do Tutor que deseja consultar: ");
                     String cpfConsulta = teclado.nextLine();
                     Tutor tutorConsultado = Tutor.consultarTutor(cpfConsulta);
                     if (tutorConsultado instanceof Tutor) {
@@ -209,6 +208,66 @@ public class Main {
                     }
                     System.out.println("Pressione enter para voltar ao menu do MODULO DE GERENCIAMENTO DE TUTOR...");
                     teclado.nextLine();
+                    break;
+                } default: {
+                    System.out.println("Pressione enter para voltar ao menu inicial...");
+                    teclado.nextLine();
+                    return;
+                }
+            }   
+        }
+    }
+    public static void menu_Pet() {
+        while (true) {
+            System.out.println("\t\t\tMÓDULO DE GERENCIAMENTO DE PET");
+            System.out.println("Digite a opção desejada: ");
+            System.out.print("""
+                1 - Cadastrar um Pet.
+                2 - Atualizar cadastro de Pet.
+                3 - Apagar o cadastro de um Pet.
+                4 - Listar todos os Pets cadastrados.
+                5 - Listar Pet por Funcionário.
+                6 - Adicionar Pet a um Tutor existente.
+                7 - Remover Pet de um Tutor existente.
+                8 - Voltar ao menu inicial.
+                DIGITE A OPÇÃO ESCOLHIDA:\s""");
+            int escolha_user = teclado.nextInt();
+            teclado.nextLine();
+            switch (escolha_user){
+                case 1: {
+                    Pet.cadastrar();
+                    System.out.println("Pressione enter para voltar ao menu do MODULO DE GERENCIAMENTO DE PET...");
+                    teclado.nextLine();
+                    break;
+                } case 2: {
+                    Pet.atualizar();
+                    System.out.println("Pressione enter para voltar ao menu MODULO DE GERENCIAMENTO DE PET...");
+                    teclado.nextLine();
+                    break;
+                } case 3: {
+                    Pet.deletar();
+                    System.out.println("Pressione enter para voltar ao menu do MODULO DE GERENCIAMENTO DE PET...");
+                    teclado.nextLine();
+                    break;
+                } case 4: {
+                    Pet.listar();
+                    System.out.println("Pressione enter para voltar ao menu do MODULO DE GERENCIAMENTO DE PET...");
+                    teclado.nextLine();
+                    break; 
+                } case 5: {
+                    System.out.println("Funcionalidade ainda não implementada.\n"+
+                        "Pressione enter para voltar ao menu do MODULO DE GERENCIAMENTO DE PET...");
+                        teclado.nextLine();
+                    break;
+                } case 6: {
+                    System.out.println("Funcionalidade ainda não implementada.\n"+
+                        "Pressione enter para voltar ao menu do MODULO DE GERENCIAMENTO DE PET...");
+                        teclado.nextLine();
+                    break;
+                } case 7: {
+                    System.out.println("Funcionalidade ainda não implementada.\n"+
+                        "Pressione enter para voltar ao menu do MODULO DE GERENCIAMENTO DE PET...");
+                        teclado.nextLine();
                     break;
                 } default: {
                     System.out.println("Pressione enter para voltar ao menu inicial...");

@@ -102,22 +102,26 @@ public abstract class Pet implements CRUD {
     //Cadastrar um Pet
     public static void cadastrar(){
         System.out.println("\n| Cadastro de Pet |\n");
+        System.out.print("Digite o CPF do tutor dono do pet: ");
+        String cpf_tutor = teclado.nextLine();
+        //Verifica se o Tutor já e cadastrado, se não cadastra um Tutor
+        if(Tutor.consultarTutor(cpf_tutor)==null){
+            System.out.println("Tutor não encontrado, deseja cadastrar? Digite Y para SIM e N para NÃO: ");
+            String escolha = teclado.nextLine();
+            escolha = String.valueOf(escolha.charAt(0));
+            if(escolha.equalsIgnoreCase("Y")) {
+                Tutor.cadastrar();
+            } else {
+                return;
+            }
+        }
+        Tutor donoPet = Tutor.consultarTutor(cpf_tutor);
+        //Cadastro do Pet
         System.out.print("Digite o nome do Pet: ");
         String nome_pet = teclado.nextLine();
         System.out.print("Digite a idade do Pet: ");
         Integer idade_pet = teclado.nextInt();
         teclado.nextLine();
-        System.out.print("Digite o CPF do tutor:  ");
-        String cpf_tutor = teclado.nextLine();
-        if(Tutor.consultarTutor(cpf_tutor)==null){
-            System.out.println("Tutor não encontrado, deseja cadastrar? Digite Y para SIM e N para NÃO");
-            String escolha = teclado.next();
-            escolha = String.valueOf(escolha.charAt(0));
-            if(escolha.equals("Y")) Tutor.cadastrar();
-            else return;
-        }
-        Tutor donoPet = Tutor.consultarTutor(cpf_tutor);
-
         System.out.println("Digite a espécie do Pet: GATO OU CACHORRO: ");
         String tipo_pet = teclado.next().toUpperCase();
         teclado.nextLine();
