@@ -226,10 +226,9 @@ public class Main {
                 2 - Atualizar cadastro de Pet.
                 3 - Apagar o cadastro de um Pet.
                 4 - Listar todos os Pets cadastrados.
-                5 - Listar Pet por Funcionário.
-                6 - Adicionar Pet a um Tutor existente.
-                7 - Remover Pet de um Tutor existente.
-                8 - Voltar ao menu inicial.
+                5 - Adicionar Pet a um Tutor existente.
+                6 - Remover Pet de um Tutor existente.
+                7 - Voltar ao menu inicial.
                 DIGITE A OPÇÃO ESCOLHIDA:\s""");
             int escolha_user = teclado.nextInt();
             teclado.nextLine();
@@ -255,18 +254,51 @@ public class Main {
                     teclado.nextLine();
                     break; 
                 } case 5: {
-                    System.out.println("Funcionalidade ainda não implementada.\n"+
-                        "Pressione enter para voltar ao menu do MODULO DE GERENCIAMENTO DE PET...");
+                    System.out.print("Insira o CPF do Tutor que o Pet será atribuído: ");
+                    String cpfTutor = teclado.nextLine();
+                    Tutor tutorAdd = Tutor.consultarTutor(cpfTutor);
+                    if (tutorAdd instanceof Tutor) {
+                        System.out.print("Insira a matrícula do Pet: ");
+                        String matriculaPet = teclado.nextLine();
+                        Pet petAdd = Pet.consultarPet(matriculaPet);
+                        if (petAdd instanceof Pet || petAdd.getDonoPet()==null) {
+                            tutorAdd.adicionarPet(petAdd);
+                            System.out.println("Pet atribuído com sucesso ao Tutor!");
+                        } else if (petAdd.getDonoPet()!=null) {
+                            System.out.println("Pet pertence a um Tutor existente.");
+                        } else {
+                            System.out.println("Matrícula inválida OU Não cadastrada.");
+                        }
+                    } else {
+                        System.out.println("CPF inválido OU Não cadastrado.");
+                    }
+                    System.out.println("Pressione enter para voltar ao menu do MODULO DE GERENCIAMENTO DE PET...");
                         teclado.nextLine();
                     break;
                 } case 6: {
-                    System.out.println("Funcionalidade ainda não implementada.\n"+
-                        "Pressione enter para voltar ao menu do MODULO DE GERENCIAMENTO DE PET...");
-                        teclado.nextLine();
-                    break;
-                } case 7: {
-                    System.out.println("Funcionalidade ainda não implementada.\n"+
-                        "Pressione enter para voltar ao menu do MODULO DE GERENCIAMENTO DE PET...");
+                    System.out.print("Insira o CPF do Tutor que deseja remover o Pet: ");
+                    String cpfTutor = teclado.nextLine();
+                    Tutor tutorDel = Tutor.consultarTutor(cpfTutor);
+                    if (tutorDel instanceof Tutor) {
+                        System.out.println("Pets de "+ tutorDel.getNomeTutor() + ":");
+                        for (Pet pet : tutorDel.getPets()) {
+                            System.out.println("Nome do Pet: " + pet.getNomePet() + "\n" +
+                                "Matrícula: " + pet.getMatriculaPet()+"\n");    
+                        }
+                        System.out.print("Insira a matrícula do Pet que deseja remover do Tutor: ");
+                        String matriculaPetDel = teclado.nextLine();
+                        Pet petDel = Pet.consultarPet(matriculaPetDel);
+                        if (petDel instanceof Pet) {
+                            tutorDel.deletarPet(petDel);
+                            petDel.setDonoPet(null);
+                            System.out.println("Pet deletado com sucesso do Tutor!");
+                        } else {
+                            System.out.println("Matrícula inválida OU Não cadastrada.");
+                        }
+                    } else {
+                        System.out.println("CPF inválido OU Não cadastrado.");
+                    }
+                    System.out.println("Pressione enter para voltar ao menu do MODULO DE GERENCIAMENTO DE PET...");
                         teclado.nextLine();
                     break;
                 } default: {
