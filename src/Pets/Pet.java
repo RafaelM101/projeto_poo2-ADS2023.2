@@ -112,6 +112,7 @@ public abstract class Pet implements CRUD {
             if(escolha.equalsIgnoreCase("Y")) {
                 Tutor.cadastrar();
             } else {
+                System.out.println("Tutor não pode ser nulo.");
                 return;
             }
         }
@@ -122,82 +123,89 @@ public abstract class Pet implements CRUD {
         System.out.print("Digite a idade do Pet: ");
         Integer idade_pet = teclado.nextInt();
         teclado.nextLine();
-        System.out.println("Digite a espécie do Pet: GATO OU CACHORRO: ");
-        String tipo_pet = teclado.next().toUpperCase();
+        System.out.println("Escolha a espécie do Pet: \n1- GATO \n2- CACHORRO\n: ");
+        Integer escolhaTipoPet = teclado.nextInt();
         teclado.nextLine();
-        //Se a espécie for um Gato
-        if(tipo_pet.equals("GATO")){
-            System.out.print("Escolha a Raça do seu Gato:\n 1 - SRD,\n" + 
-            " 2 - PERSA,\n" + 
-            " 3 - SIAMES,\n" + 
-            " 4 - BENGAL\n: ");
-            Integer escolhaRacaGato = teclado.nextInt();
-            teclado.nextLine();
-            RacasGato racasGato = null;
-            switch (escolhaRacaGato) {
-                case 1: {
-                    racasGato = RacasGato.SRD;
-                    break;
+        switch (escolhaTipoPet) {
+            //Se a espécie for um Gato
+            case 1:{
+                System.out.print("Escolha a Raça do seu Gato:\n 1 - SRD,\n" + 
+                    " 2 - PERSA,\n" + 
+                    " 3 - SIAMES,\n" + 
+                    " 4 - BENGAL\n: ");
+                Integer escolhaRacaGato = teclado.nextInt();
+                teclado.nextLine();
+                RacasGato racasGato = null;
+                switch (escolhaRacaGato) {
+                    case 1: {
+                        racasGato = RacasGato.SRD;
+                        break;
+                    }
+                    case 2: {
+                        racasGato = RacasGato.PERSA;
+                        break;
+                    }
+                    case 3: {
+                        racasGato = RacasGato.SIAMES;
+                        break;
+                    }
+                    case 4: {
+                        racasGato = RacasGato.BENGAL;
+                        break;
+                    }
+                    default: {
+                        System.out.println("Escolha Inválida.");
+                        break;
+                    }
                 }
-                case 2: {
-                    racasGato = RacasGato.PERSA;
-                    break;
-                }
-                case 3: {
-                    racasGato = RacasGato.SIAMES;
-                    break;
-                }
-                case 4: {
-                    racasGato = RacasGato.BENGAL;
-                    break;
-                }
-                default: {
-                    System.out.println("Escolha Inválida.");
-                    break;
-                }
+                Gato novo_gato = new Gato(nome_pet,idade_pet,donoPet,racasGato);
+                donoPet.adicionarPet(novo_gato);
+                lista_pets.add(novo_gato);
+                System.out.println("Gato cadastrado com sucesso!");
+                break;
             }
-            Gato novo_gato = new Gato(nome_pet,idade_pet,donoPet,racasGato);
-            donoPet.adicionarPet(novo_gato);
-            lista_pets.add(novo_gato);
-            System.out.println("Gato cadastrado com sucesso!");
-        //Se a espécie for um Cachorro
-        } else if(tipo_pet.equals("CACHORRO")){
-            System.out.print("Escolha a raça do seu cachorro: \n 1 - SRD,\n" + 
-            " 2 - LABRADOR,\n" + 
-            " 3 - PINSCHER,\n" +
-            " 4 - POODLE\n: ");
-            Integer escolhaRacaCachorro = teclado.nextInt();
-            teclado.nextLine();
-            RacasCachorro racasCachorro = null;
-            switch (escolhaRacaCachorro) {
-                case 1: {
-                    racasCachorro = RacasCachorro.SRD;
-                    break;
+            //Se a espécie for um Cachorro
+            case 2: {
+                System.out.print("Escolha a raça do seu cachorro: \n 1 - SRD,\n" + 
+                    " 2 - LABRADOR,\n" + 
+                    " 3 - PINSCHER,\n" +
+                    " 4 - POODLE\n: ");
+                Integer escolhaRacaCachorro = teclado.nextInt();
+                teclado.nextLine();
+                RacasCachorro racasCachorro = null;
+                switch (escolhaRacaCachorro) {
+                    case 1: {
+                        racasCachorro = RacasCachorro.SRD;
+                        break;
+                    }
+                    case 2: {
+                        racasCachorro = RacasCachorro.LABRADOR;
+                        break;
+                    }
+                    case 3: {
+                        racasCachorro = RacasCachorro.PINSCHER;
+                        break;
+                    }
+                    case 4: {
+                        racasCachorro = RacasCachorro.POODLE;
+                        break;
+                    }
+                    default: {
+                        System.out.println("Escolha Inválida.");
+                        break;
+                    }
                 }
-                case 2: {
-                    racasCachorro = RacasCachorro.LABRADOR;
-                    break;
-                }
-                case 3: {
-                    racasCachorro = RacasCachorro.PINSCHER;
-                    break;
-                }
-                case 4: {
-                    racasCachorro = RacasCachorro.POODLE;
-                    break;
-                }
-                default: {
-                    System.out.println("Escolha Inválida.");
-                    break;
-                }
+                Cachorro novo_cachorro = new Cachorro(nome_pet,idade_pet,donoPet,racasCachorro);
+                donoPet.adicionarPet(novo_cachorro);
+                lista_pets.add(novo_cachorro);
+                System.out.println("Cachorro cadastrado com sucesso!");
+                break;
+            }  
+            //Se a espécie for Inválida
+            default: {
+                System.out.println("Espécie do Pet Inválida.");
+                break;
             }
-            Cachorro novo_cachorro = new Cachorro(nome_pet,idade_pet,donoPet,racasCachorro);
-            donoPet.adicionarPet(novo_cachorro);
-            lista_pets.add(novo_cachorro);
-            System.out.println("Cachorro cadastrado com sucesso!");
-        //Se a espécie for Inválida
-        } else {
-            System.out.println("Espécie do Pet Inválida.");
         }
     }
     
