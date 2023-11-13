@@ -1,8 +1,6 @@
 package Tutores;
 
 import java.util.ArrayList;
-import java.util.Scanner;
-
 import Pets.Pet;
 import components.CRUD;
 
@@ -53,8 +51,12 @@ public class Tutor implements CRUD {
     public void setEnderecoTutor(Endereco enderecoTutor) {
         this.enderecoTutor = enderecoTutor;
     }
+    public ArrayList<Pet> getPets() {
+        return pets;
+    }
 
     public static void cadastrar() {
+        System.out.println("\n| Cadastro de Tutor |\n");
         System.out.print("Digite o nome do Tutor: ");
         String nome = teclado.nextLine();
         System.out.print("Digite o CPF do Tutor: ");
@@ -74,6 +76,7 @@ public class Tutor implements CRUD {
         Endereco endereco = new Endereco(rua,bairro,numero);
         Tutor tutor = new Tutor(nome, cpf, telefone, email, endereco);
         lista_tutores.add(tutor);
+        System.out.println("Tutor cadastrado com sucesso!");
     }
     
     public static void listar() {
@@ -82,7 +85,7 @@ public class Tutor implements CRUD {
             "\nCPF: " + tutor.getCPF_Tutor() );
             System.out.println("Pets: ");
             for (Pet pet : tutor.pets){
-                System.out.print(" "+pet.getNomePet()+" "+pet.getMatriculaPet());
+                System.out.println(" "+pet.getNomePet()+" "+pet.getMatriculaPet());
             }
 
         }
@@ -122,6 +125,7 @@ public class Tutor implements CRUD {
         int novoNumero = teclado.nextInt();
         teclado.nextLine();
         endereco.setNumero(novoNumero);
+        System.out.println("O cadastro foi atualizado com sucesso!");
     }
     
     public static void deletar() {
@@ -138,6 +142,9 @@ public class Tutor implements CRUD {
     }
     public void adicionarPet(Pet pet){
         pets.add(pet);
+    }
+    public void deletarPet(Pet pet) {
+        pets.remove(pet);
     }
     public static Tutor consultarTutor(String cpf) {
 		for (Tutor tutor : lista_tutores) {

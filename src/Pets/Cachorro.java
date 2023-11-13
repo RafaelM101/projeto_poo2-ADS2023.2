@@ -1,20 +1,21 @@
 package Pets;
 
 import Tutores.Tutor;
+import components.RacasCachorro;
 
 public class Cachorro extends Pet {
-    private String racaCachorro;
+    private RacasCachorro racaCachorro;
 
-    public Cachorro(String nomePet, String matriculaPet, Integer idadePet, Tutor donoPet, String racaCachorro) {
-        super(nomePet, matriculaPet, idadePet, donoPet);
+    public Cachorro(String nomePet, Integer idadePet, Tutor donoPet, RacasCachorro racaCachorro) {
+        super(nomePet, idadePet, donoPet);
         this.racaCachorro = racaCachorro;
     }
 
-    public String getRacaCachorro() {
+    public RacasCachorro getRacaCachorro() {
         return racaCachorro;
     }
 
-    public void setRacaCachorro(String racaCachorro) {
+    public void setRacaCachorro(RacasCachorro racaCachorro) {
         this.racaCachorro = racaCachorro;
     }
     
