@@ -93,6 +93,8 @@ public abstract class Pet implements CRUD {
         String deletarMatricula = teclado.nextLine();
         Pet delPet = consultarPet(deletarMatricula);
         if(delPet instanceof Pet) {
+            Tutor dono = delPet.getDonoPet();
+            dono.deletarPet(delPet);
             lista_pets.remove(delPet);
             System.out.println("Pet deletado com sucesso!");
         } else {
