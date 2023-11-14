@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import components.*;
+import exceptions.ListaVaziaException;
 import servicos.AgendaDia;
 import servicos.Servico;
 
@@ -34,8 +35,11 @@ public class Funcionario implements CRUD{
 			LocalDate currentDate = date_agenda.plusDays(i);
 			AgendaDia agendaDia = new AgendaDia();
 			AgendaDiariaFuncionario.put(currentDate, agendaDia);
+			if(currentDate.equals(LocalDate.now())){
+				agendaDia.removerHorario(LocalTime.now());
+			}
+			}
 		}
-	}
 	
 	public String getSetor() {
 		return setor.toString();
@@ -68,60 +72,67 @@ public class Funcionario implements CRUD{
 	}
 	
 	public static void cadastrar() {
-		System.out.print("Digite nome do funcionário: ");
-		String nome = teclado.nextLine();
-		System.out.print("Digite o sobrenome do funcionário: ");
-		String sobrenome = teclado.next();
-		nome += " "+sobrenome;
-		teclado.nextLine();
-		System.out.print("Digite o salário do funcionário: ");
-		Double salario = teclado.nextDouble();
-		teclado.nextLine();
-		System.out.print("Digite o CPF do funcionário: ");
-		String CPF = teclado.nextLine();
-		System.out.print("Escolha o setor do funcionário:\nDigite 1 PARA SERVICOS_GERAIS ou 2 PARA CLINICA_VET : ");
-		Integer escolha = teclado.nextInt();
-		//implementar try catch pois se o número do setor for diferente de 1 ou 2 o funcionario fica com setor NULL
-		teclado.nextLine();
-		Setores setor = null;
-		if(escolha==1){
-			setor = Setores.SERVICOS_GERAIS;
-			Funcionario func = new Funcionario(salario, CPF, nome, setor);
-			System.out.printf("Matrícula do Funcionário %s: %s%n", nome, func.getMatricula());;
-			lista_funcionarios.add(func);
-		} else if (escolha==2) {
-			setor =Setores.CLINICA_VET;
-			System.out.println("Insira o CRMV do Veterinário: ");
-			String crmv = teclado.nextLine();
-			System.out.println("Escolha a Especialização do Veterinário:\n 1 - CLINICO,\n" +
-					" 2 - CIRURGIAO,\n" +
-					" 3 - ORTOPEDISTA,\n" +
-					" 4 - ONCOLOGISTA\n:");
-			EspecializacoesVet espec = null;
-			Integer escolha_espec = teclado.nextInt();
-			switch (escolha_espec){
-				case 1:
-					espec = EspecializacoesVet.CLINICO;
-					break;
-				case 2:
-					espec = EspecializacoesVet.CIRURGIAO;
-					break;
-				case 3:
-					espec = EspecializacoesVet.ORTOPEDISTA;
-					break;
-				case 4:
-					espec = EspecializacoesVet.ONCOLOGISTA;
-					break;
-				default:
-					System.out.println("Escolha inválida.");
-					break;
-			} Veterinario vet = new Veterinario(salario, CPF, nome, setor, crmv, espec);
-				lista_funcionarios.add(vet);
-		}else System.out.println("OPÇÃO INVÁLIDA.");
-
+		try{
+			System.out.print("Digite nome do funcionário: ");
+			String nome = teclado.nextLine();
+			System.out.print("Digite o sobrenome do funcionário: ");
+			String sobrenome = teclado.next();
+			nome += " "+sobrenome;
+			teclado.nextLine();
+			System.out.print("Digite o salário do funcionário: ");
+			Double salario = teclado.nextDouble();
+			teclado.nextLine();
+			System.out.print("Digite o CPF do funcionário: ");
+			String CPF = teclado.nextLine();
+			System.out.print("Escolha o setor do funcionário:\nDigite 1 PARA SERVICOS_GERAIS ou 2 PARA CLINICA_VET : ");
+			Integer escolha = teclado.nextInt();
+			teclado.nextLine();
+			Setores setor = null;
+			if(escolha==1){
+				setor = Setores.SERVICOS_GERAIS;
+				Funcionario func = new Funcionario(salario, CPF, nome, setor);
+				System.out.printf("Matrícula do Funcionário %s: %s%n", nome, func.getMatricula());;
+				lista_funcionarios.add(func);
+			} else if (escolha==2) {
+				setor =Setores.CLINICA_VET;
+				System.out.println("Insira o CRMV do Veterinário: ");
+				String crmv = teclado.nextLine();
+				System.out.println("Escolha a Especialização do Veterinário:\n 1 - CLINICO,\n" +
+						" 2 - CIRURGIAO,\n" +
+						" 3 - ORTOPEDISTA,\n" +
+						" 4 - ONCOLOGISTA\n:");
+				EspecializacoesVet espec = null;
+				Integer escolha_espec = teclado.nextInt();
+				switch (escolha_espec){
+					case 1:
+						espec = EspecializacoesVet.CLINICO;
+						break;
+					case 2:
+						espec = EspecializacoesVet.CIRURGIAO;
+						break;
+					case 3:
+						espec = EspecializacoesVet.ORTOPEDISTA;
+						break;
+					case 4:
+						espec = EspecializacoesVet.ONCOLOGISTA;
+						break;
+					default:
+						System.out.println("Escolha inválida.");
+						break;
+				} Veterinario vet = new Veterinario(salario, CPF, nome, setor, crmv, espec);
+					lista_funcionarios.add(vet);
+			}else System.out.println("OPÇÃO INVÁLIDA.");
+		}
+		catch(InputMismatchException e){
+			System.out.println("INSIRA UM VALOR VÁLIDO");
+			return;
+		}
 	}
 
-	public static void listar() {
+	public static void listar() throws ListaVaziaException{
+		if(lista_funcionarios.size() < 1) {
+			throw new ListaVaziaException("Nenhum funcionario cadastrado!");
+		}
 		for(Funcionario funcionario: lista_funcionarios) {
 			System.out.printf("\nNome: %s\nMatricula: %s%nSalário: %.2f\nCPF: %s\nSetor: %s\n",funcionario.nome, funcionario.getMatricula(), funcionario.salario, funcionario.CPF, funcionario.setor);
 		}
@@ -152,13 +163,15 @@ public class Funcionario implements CRUD{
 		}
 		return null;
 	}
-	public static void deletar() {
+	public static void deletar() throws ListaVaziaException{
+		if(lista_funcionarios.size() < 1) {
+			throw new ListaVaziaException("Nenhum funcionario cadastrado!");
+		}
 		System.out.print("Digite a matrícula do funcionário que deseja demitir: ");
 		String matFuncionarioDel = teclado.nextLine();
 		for(Funcionario funcionario: lista_funcionarios) {
 			if(funcionario.matricula.numero_matricula.equals(matFuncionarioDel)) {
 				lista_funcionarios.remove(funcionario);
-				//implementar try catch
 				System.out.println("Removido com sucesso!");
 				break;
 			}
@@ -186,11 +199,23 @@ public class Funcionario implements CRUD{
 		AgendaDia agenda = AgendaDiariaFuncionario.get(servico.getData_servico());
 		agenda.mudarHorario(servico.getHora_servico(), servico);
 	}
-	public void listarHorarios(){
+	public void listarAgenda(){
 		for (Map.Entry<LocalDate, AgendaDia> entry : AgendaDiariaFuncionario.entrySet()) {
 			LocalDate data_agenda = entry.getKey();
 			String dateFormatted = data_agenda.format(formatter);
-			System.out.println(dateFormatted + " = " + entry.getValue());
+			AgendaDia agendaDia = entry.getValue();
+			System.out.println("DATA: " + dateFormatted);
+			agendaDia.imprimirAgenda();
 		}
 	}
+
+	public void imprimirAgendaDia(LocalDate dia){
+		AgendaDia agenda_escolhida = AgendaDiariaFuncionario.get(dia);
+
+		System.out.printf("\tFUNCIONÁRIO %s\n\tAGENDA DIA: %s ",this.nome,formatter.format(dia));
+		System.out.println(" ");
+		agenda_escolhida.imprimirAgenda();
+	}
+
+
 }

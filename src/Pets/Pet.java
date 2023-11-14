@@ -64,7 +64,8 @@ public abstract class Pet implements CRUD {
     //Lista os Pets pelo nome
     public static void listar() {
         for(Pet pet : lista_pets) {
-            System.out.println("Nome do Pet: " + pet.getNomePet());
+            System.out.println("\nNome do Pet: " + pet.getNomePet());
+            System.out.println("Matrícula: " + pet.getMatriculaPet());
         }
     }
     //Atualiza o cadastro(Idade) de um Pet
@@ -163,7 +164,7 @@ public abstract class Pet implements CRUD {
                 Gato novo_gato = new Gato(nome_pet,idade_pet,donoPet,racasGato);
                 donoPet.adicionarPet(novo_gato);
                 lista_pets.add(novo_gato);
-                System.out.println("Gato cadastrado com sucesso!");
+                System.out.printf("Gato cadastrado com sucesso:\nNome: %s\nMatrícula:%s ", novo_gato.getNomePet(),novo_gato.getMatriculaPet());
                 break;
             }
             //Se a espécie for um Cachorro
@@ -200,7 +201,7 @@ public abstract class Pet implements CRUD {
                 Cachorro novo_cachorro = new Cachorro(nome_pet,idade_pet,donoPet,racasCachorro);
                 donoPet.adicionarPet(novo_cachorro);
                 lista_pets.add(novo_cachorro);
-                System.out.println("Cachorro cadastrado com sucesso!");
+                System.out.printf("Cahorro cadastrado com sucesso:\nNome: %s\nMatrícula:%s ", novo_cachorro.getNomePet(),novo_cachorro.getMatriculaPet());
                 break;
             }  
             //Se a espécie for Inválida
@@ -214,7 +215,8 @@ public abstract class Pet implements CRUD {
     @Override
     public String toString() {
         return
-                "Pet: " + nomePet;
+                "Pet: " + nomePet + "\n"+
+                "Matrícula: " + matriculaPet;
     }
 
 }

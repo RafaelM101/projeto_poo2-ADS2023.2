@@ -1,10 +1,8 @@
 package servicos;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.*;
 
 public class AgendaDia {
 
@@ -23,13 +21,40 @@ public class AgendaDia {
     }
     }
 
-    @Override
-    public String toString() {
-        return HoraDisponivel + "Horários Disponíveis:" + "\n";
+   public void imprimirAgenda() {
+       List<LocalTime> horariosManha = new ArrayList<>();
+       List<LocalTime> horariosTarde = new ArrayList<>();
+
+
+       for (LocalTime hora : HoraDisponivel) {
+           if (hora.isBefore(LocalTime.of(12, 30))) {
+               horariosManha.add(hora);
+           } else {
+               horariosTarde.add(hora);
+           }
+       }
+
+       System.out.println("\tHorários Disponíveis:");
+
+       System.out.print("\t\tManhã: ");
+       imprimirHorarios(horariosManha);
+
+       System.out.print("\t\tTarde: ");
+       imprimirHorarios(horariosTarde);
+
+       System.out.println();
+   }
+
+    private void imprimirHorarios(List<LocalTime> horarios) {
+        for (int i = 0; i < horarios.size(); i++) {
+            System.out.print(horarios.get(i));
+            if (i < horarios.size() - 1) {
+                System.out.print(", ");
+            }
+        }
+        System.out.println();
     }
-
-
-    public void agendarHorario(LocalTime horario, Servico servico){
+       public void agendarHorario(LocalTime horario, Servico servico){
         if(HoraDisponivel.contains(horario)){
             Agendamentos_dia.put(horario, servico);
             HoraDisponivel.remove(horario);
@@ -50,11 +75,8 @@ public class AgendaDia {
     public boolean verificarHorario(LocalTime horario){;
         return HoraDisponivel.contains(horario);
     }
-    public HashMap<LocalTime, Servico> getAgendamentos_dia() {
-        return Agendamentos_dia;
-    }
 
-    public Set<LocalTime> getHoraDisponivel() {
-        return HoraDisponivel;
+    public void removerHorario(LocalTime horarioatual){
+        HoraDisponivel.removeIf(hora -> hora.isBefore(horarioatual));
     }
 }

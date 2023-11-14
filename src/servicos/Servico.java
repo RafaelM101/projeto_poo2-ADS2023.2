@@ -110,10 +110,17 @@ public class Servico implements CRUD{
 
         }
         Pet pet_servico = Pet.consultarPet(matriculaPet);
-        System.out.println("Insira a data que será realizada o serviço: ");
+
+        System.out.println("\nDatas disponíveis para agendamentos: \n");
+        LocalDate datas = LocalDate.now();
+        for(int i=0; i<=7; i++){
+            System.out.print("| "+formatter.format(datas.plusDays(i))+ "| ");
+        }
+
+        System.out.print("\n\nInsira a data que será realizada o serviço: \n");
         String data = teclado.nextLine();
         LocalDate data_escolhida = LocalDate.parse(data, formatter);
-
+        funcionario_servico.imprimirAgendaDia(data_escolhida);
         System.out.println("Insira o horário que será realizado o serviço: ");
         String horario = teclado.next();
         teclado.nextLine();
