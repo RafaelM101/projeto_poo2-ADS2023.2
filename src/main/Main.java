@@ -5,6 +5,7 @@ import Pets.Gato;
 import Pets.Pet;
 import Tutores.Endereco;
 import Tutores.Tutor;
+import exceptions.ListaVaziaException;
 import funcionarios.Funcionario;
 import funcionarios.Veterinario;
 import servicos.Servico;
@@ -75,17 +76,28 @@ public class Main {
                     teclado.nextLine();
                     System.out.println("\n");
                     if(escolha_listar == 1) {
-                        Funcionario.listar();
+                        try{
+                            Funcionario.listar();
+                        }
+                        catch(ListaVaziaException e) {
+                            System.out.println(e.getMessage());
+                        }
                     }
                     else if(escolha_listar == 2){
-                        String matricula_consulta = teclado.nextLine();
-                        Funcionario funcionario_consulta = Funcionario.consultarFuncionario(matricula_consulta);
-                        if(funcionario_consulta instanceof Veterinario) {
-                            Veterinario vet_consulta = (Veterinario) funcionario_consulta;
-                            System.out.printf("Nome: %s\nMatricula: %s%nSalário: %.2f\nCPF: %s\nSetor: %s\nCRMV: %s\nEspecialização: %s\n",vet_consulta.getNome(), vet_consulta.getMatricula(), vet_consulta.getSalario(), vet_consulta.getCPF(), vet_consulta.getSetor(), vet_consulta.getCRMV(), vet_consulta.getEscpecializacao());
+                        try{
+                            System.out.print("Digite a matrícula do funcionário: ");
+                            String matricula_consulta = teclado.nextLine();
+                            Funcionario funcionario_consulta = Funcionario.consultarFuncionario(matricula_consulta);
+                            if(funcionario_consulta instanceof Veterinario) {
+                                Veterinario vet_consulta = (Veterinario) funcionario_consulta;
+                                System.out.printf("Nome: %s\nMatricula: %s%nSalário: %.2f\nCPF: %s\nSetor: %s\nCRMV: %s\nEspecialização: %s\n",vet_consulta.getNome(), vet_consulta.getMatricula(), vet_consulta.getSalario(), vet_consulta.getCPF(), vet_consulta.getSetor(), vet_consulta.getCRMV(), vet_consulta.getEscpecializacao());
+                            }
+                            else{
+                                System.out.printf("Nome: %s\nMatricula: %s%nSalário: %.2f\nCPF: %s\nSetor: %s\n",funcionario_consulta.getNome(), funcionario_consulta.getMatricula(), funcionario_consulta.getSalario(), funcionario_consulta.getCPF(), funcionario_consulta.getSetor());
+                            }
                         }
-                        else{
-                            System.out.printf("Nome: %s\nMatricula: %s%nSalário: %.2f\nCPF: %s\nSetor: %s\n",funcionario_consulta.getNome(), funcionario_consulta.getMatricula(), funcionario_consulta.getSalario(), funcionario_consulta.getCPF(), funcionario_consulta.getSetor());
+                        catch(NullPointerException e ){
+                            System.out.println("Nenhum funcionario encontrado!");
                         }
                     }
                     break;
@@ -93,12 +105,16 @@ public class Main {
                     Funcionario.atualizar();
                     break;
                 case 4:
-                    Funcionario.deletar();
+                    try{
+                        Funcionario.deletar();
+                    }
+                    catch(ListaVaziaException e) {
+                        System.out.println(e.getMessage());
+                    }
                     break;
                 case 5:
                     return;
                 default:
-                    //possível exception
                     System.out.println("Opção inválida");
                     break;
             }
