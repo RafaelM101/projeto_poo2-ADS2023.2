@@ -192,7 +192,12 @@ public class Main {
                     teclado.nextLine();
                     break;
                 } case 2: {
-                    Tutor.listar();
+                    try {
+                        Tutor.listar();
+                    }
+                    catch (ListaVaziaException e) {
+                        System.out.println(e.getMessage());
+                    }
                     System.out.println("Pressione enter para voltar ao menu MODULO DE GERENCIAMENTO DE TUTOR...");
                     teclado.nextLine();
                     break;
@@ -265,7 +270,12 @@ public class Main {
                     teclado.nextLine();
                     break;
                 } case 4: {
-                    Pet.listar();
+                    try {
+                        Pet.listar();
+                    }
+                    catch (ListaVaziaException e) {
+                        System.out.println(e.getMessage());
+                    }
                     System.out.println("Pressione enter para voltar ao menu do MODULO DE GERENCIAMENTO DE PET...");
                     teclado.nextLine();
                     break; 
