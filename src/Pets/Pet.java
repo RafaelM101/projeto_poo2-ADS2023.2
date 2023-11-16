@@ -7,6 +7,7 @@ import components.Matricula;
 import components.RacasCachorro;
 import components.RacasGato;
 import components.TipoEntidade;
+import exceptions.ListaVaziaException;
 
 public abstract class Pet implements CRUD {
     protected String nomePet;
@@ -21,35 +22,22 @@ public abstract class Pet implements CRUD {
         this.idadePet = idadePet;
         this.donoPet = donoPet;
     }
-    
+    //GETTERS AND SETTERS
     public String getNomePet() {
         return nomePet;
     }
-    
-    public void setNomePet(String nomePet) {
-        this.nomePet = nomePet;
-    }
-    
     public String getMatriculaPet() {
         return matriculaPet.numero_matricula;
     }
-    
-    public void setMatriculaPet(Matricula matriculaPet) {
-        this.matriculaPet = matriculaPet;
-    }
-
     public Integer getIdadePet() {
         return idadePet;
     }
-    
     public void setIdadePet(Integer idadePet) {
         this.idadePet = idadePet;
     }
-    
     public Tutor getDonoPet() {
         return donoPet;
     }
-
     public void setDonoPet(Tutor donoPet) {
         this.donoPet = donoPet;
     }
@@ -62,10 +50,15 @@ public abstract class Pet implements CRUD {
         return null;
     }
     //Lista os Pets pelo nome
-    public static void listar() {
-        for(Pet pet : lista_pets) {
-            System.out.println("\nNome do Pet: " + pet.getNomePet());
-            System.out.println("Matrícula: " + pet.getMatriculaPet());
+    public static void listar() throws ListaVaziaException{
+        if (lista_pets.size() < 1) {
+            throw new ListaVaziaException("Nenhum pet cadastrado");
+        }
+        else {
+            for(Pet pet : lista_pets) {
+                System.out.println("\nNome do Pet: " + pet.getNomePet());
+                System.out.println("Matrícula: " + pet.getMatriculaPet());
+            }
         }
     }
     //Atualiza o cadastro(Idade) de um Pet
