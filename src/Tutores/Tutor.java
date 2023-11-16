@@ -3,6 +3,7 @@ package Tutores;
 import java.util.ArrayList;
 import Pets.Pet;
 import components.CRUD;
+import exceptions.ListaVaziaException;
 
 public class Tutor implements CRUD {
     private String nomeTutor;
@@ -29,9 +30,6 @@ public class Tutor implements CRUD {
     }
     public String getCPF_Tutor() {
         return cpf_Tutor;
-    }
-    public void setCPF_Tutor(String cPF_Tutor) {
-        cpf_Tutor = cPF_Tutor;
     }
     public String getTelefoneTutor() {
         return telefoneTutor;
@@ -79,15 +77,18 @@ public class Tutor implements CRUD {
         System.out.println("Tutor cadastrado com sucesso!");
     }
     
-    public static void listar() {
-        for (Tutor tutor : lista_tutores ) {
-            System.out.println("Nome: " + tutor.getNomeTutor() +
-            "\nCPF: " + tutor.getCPF_Tutor() );
-            System.out.println("Pets: ");
-            for (Pet pet : tutor.pets){
-                System.out.println(" "+pet.getNomePet()+" "+pet.getMatriculaPet());
+    public static void listar() throws ListaVaziaException {
+        if (lista_tutores.size() < 1) {
+            throw new ListaVaziaException("Nenhum tutor cadastrado.");
+        } else {
+            for (Tutor tutor : lista_tutores ) {
+                System.out.println("Nome: " + tutor.getNomeTutor() +
+                "\nCPF: " + tutor.getCPF_Tutor() );
+                System.out.println("Pets: ");
+                for (Pet pet : tutor.pets){
+                    System.out.println(" "+pet.getNomePet()+" "+pet.getMatriculaPet());
+                }
             }
-
         }
     }
     
