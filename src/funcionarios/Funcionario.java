@@ -94,7 +94,7 @@ public class Funcionario implements CRUD{
 				System.out.printf("Matrícula do Funcionário %s: %s%n", nome, func.getMatricula());;
 				lista_funcionarios.add(func);
 			} else if (escolha==2) {
-				setor =Setores.CLINICA_VET;
+				setor = Setores.CLINICA_VET;
 				System.out.println("Insira o CRMV do Veterinário: ");
 				String crmv = teclado.nextLine();
 				System.out.println("Escolha a Especialização do Veterinário:\n 1 - CLINICO,\n" +
@@ -139,7 +139,10 @@ public class Funcionario implements CRUD{
 		
 	}
 
-	public static void atualizar() {
+	public static void atualizar() throws ListaVaziaException{
+		if(lista_funcionarios.size() < 1) {
+			throw new ListaVaziaException("Nenhum funcionario cadastrado!");
+		}
 		System.out.print("Digite a matrícula do funcionário que deseja atualizar os dados: ");
 		String matFuncionarioAtt = teclado.nextLine();
 		for(Funcionario funcionario: lista_funcionarios){
@@ -147,7 +150,6 @@ public class Funcionario implements CRUD{
 				System.out.printf("Digite novo salário do funcionário %s: ", funcionario.nome);
 				double novoSalario = teclado.nextDouble();
 				teclado.nextLine();
-				//Implementar um bloco try-catch posteriormente
 				funcionario.setSalario(novoSalario);
 				System.out.println("Salário atualizado com sucesso!");
 				break;				
