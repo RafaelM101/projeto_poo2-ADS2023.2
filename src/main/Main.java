@@ -102,7 +102,11 @@ public class Main {
                     }
                     break;
                 case 3:
-                    Funcionario.atualizar();
+                    try {
+                        Funcionario.atualizar();
+                    } catch (ListaVaziaException e) {
+                        System.out.println(e.getMessage());
+                    }
                     break;
                 case 4:
                     try{
