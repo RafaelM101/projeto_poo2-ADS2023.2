@@ -8,7 +8,7 @@ import exceptions.CpfInvalidoException;
 public class Validar {
     //regex valida cpf
     private static String regexCpf = "^\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}$";
-    //cria o patter pra usar o regex
+    //cria o pattern pra usar o regex
     static Pattern pattern = Pattern.compile(regexCpf);
     //faz a operação
     static Matcher matcher;
