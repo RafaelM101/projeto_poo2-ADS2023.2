@@ -3,8 +3,9 @@ package Tutores;
 import java.util.ArrayList;
 import Pets.Pet;
 import components.CRUD;
+import exceptions.CpfInvalidoException;
 import exceptions.ListaVaziaException;
-
+import components.Validar;
 public class Tutor implements CRUD {
     private String nomeTutor;
     private String cpf_Tutor;
@@ -57,8 +58,20 @@ public class Tutor implements CRUD {
         System.out.println("\n| Cadastro de Tutor |\n");
         System.out.print("Digite o nome do Tutor: ");
         String nome = teclado.nextLine();
-        System.out.print("Digite o CPF do Tutor: ");
-        String cpf = teclado.nextLine();
+        String cpf;
+        while(true){
+            try{
+                System.out.print("Digite o CPF do Tutor: ");
+                String cpfValidando = teclado.nextLine();
+                if(Validar.validarCPF(cpfValidando)) {
+                    cpf = cpfValidando;
+                    break; 
+                }
+            }
+            catch(CpfInvalidoException e){
+                System.out.println(e.getMessage());
+            }
+        }
         System.out.print("Digite o telefone do Tutor: ");
         String telefone = teclado.nextLine();
         System.out.print("Digite o email do Tutor: ");

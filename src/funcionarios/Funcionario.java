@@ -10,7 +10,9 @@ import exceptions.ListaVaziaException;
 import servicos.AgendaDia;
 import servicos.Servico;
 
-public class Funcionario implements CRUD{
+import static main.Main.LimparTela;
+
+public class Funcionario implements CRUD, Terminal{
 	protected Matricula matricula;
 	protected Double salario;
 	protected String CPF;
@@ -70,31 +72,45 @@ public class Funcionario implements CRUD{
 	public void setSetor(Setores setor) {
 		this.setor = setor;
 	}
-	
+
+
+	@Override
+	public String toString() {
+		return 	"\t" + AZUL +"Nome: " + RESETAR + MAGENTA + nome + RESETAR + "\n" +
+				"\t" +AZUL +"Matrícula: " + RESETAR + MAGENTA + matricula.numero_matricula + RESETAR +"\n" +
+				"\t" +AZUL +"Salário: " + RESETAR + MAGENTA + salario + RESETAR +"\n" +
+				"\t" +AZUL +"CPF: " + RESETAR + MAGENTA + CPF + RESETAR +"\n" +
+				"\t" +AZUL +"Nome: " +RESETAR + MAGENTA + nome + RESETAR +"\n" +
+				"\t" +AZUL +"Setor: " + RESETAR + MAGENTA + setor + RESETAR +"\n\n";
+	}
+
 	public static void cadastrar() {
 		try{
-			System.out.print("Digite nome do funcionário: ");
+			System.out.println(MAGENTA + NEGRITO + "\n| Cadastro de Funcionários |\n\n"+ RESETAR);
+			System.out.print(AZUL + "Digite nome do funcionário: " + RESETAR);
 			String nome = teclado.nextLine();
-			System.out.print("Digite o sobrenome do funcionário: ");
+			System.out.print(AZUL + "Digite o sobrenome do funcionário: " +RESETAR);
 			String sobrenome = teclado.next();
 			nome += " "+sobrenome;
 			teclado.nextLine();
-			System.out.print("Digite o salário do funcionário: ");
+			System.out.print(AZUL + "Digite o salário do funcionário: " + RESETAR);
 			Double salario = teclado.nextDouble();
 			teclado.nextLine();
-			System.out.print("Digite o CPF do funcionário: ");
+			System.out.print(AZUL + "Digite o CPF do funcionário: " + RESETAR) ;
 			String CPF = teclado.nextLine();
-			System.out.print("Escolha o setor do funcionário:\nDigite 1 PARA SERVICOS_GERAIS ou 2 PARA CLINICA_VET : ");
+			System.out.print(AZUL + "\t\t\tEscolha o setor do funcionário:\nDigite 1 PARA SERVICOS_GERAIS ou 2 PARA CLINICA_VET : "+ RESETAR);
 			Integer escolha = teclado.nextInt();
 			teclado.nextLine();
 			Setores setor = null;
 			if(escolha==1){
 				setor = Setores.SERVICOS_GERAIS;
 				Funcionario func = new Funcionario(salario, CPF, nome, setor);
-				System.out.printf("Matrícula do Funcionário %s: %s%n", nome, func.getMatricula());;
+				System.out.println(MAGENTA + NEGRITO +"\nFuncionário cadastrado!\nDados:" + RESETAR);
+				System.out.printf(func.toString());
+				LimparTela();
 				lista_funcionarios.add(func);
 			} else if (escolha==2) {
-				setor =Setores.CLINICA_VET;
+				setor = Setores.CLINICA_VET;
 				System.out.println("Insira o CRMV do Veterinário: ");
 				String crmv = teclado.nextLine();
 				System.out.println("Escolha a Especialização do Veterinário:\n 1 - CLINICO,\n" +
@@ -139,7 +155,10 @@ public class Funcionario implements CRUD{
 		
 	}
 
-	public static void atualizar() {
+	public static void atualizar() throws ListaVaziaException{
+		if(lista_funcionarios.size() < 1) {
+			throw new ListaVaziaException("Nenhum funcionario cadastrado!");
+		}
 		System.out.print("Digite a matrícula do funcionário que deseja atualizar os dados: ");
 		String matFuncionarioAtt = teclado.nextLine();
 		for(Funcionario funcionario: lista_funcionarios){
@@ -147,7 +166,6 @@ public class Funcionario implements CRUD{
 				System.out.printf("Digite novo salário do funcionário %s: ", funcionario.nome);
 				double novoSalario = teclado.nextDouble();
 				teclado.nextLine();
-				//Implementar um bloco try-catch posteriormente
 				funcionario.setSalario(novoSalario);
 				System.out.println("Salário atualizado com sucesso!");
 				break;				

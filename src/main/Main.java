@@ -5,6 +5,7 @@ import Pets.Gato;
 import Pets.Pet;
 import Tutores.Endereco;
 import Tutores.Tutor;
+import components.Terminal;
 import exceptions.ListaVaziaException;
 import funcionarios.Funcionario;
 import funcionarios.Veterinario;
@@ -12,32 +13,42 @@ import servicos.Servico;
 
 import java.util.Scanner;
 
-public class Main {
+public class Main implements Terminal {
     public static Scanner teclado = new Scanner(System.in);
+
+    public static void LimparTela(){
+        String linha = "-".repeat(100);
+        System.out.println(CYAN + linha + RESETAR);
+        System.out.println(CYAN + linha + RESETAR);
+    }
     public static void menu_Principal() {
         while (true) {
-            System.out.println("\t\t\tSISTEMA DE GERENCIAMENTO AMIGOPET");
-            System.out.println("Escolha o módulo que deseja acessar: ");
-            System.out.print("""
-                    1 - MODULO DE GERENCIAMENTO DE FUNCIONÁRIOS
-                    2 - MODULO DE GERENCIAMENTO DE TUTORES
-                    3 - MODULO DE AGENDAMENTO DE SERVIÇOS
-                    4 - MODULO DE GERENCIAMENTO DE PETS
-                    5 - FINALIZAR PROGRAMA
-                    DIGITE A OPÇÃO ESCOLHIDA:  """);
+            LimparTela();
+            System.out.println(NEGRITO + VERDE + "\t\t\tSISTEMA DE GERENCIAMENTO AMIGOPET" + RESETAR);
+            System.out.println(NEGRITO + AMARELO +"Escolha o módulo que deseja acessar:"+RESETAR);
+            System.out.print(NEGRITO + CYAN + "1 - MODULO DE GERENCIAMENTO DE FUNCIONÁRIOS\n" + RESETAR);
+            System.out.print(NEGRITO + CYAN + "2 - MODULO DE GERENCIAMENTO DE TUTORES\n" + RESETAR);
+            System.out.print(NEGRITO + CYAN + "3 - MODULO DE AGENDAMENTO DE SERVIÇOS\n" + RESETAR);
+            System.out.print(NEGRITO + CYAN + "4 - MODULO DE GERENCIAMENTO DE PETS\n" + RESETAR);
+            System.out.print(NEGRITO + CYAN + "5 - FINALIZAR PROGRAMA\n" + RESETAR);
+            System.out.print(NEGRITO + AMARELO +"DIGITE A OPÇÃO ESCOLHIDA:" + RESETAR);
             int escolha_user = teclado.nextInt();
             teclado.nextLine();
             switch (escolha_user) {
                 case 1:
+                    LimparTela();
                     menu_Funcionario();
                     break;
                 case 2:
+                    LimparTela();
                     menu_Tutor();
                     break;
                 case 3:
+                    LimparTela();
                     Menu_AgendarServico();
                     break;
                 case 4:
+                    LimparTela();
                     menu_Pet();
                     break;
                 default:
@@ -47,17 +58,14 @@ public class Main {
     }
     public static void menu_Funcionario(){
         while (true) {
-            System.out.println("");
-            System.out.println("\t\t\tMÓDULO DE GERENCIAMENTO DE FUNCIONÁRIOS");
-            System.out.println("Escolha a ação que deseja realizar: ");
-            System.out.println("");
-            System.out.print("""
-                    1 - Cadastrar um novo funcionário.
-                    2 - Listar funcionarios.
-                    3 - Atualizar salário de um funcionário.
-                    4 - Demitir um funcionário.
-                    5 - Voltar ao menu principal.
-                    DIGITE A OPÇÃO ESCOLHIDA:""");
+            System.out.println(AZUL + NEGRITO +"\t\t\tMÓDULO DE GERENCIAMENTO DE FUNCIONÁRIOS" + RESETAR);
+            System.out.println(AMARELO + NEGRITO + "Escolha a ação que deseja realizar: " + RESETAR);
+            System.out.println(MAGENTA + NEGRITO + "1 - Cadastrar um novo funcionário." + RESETAR);
+            System.out.println(MAGENTA + NEGRITO + "2 - Listar funcionários." + RESETAR);
+            System.out.println(MAGENTA + NEGRITO + "3 - Atualizar salário de um funcionário." + RESETAR);
+            System.out.println(MAGENTA + NEGRITO + "4 - Demitir um funcionário." + RESETAR);
+            System.out.println(MAGENTA + NEGRITO + "5 - Voltar ao menu principal." + RESETAR);
+            System.out.print(AMARELO + NEGRITO +"DIGITE A OPÇÃO ESCOLHIDA: " + RESETAR);
             int escolha_user = teclado.nextInt();
             teclado.nextLine();
             System.out.println("");
@@ -65,9 +73,11 @@ public class Main {
                 case 6:
                     return;
                 case 1:
+                    LimparTela();
                     Funcionario.cadastrar();
                     break;
                 case 2:
+                    LimparTela();
                     System.out.print("""
                             Digite 1 para exibir todos os funcionários.
                             Digite 2 para exibir por matrícula.
@@ -102,10 +112,16 @@ public class Main {
                     }
                     break;
                 case 3:
-                    Funcionario.atualizar();
+                    try {
+                        LimparTela();
+                        Funcionario.atualizar();
+                    } catch (ListaVaziaException e) {
+                        System.out.println(e.getMessage());
+                    }
                     break;
                 case 4:
                     try{
+                        LimparTela();
                         Funcionario.deletar();
                     }
                     catch(ListaVaziaException e) {
@@ -123,42 +139,41 @@ public class Main {
 
     public static void Menu_AgendarServico(){
         while(true){
-            System.out.println("MÓDULO DE AGENDAMENTO DE SERVIÇOS");
-            System.out.println("Digite a opção desejada: ");
-            System.out.print("""
-                    1 - Cadastrar um novo agendamento.
-                    2 - Remarcar/Alterar um agendamento.
-                    3 - Desmarcar um agendamento.
-                    4 - Listar todos os agendamentos.
-                    5 - Exibir Agenda de um Funcionário específico.
-                    6 - Voltar ao menu inicial.
-                    DIGITE A OPÇÃO ESCOLHIDA:\s""");
+            System.out.println(NEGRITO + VERMELHO + "\t\t\tMÓDULO DE AGENDAMENTO DE SERVIÇOS" + RESETAR);
+            System.out.println(NEGRITO + AMARELO + "Digite a opção desejada: " + RESETAR);
+            System.out.println(NEGRITO + AZUL + "1 - Cadastrar um novo agendamento." + RESETAR);
+            System.out.println(NEGRITO + AZUL + "2 - Remarcar/Alterar um agendamento." + RESETAR);
+            System.out.println(NEGRITO + AZUL + "3 - Desmarcar um agendamento." + RESETAR);
+            System.out.println(NEGRITO + AZUL +"4 - Listar todos os agendamentos."+ RESETAR);
+            System.out.println(NEGRITO + AZUL + "5 - Exibir Agenda de um Funcionário específico." + RESETAR);
+            System.out.println(NEGRITO + AZUL + "6 - Voltar ao menu inicial." + RESETAR);
+            System.out.print(NEGRITO + AMARELO + "DIGITE A OPÇÃO ESCOLHIDA: " + RESETAR);
             int escolha_user = teclado.nextInt();
             teclado.nextLine();
             switch (escolha_user){
                 case 1:
                     Servico.cadastrar();
-                    System.out.println("Pressione enter para voltar ao menu do MODULO DE AGENDAMENTO DE SERVIÇOS...");
+                    System.out.println(FUNDO_CYAN + PRETO + "Pressione enter para voltar ao menu do MODULO DE AGENDAMENTO DE SERVIÇOS..." + RESETAR);
                     teclado.nextLine();
                     break;
                 case 2:
                     Servico.atualizar();
-                    System.out.println("Pressione enter para voltar ao menu MODULO DE AGENDAMENTO DE SERVIÇOS...");
+                    System.out.println(FUNDO_CYAN + PRETO + "Pressione enter para voltar ao menu do MODULO DE AGENDAMENTO DE SERVIÇOS..." + RESETAR);
                     teclado.nextLine();
                     break;
                 case 3:
                     Servico.deletar();
-                    System.out.println("Pressione enter para voltar ao menu do MODULO DE AGENDAMENTO DE SERVIÇOS...");
+                    System.out.println(FUNDO_CYAN + PRETO + "Pressione enter para voltar ao menu do MODULO DE AGENDAMENTO DE SERVIÇOS..." + RESETAR);
                     teclado.nextLine();
                     break;
                 case 4:
                     Servico.listar();
-                    System.out.println("Pressione enter para voltar ao menu do MODULO DE AGENDAMENTO DE SERVIÇOS...");
+                    System.out.println(FUNDO_CYAN + PRETO + "Pressione enter para voltar ao menu do MODULO DE AGENDAMENTO DE SERVIÇOS..." + RESETAR);
                     teclado.nextLine();
 
                     break;
                 case 5:
-                    System.out.println("Digite a matrícula do funcionário desejado:");
+                    System.out.println("Digite a matrícula do funcionário desejado: ");
                     String matricula_func = teclado.nextLine().strip();
                     Funcionario funcionario_agenda = Funcionario.consultarFuncionario(matricula_func);
                     funcionario_agenda.listarAgenda();

@@ -2,6 +2,7 @@ package servicos;
 
 import Pets.Pet;
 import components.CRUD;
+import components.Terminal;
 import funcionarios.Funcionario;
 import funcionarios.Veterinario;
 
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 
-public class Servico implements CRUD{
+public class Servico implements CRUD, Terminal {
 
     private Funcionario nome_funcionario;
     private Float preco;
@@ -55,83 +56,87 @@ public class Servico implements CRUD{
 
     @Override
     public String toString() {
-        return  "Data: " + data_servico + "\n" +
-                "Horário: " + hora_servico + "\n" +
-                "Funcionário:" + nome_funcionario.getNome() + "\n" +
-                "Tipo do serviço: " + tipo_agendamento + "\n" +
-                "Preço: R$" + preco + "\n" +
-                "Nome do pet: "+ pet_agendamento.getNomePet() + "\n";
+        return  VERMELHO + "Data: " + data_servico + "\n" + RESETAR +
+                VERMELHO + "Horário: " + hora_servico + "\n" + RESETAR +
+                CYAN + "Funcionário:" + nome_funcionario.getNome() + "\n" + RESETAR +
+                VERDE + "Tipo do serviço: " + tipo_agendamento + "\n" + RESETAR +
+                VERDE + "Preço: R$" + preco + "\n" + RESETAR +
+                VERDE + "Nome do pet: "+ pet_agendamento.getNomePet() + "\n" + RESETAR;
 
     }
 
     public static void cadastrar() {
-
-        System.out.println("Insira o tipo do serviço que será realizado: BANHO, TOSA ou CONSULTA:");
-        String servico = teclado.nextLine().toUpperCase();
-        ListaServicos tipo_servico;
-        float preco_servico;
-        if (servico.equals(ListaServicos.BANHO.toString())) {
-            tipo_servico = ListaServicos.BANHO;
-            preco_servico = 45.00f;
-        } else if (servico.equals(ListaServicos.CONSULTA.toString())) {
-            tipo_servico = ListaServicos.CONSULTA;
-            preco_servico = 90.00f;
-        } else if (servico.equals(ListaServicos.TOSA.toString())) {
-            tipo_servico = ListaServicos.TOSA;
-            preco_servico = 60.00f;
-        } else {
-            System.out.println("Serviço não encontrado.");
-            return;
-        }
-
-        System.out.println("Insira a matrícula do Funcionário que irá realizar esse serviço: ");
-        String matricula = teclado.nextLine();
-        if (Funcionario.consultarFuncionario(matricula)==null) {
-            System.out.println("Funcionário não encontrado.");
-            return;
-        }
-        Funcionario funcionario_servico = Funcionario.consultarFuncionario(matricula);
-        if(tipo_servico!=ListaServicos.CONSULTA && funcionario_servico instanceof Veterinario){
-            System.out.println("Veterinários não podem realizar outros serviços além de consultas.");
-            return;
-        }
-        if (tipo_servico.equals(ListaServicos.CONSULTA)) {
-            if (!(funcionario_servico instanceof Veterinario)) {
-                System.out.println("Apenas veterinários podem realizar consultas.");
+        //try {
+            System.out.print("Escolha o tipo do serviço que será realizado:\n 1 - BANHO\n2 - TOSA\n3 - CONSULTA:");
+            int servico = teclado.nextInt();
+            teclado.nextLine();
+            ListaServicos tipo_servico;
+            float preco_servico;
+            if (servico == 1) {
+                tipo_servico = ListaServicos.BANHO;
+                preco_servico = 45.00f;
+            } else if (servico == 2) {
+                tipo_servico = ListaServicos.CONSULTA;
+                preco_servico = 90.00f;
+            } else if (servico == 3) {
+                tipo_servico = ListaServicos.TOSA;
+                preco_servico = 60.00f;
+            } else {
+                System.out.println("Serviço não encontrado.");
                 return;
             }
+
+            System.out.println("Insira a matrícula do Funcionário que irá realizar esse serviço: ");
+            String matricula = teclado.nextLine();
+            if (Funcionario.consultarFuncionario(matricula) == null) {
+                System.out.println("Funcionário não encontrado.");
+                return;
+            }
+            Funcionario funcionario_servico = Funcionario.consultarFuncionario(matricula);
+            if (tipo_servico != ListaServicos.CONSULTA && funcionario_servico instanceof Veterinario) {
+                System.out.println("Veterinários não podem realizar outros serviços além de consultas.");
+                return;
+            }
+            if (tipo_servico.equals(ListaServicos.CONSULTA)) {
+                if (!(funcionario_servico instanceof Veterinario)) {
+                    System.out.println("Apenas veterinários podem realizar consultas.");
+                    return;
+                }
+            }
+            System.out.println("Insira a matrícula do Pet que irá receber esse serviço: ");
+            String matriculaPet = teclado.next();
+            teclado.nextLine();
+            if (Pet.consultarPet(matriculaPet) == null) {
+                System.out.println("Pet não encontrado.");
+                return;
+
+            }
+            Pet pet_servico = Pet.consultarPet(matriculaPet);
+
+            System.out.println("\nDatas disponíveis para agendamentos: \n");
+            LocalDate datas = LocalDate.now();
+            for (int i = 0; i <= 7; i++) {
+                System.out.print("| " + formatter.format(datas.plusDays(i)) + "| ");
+            }
+
+            System.out.print("\n\nInsira a data que será realizada o serviço: \n");
+            String data = teclado.nextLine();
+            LocalDate data_escolhida = LocalDate.parse(data, formatter);
+            funcionario_servico.imprimirAgendaDia(data_escolhida);
+            System.out.println("Insira o horário que será realizado o serviço: ");
+            String horario = teclado.next();
+            teclado.nextLine();
+            LocalTime horario_escolhido = LocalTime.parse(horario);
+
+            Servico novo_servico = new Servico(funcionario_servico, preco_servico, tipo_servico, pet_servico);
+            novo_servico.setData_servico(data_escolhida);
+            novo_servico.setHora_servico(horario_escolhido);
+            lista_servicos.add(novo_servico);
+            funcionario_servico.agendarHorario(novo_servico);
+            System.out.println(novo_servico);
         }
-        System.out.println("Insira a matrícula do Pet que irá receber esse serviço: ");
-        String matriculaPet = teclado.next();
-        teclado.nextLine();
-        if (Pet.consultarPet(matriculaPet) == null) {
-            System.out.println("Pet não encontrado.");
-            return;
+        //catch (){}
 
-        }
-        Pet pet_servico = Pet.consultarPet(matriculaPet);
-
-        System.out.println("\nDatas disponíveis para agendamentos: \n");
-        LocalDate datas = LocalDate.now();
-        for(int i=0; i<=7; i++){
-            System.out.print("| "+formatter.format(datas.plusDays(i))+ "| ");
-        }
-
-        System.out.print("\n\nInsira a data que será realizada o serviço: \n");
-        String data = teclado.nextLine();
-        LocalDate data_escolhida = LocalDate.parse(data, formatter);
-        funcionario_servico.imprimirAgendaDia(data_escolhida);
-        System.out.println("Insira o horário que será realizado o serviço: ");
-        String horario = teclado.next();
-        teclado.nextLine();
-        LocalTime horario_escolhido = LocalTime.parse(horario);
-
-        Servico novo_servico = new Servico(funcionario_servico, preco_servico, tipo_servico, pet_servico);
-        novo_servico.setData_servico(data_escolhida);
-        novo_servico.setHora_servico(horario_escolhido);
-        lista_servicos.add(novo_servico);
-        funcionario_servico.agendarHorario(novo_servico);
-    }
 
     public static void listar() {
         System.out.println("Deseja listar por data específica?:  DIGITE S ou N");
@@ -168,12 +173,10 @@ public class Servico implements CRUD{
         Servico servico_atualizar = Servico.ConsultarServico(data, horario);
         Funcionario funcionario = servico_atualizar.getNome_funcionario();
         while (true) {
-            System.out.print("Digite o campo que deseja mudar:\n DATA, HORARIO, TIPO ou FUNCIONARIO:");
-            String option = teclado.nextLine().strip();
-            switch (option.toUpperCase()) {
-                case "SAIR":
-                    return;
-                case "DATA":
+            System.out.print("Digite o campo que deseja mudar:\n1- DATA\n2 - HORARIO\n 3 - TIPO\n4 - FUNCIONARIO:");
+            int option = teclado.nextInt();
+            switch (option) {
+                case 1:
                     System.out.println("Digite a nova DATA do serviço: ");
                     String data_nova = teclado.nextLine().strip();
                     servico_atualizar.setData_servico(LocalDate.parse(data_nova, formatter));
@@ -181,7 +184,7 @@ public class Servico implements CRUD{
                     if(funcionario.verificarHorario(servico_atualizar.getData_servico(),servico_atualizar.getHora_servico())){
                         funcionario.agendarHorario(servico_atualizar);}
                     break;
-                case "HORARIO":
+                case 2:
                     funcionario.desmarcarHorario(servico_atualizar);
                     System.out.println("Digite o novo HORARIO do serviço: ");
                     String horario_novo = teclado.nextLine().strip();
@@ -190,7 +193,7 @@ public class Servico implements CRUD{
                         funcionario.agendarHorario(servico_atualizar);
                     }
                     break;
-                case "TIPO":
+                case 3:
                     System.out.println("Digite o novo TIPO do serviço: \nBANHO, TOSA, CONSULTA:");
                     String novo_tipo = teclado.next().strip().toUpperCase();
                     novo_tipo= novo_tipo.toUpperCase();
@@ -216,7 +219,7 @@ public class Servico implements CRUD{
                                 funcionario.agendarHorario(servico_atualizar);
                                 break;}
                     }
-                case "FUNCIONARIO":
+                case 4:
                     funcionario.desmarcarHorario(servico_atualizar);
                     System.out.println("Insira a matrícula do novo funcionário: ");
                     String matricula_funcionario = teclado.next().strip();
@@ -232,11 +235,9 @@ public class Servico implements CRUD{
                         novo_funcionario.agendarHorario(servico_atualizar);
                         break;
                     }
-
-
                 default:
                     System.out.println("Opção não existe!");
-                    break;}
+                    return;}
 
 
             System.out.println("Caso não precise fazer mais nenhuma alteração digite sair...");
