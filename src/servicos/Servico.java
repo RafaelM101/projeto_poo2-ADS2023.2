@@ -3,6 +3,7 @@ package servicos;
 import Pets.Pet;
 import components.CRUD;
 import components.Terminal;
+import exceptions.ListaVaziaException;
 import funcionarios.Funcionario;
 import funcionarios.Veterinario;
 
@@ -23,7 +24,7 @@ public class Servico implements CRUD, Terminal {
 
     private LocalTime hora_servico;
 
-    private static ArrayList<Servico> lista_servicos = new ArrayList<>();
+    public static ArrayList<Servico> lista_servicos = new ArrayList<>();
 
 
     public Servico(Funcionario nome_funcionario, Float preco, ListaServicos tipo_agendamento, Pet pet_agendamento) {
@@ -56,12 +57,12 @@ public class Servico implements CRUD, Terminal {
 
     @Override
     public String toString() {
-        return  VERMELHO + "Data: " + data_servico + "\n" + RESETAR +
-                VERMELHO + "Horário: " + hora_servico + "\n" + RESETAR +
-                CYAN + "Funcionário:" + nome_funcionario.getNome() + "\n" + RESETAR +
-                VERDE + "Tipo do serviço: " + tipo_agendamento + "\n" + RESETAR +
-                VERDE + "Preço: R$" + preco + "\n" + RESETAR +
-                VERDE + "Nome do pet: "+ pet_agendamento.getNomePet() + "\n" + RESETAR;
+        return  VERMELHO + "Data: "+ RESETAR  + formatter.format(data_servico) + "\n" + RESETAR +
+                VERMELHO + "Horário: " + RESETAR + hora_servico + "\n" + RESETAR +
+                CYAN + "Funcionário:" + RESETAR + nome_funcionario.getNome() + "\n" + RESETAR +
+                VERDE + "Tipo do serviço: " + RESETAR + tipo_agendamento + "\n" + RESETAR +
+                VERDE + "Preço: " + RESETAR + "R$" + preco + "\n" + RESETAR +
+                VERDE + "Nome do pet: "+ RESETAR + pet_agendamento.getNomePet() + "\n" + RESETAR;
 
     }
 
@@ -114,11 +115,7 @@ public class Servico implements CRUD, Terminal {
             Pet pet_servico = Pet.consultarPet(matriculaPet);
 
             System.out.println("\nDatas disponíveis para agendamentos: \n");
-            LocalDate datas = LocalDate.now();
-            for (int i = 0; i <= 7; i++) {
-                System.out.print("| " + formatter.format(datas.plusDays(i)) + "| ");
-            }
-
+            Servico.imprimirDatas();
             System.out.print("\n\nInsira a data que será realizada o serviço: \n");
             String data = teclado.nextLine();
             LocalDate data_escolhida = LocalDate.parse(data, formatter);
@@ -138,7 +135,10 @@ public class Servico implements CRUD, Terminal {
         //catch (){}
 
 
-    public static void listar() {
+    public static void listar() throws ListaVaziaException {
+        if(lista_servicos.size()<1){
+            throw new ListaVaziaException("Não há nenhum serviço agendado.");
+        }
         System.out.println("Deseja listar por data específica?:  DIGITE S ou N");
         String option = teclado.next().toUpperCase().strip();
         teclado.nextLine();
@@ -273,5 +273,11 @@ public class Servico implements CRUD, Terminal {
         }
         return null;
     }
-}
+    public static void imprimirDatas() {
+        LocalDate datas = LocalDate.now();
+        for (int i = 0; i <= 7; i++) {
+            System.out.print("| " + formatter.format(datas.plusDays(i)) + "| ");
+        }
+    }
+    }
 
