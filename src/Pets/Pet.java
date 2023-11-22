@@ -135,7 +135,7 @@ public abstract class Pet implements CRUD {
         System.out.print("Digite a idade do Pet: ");
         Integer idade_pet = teclado.nextInt();
         teclado.nextLine();
-        System.out.println("Escolha a espécie do Pet: \n1- GATO \n2- CACHORRO\n: ");
+        System.out.print("Escolha a espécie do Pet: \n1- GATO \n2- CACHORRO\n: ");
         Integer escolhaTipoPet = teclado.nextInt();
         teclado.nextLine();
         switch (escolhaTipoPet) {
@@ -173,7 +173,7 @@ public abstract class Pet implements CRUD {
                 Gato novo_gato = new Gato(nome_pet,idade_pet,donoPet,racasGato);
                 donoPet.adicionarPet(novo_gato);
                 lista_pets.add(novo_gato);
-                System.out.printf("Gato cadastrado com sucesso:\nNome: %s\nMatrícula:%s ", novo_gato.getNomePet(),novo_gato.getMatriculaPet());
+                System.out.printf("Gato cadastrado com sucesso:\nNome: %s\nMatrícula: %s\n", novo_gato.getNomePet(),novo_gato.getMatriculaPet());
                 break;
             }
             //Se a espécie for um Cachorro
@@ -210,7 +210,7 @@ public abstract class Pet implements CRUD {
                 Cachorro novo_cachorro = new Cachorro(nome_pet,idade_pet,donoPet,racasCachorro);
                 donoPet.adicionarPet(novo_cachorro);
                 lista_pets.add(novo_cachorro);
-                System.out.printf("Cahorro cadastrado com sucesso:\nNome: %s\nMatrícula:%s ", novo_cachorro.getNomePet(),novo_cachorro.getMatriculaPet());
+                System.out.printf("Cahorro cadastrado com sucesso:\nNome: %s\nMatrícula: %s\n", novo_cachorro.getNomePet(),novo_cachorro.getMatriculaPet());
                 break;
             }  
             //Se a espécie for Inválida
@@ -220,7 +220,6 @@ public abstract class Pet implements CRUD {
             }
         }
     }
-    
     //Atribuir Pet a um Tutor
     public static void atribuirPet_Tutor () {
         System.out.print("Insira o CPF do Tutor que o Pet será atribuído: ");
@@ -242,7 +241,6 @@ public abstract class Pet implements CRUD {
             System.out.println("CPF inválido OU Não cadastrado.");
         }
     }
-    
     //Remover Pet de um Tutor
     public static void removerPet_Tutor() {
         System.out.print("Insira o CPF do Tutor que deseja remover o Pet: ");
