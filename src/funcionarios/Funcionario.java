@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import components.*;
+import exceptions.CpfInvalidoException;
 import exceptions.ListaVaziaException;
 import servicos.AgendaDia;
 import servicos.Servico;
@@ -112,8 +113,20 @@ public class Funcionario implements CRUD, Terminal{
 			System.out.print(AZUL + "Digite o salário do funcionário: " + RESETAR);
 			Double salario = teclado.nextDouble();
 			teclado.nextLine();
-			System.out.print(AZUL + "Digite o CPF do funcionário: " + RESETAR) ;
-			String CPF = teclado.nextLine();
+			String CPF;
+			while(true){
+				try{
+					System.out.print(AZUL + "Digite o CPF do funcionário: " + RESETAR) ;
+					String cpfValidando = teclado.nextLine();
+					if(Validar.validarCPF(cpfValidando)) {
+						CPF = cpfValidando;
+						break; 
+					}
+				}
+				catch(CpfInvalidoException e){
+					System.out.println(e.getMessage());
+				}
+        }
 			System.out.print(AZUL + "\t\t\tEscolha o setor do funcionário:\nDigite 1 PARA SERVICOS_GERAIS ou 2 PARA CLINICA_VET : "+ RESETAR);
 			Integer escolha = teclado.nextInt();
 			teclado.nextLine();
