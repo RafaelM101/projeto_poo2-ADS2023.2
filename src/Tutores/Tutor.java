@@ -54,6 +54,14 @@ public class Tutor implements CRUD {
         return pets;
     }
 
+    public static void data_seed_tutor() throws ListaVaziaException {
+        Endereco endereco_tutor = new Endereco("Rua Fim do mundo", "Garanhuns", 666);
+        Tutor tutor_1 = new Tutor("Rayane","111.111.111-11","81-99999-8888","tutor@gmail.com", endereco_tutor);
+        Tutor.lista_tutores.add(tutor_1);
+        Tutor tutor_2 = new Tutor("Daniel","222.222.222-22","81-99999-8888","tutor@gmail.com", endereco_tutor);
+        Tutor.lista_tutores.add(tutor_2);
+        Tutor.listar();
+    }
     public static void cadastrar() {
         System.out.println("\n| Cadastro de Tutor |\n");
         System.out.print("Digite o nome do Tutor: ");

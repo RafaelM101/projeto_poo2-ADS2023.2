@@ -1,11 +1,12 @@
 package main;
 
 
+import Pets.Cachorro;
 import Pets.Gato;
 import Pets.Pet;
 import Tutores.Endereco;
 import Tutores.Tutor;
-import components.Terminal;
+import components.*;
 import exceptions.ListaVaziaException;
 import funcionarios.Funcionario;
 import funcionarios.Veterinario;
@@ -21,10 +22,10 @@ public class Main implements Terminal {
         System.out.println(CYAN + linha + RESETAR);
         System.out.println(CYAN + linha + RESETAR);
     }
-    public static void menu_Principal() {
+    public static void menu_Principal() throws ListaVaziaException {
         while (true) {
             LimparTela();
-            System.out.println(NEGRITO + VERDE + "\t\t\tSISTEMA DE GERENCIAMENTO AMIGOPET" + RESETAR);
+            System.out.print("\t\t\t"+NEGRITO + PRETO + FUNDO_VERDE+ "SISTEMA DE GERENCIAMENTO AMIGOPET" + RESETAR + "\n");
             System.out.println(NEGRITO + AMARELO +"Escolha o módulo que deseja acessar:"+RESETAR);
             System.out.print(NEGRITO + CYAN + "1 - MODULO DE GERENCIAMENTO DE FUNCIONÁRIOS\n" + RESETAR);
             System.out.print(NEGRITO + CYAN + "2 - MODULO DE GERENCIAMENTO DE TUTORES\n" + RESETAR);
@@ -137,17 +138,17 @@ public class Main implements Terminal {
         }
     }
 
-    public static void Menu_AgendarServico(){
+    public static void Menu_AgendarServico() throws ListaVaziaException {
         while(true){
-            System.out.println(NEGRITO + VERMELHO + "\t\t\tMÓDULO DE AGENDAMENTO DE SERVIÇOS" + RESETAR);
-            System.out.println(NEGRITO + AMARELO + "Digite a opção desejada: " + RESETAR);
+            System.out.println(NEGRITO + VERDE + "\t\t\tMÓDULO DE AGENDAMENTO DE SERVIÇOS" + RESETAR);
+            System.out.println(NEGRITO + CYAN + "Digite a opção desejada: " + RESETAR);
             System.out.println(NEGRITO + AZUL + "1 - Cadastrar um novo agendamento." + RESETAR);
             System.out.println(NEGRITO + AZUL + "2 - Remarcar/Alterar um agendamento." + RESETAR);
             System.out.println(NEGRITO + AZUL + "3 - Desmarcar um agendamento." + RESETAR);
             System.out.println(NEGRITO + AZUL +"4 - Listar todos os agendamentos."+ RESETAR);
-            System.out.println(NEGRITO + AZUL + "5 - Exibir Agenda de um Funcionário específico." + RESETAR);
+            System.out.println(NEGRITO + AZUL+ "5 - Exibir Agenda de um Funcionário específico." + RESETAR);
             System.out.println(NEGRITO + AZUL + "6 - Voltar ao menu inicial." + RESETAR);
-            System.out.print(NEGRITO + AMARELO + "DIGITE A OPÇÃO ESCOLHIDA: " + RESETAR);
+            System.out.print(NEGRITO + CYAN + "DIGITE A OPÇÃO ESCOLHIDA: " + RESETAR);
             int escolha_user = teclado.nextInt();
             teclado.nextLine();
             switch (escolha_user){
@@ -298,11 +299,11 @@ public class Main implements Terminal {
                     System.out.print("Insira o CPF do Tutor que o Pet será atribuído: ");
                     String cpfTutor = teclado.nextLine();
                     Tutor tutorAdd = Tutor.consultarTutor(cpfTutor);
-                    if (tutorAdd instanceof Tutor) {
+                    if (tutorAdd != null) {
                         System.out.print("Insira a matrícula do Pet: ");
                         String matriculaPet = teclado.nextLine();
                         Pet petAdd = Pet.consultarPet(matriculaPet);
-                        if (petAdd instanceof Pet || petAdd.getDonoPet()==null) {
+                        if (petAdd != null || petAdd.getDonoPet()==null) {
                             tutorAdd.adicionarPet(petAdd);
                             System.out.println("Pet atribuído com sucesso ao Tutor!");
                         } else if (petAdd.getDonoPet()!=null) {
@@ -349,8 +350,16 @@ public class Main implements Terminal {
                 }
             }   
         }
-    } 
-    public static void main(String[] args) {
+    }
+
+    public static void data_seed() throws ListaVaziaException {
+        Tutor.data_seed_tutor();
+        Pet.data_seed_pet();
+        Funcionario.data_seed_funcionario();
+
+    }
+    public static void main(String[] args) throws ListaVaziaException {
+        data_seed();
         menu_Principal();
     }
 
