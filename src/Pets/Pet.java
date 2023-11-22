@@ -7,6 +7,8 @@ import components.Matricula;
 import components.RacasCachorro;
 import components.RacasGato;
 import components.TipoEntidade;
+import components.Validar;
+import exceptions.CpfInvalidoException;
 import exceptions.ListaVaziaException;
 
 public abstract class Pet implements CRUD {
@@ -73,6 +75,7 @@ public abstract class Pet implements CRUD {
             throw new ListaVaziaException("Nenhum pet cadastrado");
         }
         else {
+            System.out.println("\n | PETS CADASTRADOS | \n");
             for(Pet pet : lista_pets) {
                 System.out.println("\nNome do Pet: " + pet.getNomePet());
                 System.out.println("Matrícula: " + pet.getMatriculaPet());
@@ -81,6 +84,7 @@ public abstract class Pet implements CRUD {
     }
     //Atualiza o cadastro(Idade) de um Pet
     public static void atualizar() {
+        System.out.println("\n | ATUALIZAR CADASTRO DE PET | \n");
         System.out.print("Digite a matrícula do Pet que deseja atualizar: ");
         String matriculaBuscar = teclado.nextLine();
         Pet pet = consultarPet(matriculaBuscar);
@@ -101,6 +105,7 @@ public abstract class Pet implements CRUD {
     }
     //Deleta um Pet da lista_pets
     public static void deletar() {
+        System.out.println("\n | DELETAR PET | \n");
         System.out.print("Digite a matrícula do Pet que deseja deletar: ");
         String deletarMatricula = teclado.nextLine();
         Pet delPet = consultarPet(deletarMatricula);
@@ -115,16 +120,30 @@ public abstract class Pet implements CRUD {
     }
     //Cadastrar um Pet
     public static void cadastrar(){
-        System.out.println("\n| Cadastro de Pet |\n");
-        System.out.print("Digite o CPF do tutor dono do pet: ");
-        String cpf_tutor = teclado.nextLine();
-        //Verifica se o Tutor já e cadastrado, se não cadastra um Tutor
+        System.out.println("\n| CADASTRO DE PET |\n");
+        String cpf_tutor;
+        while(true){
+            try{
+                System.out.print("Digite o CPF do Tutor dono do pet: ");
+                String cpfValidando = teclado.nextLine();
+                if(Validar.validarCPF(cpfValidando)) {
+                    cpf_tutor = cpfValidando;
+                    break; 
+                }
+            }
+            catch(CpfInvalidoException e){
+                System.out.println(e.getMessage());
+            }
+        }
+        //Verifica se o Tutor já é cadastrado, SE NÃO, cadastra um Tutor
         if(Tutor.consultarTutor(cpf_tutor)==null){
-            System.out.println("Tutor não encontrado, deseja cadastrar? Digite Y para SIM e N para NÃO: ");
-            String escolha = teclado.nextLine();
-            escolha = String.valueOf(escolha.charAt(0));
-            if(escolha.equalsIgnoreCase("Y")) {
-                Tutor.cadastrar();
+            System.out.print("Tutor não encontrado, deseja cadastrar?\n"
+                +"1 - para SIM\n"
+                +"2 - para NÃO\n: ");
+            int escolha = teclado.nextInt();
+            teclado.nextLine();
+            if(escolha == 1) {
+                Tutor.cadastrarPorPet(cpf_tutor);
             } else {
                 System.out.println("Tutor não pode ser nulo.");
                 return;
@@ -224,6 +243,7 @@ public abstract class Pet implements CRUD {
     }
     //Atribuir Pet a um Tutor
     public static void atribuirPet_Tutor () {
+        System.out.println("\n | ATRIBUIR PET A TUTOR | \n");
         System.out.print("Insira o CPF do Tutor que o Pet será atribuído: ");
         String cpfTutor = teclado.nextLine();
         Tutor tutorAdd = Tutor.consultarTutor(cpfTutor);
@@ -245,6 +265,7 @@ public abstract class Pet implements CRUD {
     }
     //Remover Pet de um Tutor
     public static void removerPet_Tutor() {
+        System.out.println("\n | DESATRIBUIR PET DE TUTOR | \n");
         System.out.print("Insira o CPF do Tutor que deseja remover o Pet: ");
         String cpfTutor = teclado.nextLine();
         Tutor tutorDel = Tutor.consultarTutor(cpfTutor);

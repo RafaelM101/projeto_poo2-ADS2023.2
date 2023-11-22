@@ -64,7 +64,7 @@ public class Tutor implements CRUD {
     }
     //Cadastrar Tutor
     public static void cadastrar() {
-        System.out.println("\n| Cadastro de Tutor |\n");
+        System.out.println("\n| CADASTRO DE TUTOR |\n");
         System.out.print("Digite o nome do Tutor: ");
         String nome = teclado.nextLine();
         String cpf;
@@ -103,6 +103,7 @@ public class Tutor implements CRUD {
         if (lista_tutores.size() < 1) {
             throw new ListaVaziaException("Nenhum tutor cadastrado.");
         } else {
+            System.out.println("\n | TUTORES CADASTRADOS | \n");
             for (Tutor tutor : lista_tutores ) {
                 System.out.println("Nome: " + tutor.getNomeTutor() +
                 "\nCPF: " + tutor.getCPF_Tutor() );
@@ -110,11 +111,13 @@ public class Tutor implements CRUD {
                 for (Pet pet : tutor.pets){
                     System.out.println(" "+pet.getNomePet()+" "+pet.getMatriculaPet());
                 }
+                System.out.println();
             }
         }
     }
     //Atualizar cadastro de um Tutor existente
     public static void atualizar() {
+        System.out.println("\n | ATUALIZAR CADASTRO DE TUTOR | \n");
         String cpfBuscar;
         while(true){
             try{
@@ -131,7 +134,7 @@ public class Tutor implements CRUD {
         }
         Tutor tutor = consultarTutor(cpfBuscar);
         if (tutor instanceof Tutor) {
-            System.out.println("Vamos atualizar o cadastro do Tutor");
+            System.out.println("Vamos atualizar o cadastro do Tutor ");
             while (true) {
                 System.out.print("Escolha opção do que deseja atualizar: \n"
                     +"1 - Nome\n"
@@ -194,6 +197,7 @@ public class Tutor implements CRUD {
     }
     //Deletar tutor existente
     public static void deletar() {
+        System.out.println("\n | DELETAR TUTOR | \n");
         String deletarCPF;
         while(true){
             try{
@@ -219,6 +223,7 @@ public class Tutor implements CRUD {
     }
     //Método de Consulta do Main
     public static void consulta() {
+        System.out.println("\n | CONSULTAR TUTOR | \n");
         String cpfConsulta;
         while(true){
             try{
@@ -263,4 +268,26 @@ public class Tutor implements CRUD {
 		}
 		return null;
 	}
+    //Cadastro de Tutor pela classe Pet
+    public static void cadastrarPorPet(String cpf) {
+        System.out.println("\n| CADASTRO DE TUTOR |\n");
+        System.out.print("Digite o nome do Tutor: ");
+        String nome = teclado.nextLine();
+        System.out.print("Digite o telefone do Tutor: ");
+        String telefone = teclado.nextLine();
+        System.out.print("Digite o email do Tutor: ");
+        String email = teclado.nextLine();
+        System.out.println("Endereço:");
+        System.out.print("Digite a rua: ");
+        String rua = teclado.nextLine();
+        System.out.print("Digite o bairro: ");
+        String bairro = teclado.nextLine();
+        System.out.print("Digite o número: ");
+        int numero = teclado.nextInt();
+        teclado.nextLine();
+        Endereco endereco = new Endereco(rua,bairro,numero);
+        Tutor tutor = new Tutor(nome, cpf, telefone, email, endereco);
+        lista_tutores.add(tutor);
+        System.out.println("Tutor cadastrado com sucesso!");
+    }
 }
