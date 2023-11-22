@@ -229,7 +229,7 @@ public abstract class Pet implements CRUD {
             System.out.print("Insira a matrícula do Pet: ");
             String matriculaPet = teclado.nextLine();
             Pet petAdd = Pet.consultarPet(matriculaPet);
-            if (petAdd != null || petAdd.getDonoPet()==null) {
+            if (petAdd != null && (petAdd.getDonoPet()==null)) {
             tutorAdd.adicionarPet(petAdd);
                 System.out.println("Pet atribuído com sucesso ao Tutor!");
             } else if (petAdd.getDonoPet()!=null) {
