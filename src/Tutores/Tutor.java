@@ -130,64 +130,67 @@ public class Tutor implements CRUD {
             }
         }
         Tutor tutor = consultarTutor(cpfBuscar);
-        System.out.println("Vamos atualizar o cadastro do Tutor");
-        while (true) {
-            System.out.print("Escolha opção do que deseja atualizar: \n"
-                +"1 - Nome\n"
-                +"2 - Telefone\n"
-                +"3 - Email\n"
-                +"4 - Endereço\n"
-                +"5 - SAIR\n: ");
-            Integer escolhaAtualizar = teclado.nextInt();
-            teclado.nextLine();
-            switch (escolhaAtualizar) {
-                case 1: {
-                    //Novo Nome do Tutor
-                    System.out.print("Digite o novo Nome: ");
-                    String novoNome = teclado.nextLine();
-                    tutor.setNomeTutor(novoNome);
-                    System.out.println("O nome foi atualizado.");
-                    break;
-                }
-                case 2: {
-                    //Novo Telefone
-                    System.out.print("Digite o novo Telefone: ");
-                    String novoTelefone = teclado.nextLine();
-                    tutor.setTelefoneTutor(novoTelefone);
-                    System.out.println("O telefone foi atualizado.");
-                    break;
-                }
-                case 3: {
-                    //Novo Email
-                    System.out.print("Digite o novo Email: ");
-                    String novoEmail = teclado.nextLine();
-                    tutor.setEmailTutor(novoEmail);
-                    System.out.println("O email foi atualizado.");
-                    break;
-                }
-                case 4: {
-                    //Novo Endereço
-                    System.out.println("Vamos atualizar o endereço do Tutor");
-                    Endereco endereco = tutor.getEnderecoTutor();
-                    System.out.print("Digite a nova Rua: ");
-                    String novaRua = teclado.nextLine();
-                    endereco.setRua(novaRua);
-                    System.out.print("Digite o novo Bairro: ");
-                    String novoBairro = teclado.nextLine();
-                    endereco.setBairro(novoBairro);
-                    System.out.print("Digite o novo Número: ");
-                    int novoNumero = teclado.nextInt();
-                    teclado.nextLine();
-                    endereco.setNumero(novoNumero);
-                    System.out.println("O endereço foi atualizado.");
-                    break;
-                }
-                default:{
-                    return;
+        if (tutor instanceof Tutor) {
+            System.out.println("Vamos atualizar o cadastro do Tutor");
+            while (true) {
+                System.out.print("Escolha opção do que deseja atualizar: \n"
+                    +"1 - Nome\n"
+                    +"2 - Telefone\n"
+                    +"3 - Email\n"
+                    +"4 - Endereço\n"
+                    +"5 - SAIR\n: ");
+                Integer escolhaAtualizar = teclado.nextInt();
+                teclado.nextLine();
+                switch (escolhaAtualizar) {
+                    case 1: {
+                        //Novo Nome do Tutor
+                        System.out.print("Digite o novo Nome: ");
+                        String novoNome = teclado.nextLine();
+                        tutor.setNomeTutor(novoNome);
+                        System.out.println("O nome foi atualizado.");
+                        break;
+                    }
+                    case 2: {
+                        //Novo Telefone
+                        System.out.print("Digite o novo Telefone: ");
+                        String novoTelefone = teclado.nextLine();
+                        tutor.setTelefoneTutor(novoTelefone);
+                        System.out.println("O telefone foi atualizado.");
+                        break;
+                    }
+                    case 3: {
+                        //Novo Email
+                        System.out.print("Digite o novo Email: ");
+                        String novoEmail = teclado.nextLine();
+                        tutor.setEmailTutor(novoEmail);
+                        System.out.println("O email foi atualizado.");
+                        break;
+                    }
+                    case 4: {
+                        //Novo Endereço
+                        System.out.println("Vamos atualizar o endereço do Tutor");
+                        Endereco endereco = tutor.getEnderecoTutor();
+                        System.out.print("Digite a nova Rua: ");
+                        String novaRua = teclado.nextLine();
+                        endereco.setRua(novaRua);
+                        System.out.print("Digite o novo Bairro: ");
+                        String novoBairro = teclado.nextLine();
+                        endereco.setBairro(novoBairro);
+                        System.out.print("Digite o novo Número: ");
+                        int novoNumero = teclado.nextInt();
+                        teclado.nextLine();
+                        endereco.setNumero(novoNumero);
+                        System.out.println("O endereço foi atualizado.");
+                        break;
+                    }
+                    default:{
+                        return;
+                    }
                 }
             }
+        } else {
+            System.out.println("CPF não consta no sistema.");
         }
-
     }
     //Deletar tutor existente
     public static void deletar() {

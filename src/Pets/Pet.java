@@ -47,14 +47,16 @@ public abstract class Pet implements CRUD {
     public static void data_seed_pet() throws ListaVaziaException {
         Cachorro cachorro_1 = new Cachorro("Maylon", 2, Tutor.consultarTutor("111.111.111-11"), RacasCachorro.SRD);
         Pet.lista_pets.add(cachorro_1);
+        Tutor.consultarTutor("111.111.111-11").adicionarPet(cachorro_1);
         Cachorro cachorro_2 = new Cachorro("Nick", 7, Tutor.consultarTutor("222.222.222-22"), RacasCachorro.POODLE);
         Pet.lista_pets.add(cachorro_2);
-
+        Tutor.consultarTutor("222.222.222-22").adicionarPet(cachorro_2);
         Gato gato_1 = new Gato("Leon", 5, Tutor.consultarTutor("111.111.111-11"), RacasGato.SRD);
         Pet.lista_pets.add(gato_1);
+        Tutor.consultarTutor("111.111.111-11").adicionarPet(gato_1);
         Gato gato_2 = new Gato("Luca", 3, Tutor.consultarTutor("222.222.222-22"), RacasGato.SRD);
         Pet.lista_pets.add(gato_2);
-
+        Tutor.consultarTutor("222.222.222-22").adicionarPet(gato_2);
         Pet.listar();
 
     }
