@@ -296,50 +296,12 @@ public class Main implements Terminal {
                     teclado.nextLine();
                     break; 
                 } case 5: {
-                    System.out.print("Insira o CPF do Tutor que o Pet será atribuído: ");
-                    String cpfTutor = teclado.nextLine();
-                    Tutor tutorAdd = Tutor.consultarTutor(cpfTutor);
-                    if (tutorAdd != null) {
-                        System.out.print("Insira a matrícula do Pet: ");
-                        String matriculaPet = teclado.nextLine();
-                        Pet petAdd = Pet.consultarPet(matriculaPet);
-                        if (petAdd != null || petAdd.getDonoPet()==null) {
-                            tutorAdd.adicionarPet(petAdd);
-                            System.out.println("Pet atribuído com sucesso ao Tutor!");
-                        } else if (petAdd.getDonoPet()!=null) {
-                            System.out.println("Pet pertence a um Tutor existente.");
-                        } else {
-                            System.out.println("Matrícula inválida OU Não cadastrada.");
-                        }
-                    } else {
-                        System.out.println("CPF inválido OU Não cadastrado.");
-                    }
+                    Pet.atribuirPet_Tutor();
                     System.out.println("Pressione enter para voltar ao menu do MODULO DE GERENCIAMENTO DE PET...");
-                        teclado.nextLine();
+                    teclado.nextLine();
                     break;
                 } case 6: {
-                    System.out.print("Insira o CPF do Tutor que deseja remover o Pet: ");
-                    String cpfTutor = teclado.nextLine();
-                    Tutor tutorDel = Tutor.consultarTutor(cpfTutor);
-                    if (tutorDel instanceof Tutor) {
-                        System.out.println("Pets de "+ tutorDel.getNomeTutor() + ":");
-                        for (Pet pet : tutorDel.getPets()) {
-                            System.out.println("Nome do Pet: " + pet.getNomePet() + "\n" +
-                                "Matrícula: " + pet.getMatriculaPet()+"\n");    
-                        }
-                        System.out.print("Insira a matrícula do Pet que deseja remover do Tutor: ");
-                        String matriculaPetDel = teclado.nextLine();
-                        Pet petDel = Pet.consultarPet(matriculaPetDel);
-                        if (petDel instanceof Pet) {
-                            tutorDel.deletarPet(petDel);
-                            petDel.setDonoPet(null);
-                            System.out.println("Pet deletado com sucesso do Tutor!");
-                        } else {
-                            System.out.println("Matrícula inválida OU Não cadastrada.");
-                        }
-                    } else {
-                        System.out.println("CPF inválido OU Não cadastrado.");
-                    }
+                    Pet.removerPet_Tutor();
                     System.out.println("Pressione enter para voltar ao menu do MODULO DE GERENCIAMENTO DE PET...");
                         teclado.nextLine();
                     break;
