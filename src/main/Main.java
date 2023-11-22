@@ -32,7 +32,7 @@ public class Main implements Terminal {
             System.out.print(NEGRITO + CYAN + "3 - MODULO DE AGENDAMENTO DE SERVIÇOS\n" + RESETAR);
             System.out.print(NEGRITO + CYAN + "4 - MODULO DE GERENCIAMENTO DE PETS\n" + RESETAR);
             System.out.print(NEGRITO + CYAN + "5 - FINALIZAR PROGRAMA\n" + RESETAR);
-            System.out.print(NEGRITO + AMARELO +"DIGITE A OPÇÃO ESCOLHIDA:" + RESETAR);
+            System.out.print(NEGRITO + AMARELO +"DIGITE A OPÇÃO ESCOLHIDA: " + RESETAR);
             int escolha_user = teclado.nextInt();
             teclado.nextLine();
             switch (escolha_user) {
@@ -233,8 +233,6 @@ public class Main implements Terminal {
                     teclado.nextLine();
                     break;
                 } default: {
-                    System.out.println("Pressione enter para voltar ao menu inicial...");
-                    teclado.nextLine();
                     return;
                 }
             }   
@@ -292,8 +290,6 @@ public class Main implements Terminal {
                         teclado.nextLine();
                     break;
                 } default: {
-                    System.out.println("Pressione enter para voltar ao menu inicial...");
-                    teclado.nextLine();
                     return;
                 }
             }   
