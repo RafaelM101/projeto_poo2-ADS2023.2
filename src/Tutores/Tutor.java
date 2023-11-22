@@ -22,7 +22,7 @@ public class Tutor implements CRUD {
         this.emailTutor = emailTutor;
         this.enderecoTutor = enderecoTutor;
     }
-
+    //GETTERS AND SETTERS
     public String getNomeTutor() {
         return nomeTutor;
     }
@@ -62,6 +62,7 @@ public class Tutor implements CRUD {
         Tutor.lista_tutores.add(tutor_2);
         Tutor.listar();
     }
+    //Cadastrar Tutor
     public static void cadastrar() {
         System.out.println("\n| Cadastro de Tutor |\n");
         System.out.print("Digite o nome do Tutor: ");
@@ -97,7 +98,7 @@ public class Tutor implements CRUD {
         lista_tutores.add(tutor);
         System.out.println("Tutor cadastrado com sucesso!");
     }
-    
+    //Listar Tutores com Nome, CPF e seus Pets
     public static void listar() throws ListaVaziaException {
         if (lista_tutores.size() < 1) {
             throw new ListaVaziaException("Nenhum tutor cadastrado.");
@@ -112,47 +113,98 @@ public class Tutor implements CRUD {
             }
         }
     }
-    
+    //Atualizar cadastro de um Tutor existente
     public static void atualizar() {
-        System.out.print("Digite o CPF do tutor que deseja atualizar: ");
-        String cpfBuscar = teclado.nextLine();
+        String cpfBuscar;
+        while(true){
+            try{
+                System.out.print("Digite o CPF do Tutor que deseja atualizar: ");
+                String cpfValidando = teclado.nextLine();
+                if(Validar.validarCPF(cpfValidando)) {
+                    cpfBuscar = cpfValidando;
+                    break; 
+                }
+            }
+            catch(CpfInvalidoException e){
+                System.out.println(e.getMessage());
+            }
+        }
         Tutor tutor = consultarTutor(cpfBuscar);
         System.out.println("Vamos atualizar o cadastro do Tutor");
+        while (true) {
+            System.out.print("Escolha opção do que deseja atualizar: \n"
+                +"1 - Nome\n"
+                +"2 - Telefone\n"
+                +"3 - Email\n"
+                +"4 - Endereço\n"
+                +"5 - SAIR\n: ");
+            Integer escolhaAtualizar = teclado.nextInt();
+            teclado.nextLine();
+            switch (escolhaAtualizar) {
+                case 1: {
+                    //Novo Nome do Tutor
+                    System.out.print("Digite o novo Nome: ");
+                    String novoNome = teclado.nextLine();
+                    tutor.setNomeTutor(novoNome);
+                    System.out.println("O nome foi atualizado.");
+                    break;
+                }
+                case 2: {
+                    //Novo Telefone
+                    System.out.print("Digite o novo Telefone: ");
+                    String novoTelefone = teclado.nextLine();
+                    tutor.setTelefoneTutor(novoTelefone);
+                    System.out.println("O telefone foi atualizado.");
+                    break;
+                }
+                case 3: {
+                    //Novo Email
+                    System.out.print("Digite o novo Email: ");
+                    String novoEmail = teclado.nextLine();
+                    tutor.setEmailTutor(novoEmail);
+                    System.out.println("O email foi atualizado.");
+                    break;
+                }
+                case 4: {
+                    //Novo Endereço
+                    System.out.println("Vamos atualizar o endereço do Tutor");
+                    Endereco endereco = tutor.getEnderecoTutor();
+                    System.out.print("Digite a nova Rua: ");
+                    String novaRua = teclado.nextLine();
+                    endereco.setRua(novaRua);
+                    System.out.print("Digite o novo Bairro: ");
+                    String novoBairro = teclado.nextLine();
+                    endereco.setBairro(novoBairro);
+                    System.out.print("Digite o novo Número: ");
+                    int novoNumero = teclado.nextInt();
+                    teclado.nextLine();
+                    endereco.setNumero(novoNumero);
+                    System.out.println("O endereço foi atualizado.");
+                    break;
+                }
+                default:{
+                    return;
+                }
+            }
+        }
 
-        //Novo Nome do Tutor
-        System.out.print("Digite o novo Nome: ");
-        String novoNome = teclado.nextLine();
-        tutor.setNomeTutor(novoNome);
-
-        //Novo Telefone
-        System.out.print("Digite o novo Telefone: ");
-        String novoTelefone = teclado.nextLine();
-        tutor.setTelefoneTutor(novoTelefone);
-
-        //Novo Email
-        System.out.print("Digite o novo Email: ");
-        String novoEmail = teclado.nextLine();
-        tutor.setEmailTutor(novoEmail);
-
-        //Novo Endereço
-        System.out.println("Vamos atualizar o endereço do Tutor");
-        Endereco endereco = tutor.getEnderecoTutor();
-        System.out.print("Digite a nova Rua: ");
-        String novaRua = teclado.nextLine();
-        endereco.setRua(novaRua);
-        System.out.print("Digite o novo Bairro: ");
-        String novoBairro = teclado.nextLine();
-        endereco.setBairro(novoBairro);
-        System.out.print("Digite o novo Número: ");
-        int novoNumero = teclado.nextInt();
-        teclado.nextLine();
-        endereco.setNumero(novoNumero);
-        System.out.println("O cadastro foi atualizado com sucesso!");
     }
-    
+    //Deletar tutor existente
     public static void deletar() {
-        System.out.print("Digite o CPF do tutor que deseja deletar: ");
-        String deletarCPF = teclado.nextLine();
+        String deletarCPF;
+        while(true){
+            try{
+                System.out.print("Digite o CPF do Tutor que deseja deletar: ");
+                String cpfValidando = teclado.nextLine();
+                if(Validar.validarCPF(cpfValidando)) {
+                    deletarCPF = cpfValidando;
+                    break; 
+                }
+            }
+            catch(CpfInvalidoException e){
+                System.out.println(e.getMessage());
+            }
+        }
         Tutor deletarTutor = consultarTutor(deletarCPF);
         if(deletarTutor instanceof Tutor) {
             lista_tutores.remove(deletarTutor);
@@ -162,16 +214,49 @@ public class Tutor implements CRUD {
         }
 
     }
-    public void adicionarPet(Pet pet){
-        pets.add(pet);
+    //Método de Consulta do Main
+    public static void consulta() {
+        String cpfConsulta;
+        while(true){
+            try{
+                System.out.print("Digite o CPF do Tutor que deseja consultar: ");
+                String cpfValidando = teclado.nextLine();
+                if(Validar.validarCPF(cpfValidando)) {
+                    cpfConsulta = cpfValidando;
+                    break; 
+                }
+            }
+            catch(CpfInvalidoException e){
+                System.out.println(e.getMessage());
+            }
+        }
+        Tutor tutorConsultado = Tutor.consultarTutor(cpfConsulta);
+        if (tutorConsultado instanceof Tutor) {
+            System.out.println("Nome: " + tutorConsultado.getNomeTutor());
+            Endereco enderecoTutor = tutorConsultado.getEnderecoTutor();
+            System.out.println("Endereço: \n" 
+                +"- Rua: " + enderecoTutor.getRua() +"\n"
+                +"- Bairro: " + enderecoTutor.getBairro() +"\n"
+                +"- Número: " + enderecoTutor.getNumero());
+            System.out.println("Telefone: " + tutorConsultado.getTelefoneTutor());
+            System.out.println("Email: " + tutorConsultado.getEmailTutor());
+        } else {
+            System.out.println("CPF não consta no sistema.");
+        }
     }
+    //Adicionar Pet a lista de Pets
+    public void adicionarPet(Pet pet){
+        this.pets.add(pet);
+    }
+    //Deletar Pet da lista de Pets
     public void deletarPet(Pet pet) {
-        pets.remove(pet);
+        this.pets.remove(pet);
     }
     public static Tutor consultarTutor(String cpf) {
 		for (Tutor tutor : lista_tutores) {
 			if (tutor.getCPF_Tutor().equals(cpf)) {
-				return tutor;}
+				return tutor;
+            }
 		}
 		return null;
 	}
