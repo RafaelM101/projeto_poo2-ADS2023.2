@@ -228,21 +228,7 @@ public class Main implements Terminal {
                     teclado.nextLine();
                     break; 
                 } case 5: {
-                    System.out.print("Insira o CPF do Tutor que deseja consultar: ");
-                    String cpfConsulta = teclado.nextLine();
-                    Tutor tutorConsultado = Tutor.consultarTutor(cpfConsulta);
-                    if (tutorConsultado instanceof Tutor) {
-                        System.out.println("Nome: " + tutorConsultado.getNomeTutor());
-                        Endereco enderecoTutor = tutorConsultado.getEnderecoTutor();
-                        System.out.println("Endereço: \n" 
-                            +"- Rua: " + enderecoTutor.getRua() +"\n"
-                            +"- Bairro: " + enderecoTutor.getBairro() +"\n"
-                            +"- Número: " + enderecoTutor.getNumero());
-                        System.out.println("Telefone: " + tutorConsultado.getTelefoneTutor());
-                        System.out.println("Email: " + tutorConsultado.getEmailTutor());
-                    } else {
-                        System.out.println("CPF inválido OU Não consta no sistema.");
-                    }
+                    Tutor.consulta();
                     System.out.println("Pressione enter para voltar ao menu do MODULO DE GERENCIAMENTO DE TUTOR...");
                     teclado.nextLine();
                     break;
