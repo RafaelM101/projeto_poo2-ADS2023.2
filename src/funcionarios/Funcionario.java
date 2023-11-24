@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import components.*;
+import exceptions.CRMVInvalidoException;
 import exceptions.CpfInvalidoException;
 import exceptions.ListaVaziaException;
 import servicos.AgendaDia;
@@ -110,6 +111,13 @@ public class Funcionario implements CRUD, Terminal{
 			String sobrenome = teclado.next();
 			nome += " "+sobrenome;
 			teclado.nextLine();
+			try {
+				Validar.validarLetras(nome);
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+				cadastrar();
+				return;
+			}
 			System.out.print(AZUL + "Digite o salário do funcionário: " + RESETAR);
 			Double salario = teclado.nextDouble();
 			teclado.nextLine();
@@ -140,12 +148,24 @@ public class Funcionario implements CRUD, Terminal{
 				lista_funcionarios.add(func);
 			} else if (escolha==2) {
 				setor = Setores.CLINICA_VET;
-				System.out.println("Insira o CRMV do Veterinário: ");
-				String crmv = teclado.nextLine();
+				String crmv;
+				while(true){
+					try{
+						System.out.print(AZUL + "Insira o CRMV do Veterinário: " + RESETAR) ;
+						String CRMVValidando = teclado.nextLine();
+						if(Validar.valarCRMV(CRMVValidando)) {
+							crmv = CRMVValidando;
+							break; 
+						}
+					}
+					catch(CRMVInvalidoException e){
+						System.out.println(e.getMessage());
+					}
+				}
 				System.out.println("Escolha a Especialização do Veterinário:\n 1 - CLINICO,\n" +
 						" 2 - CIRURGIAO,\n" +
 						" 3 - ORTOPEDISTA,\n" +
-						" 4 - ONCOLOGISTA\n:");
+						" 4 - ONCOLOGISTA\n");
 				EspecializacoesVet espec = null;
 				Integer escolha_espec = teclado.nextInt();
 				switch (escolha_espec){
@@ -220,9 +240,11 @@ public class Funcionario implements CRUD, Terminal{
 			if(funcionario.matricula.numero_matricula.equals(matFuncionarioDel)) {
 				lista_funcionarios.remove(funcionario);
 				System.out.println("Removido com sucesso!");
-				break;
+				return;
 			}
 		}
+		System.out.println("Nenhum funcionario encontrado!");
+		return;
 		
 	}
 	//METODOS RELACIONADOS À AGENDA DO FUNCIONÁRIO
