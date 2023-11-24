@@ -30,7 +30,7 @@ public class Validar implements Terminal{
         if(matcher.matches()) {
             return true;
         }
-        throw new CpfInvalidoException(VERMELHO+"CPF INVÁLIDO!"+RESETAR);
+        throw new CpfInvalidoException(NEGRITO + VERMELHO+"CPF INVÁLIDO!"+RESETAR);
     }
 
     public static boolean validarEmail(String validarEmail) throws EmailInvalidoException{
@@ -38,7 +38,7 @@ public class Validar implements Terminal{
         if(matcher.matches()) {
             return true;
         }
-        throw new EmailInvalidoException(VERMELHO+"EMAIL INVÁLIDO!"+RESETAR);
+        throw new EmailInvalidoException(NEGRITO + VERMELHO+"EMAIL INVÁLIDO!"+RESETAR);
     }
 
     public static boolean validarLetras(String validarLetras) throws SomenteLetrasException{
@@ -46,7 +46,7 @@ public class Validar implements Terminal{
         if(!matcher.matches()) {
             return true;
         }
-        throw new SomenteLetrasException(VERMELHO+"INSIRA SOMENTE LETRAS!"+RESETAR);
+        throw new SomenteLetrasException(NEGRITO + VERMELHO+"INSIRA SOMENTE LETRAS!"+RESETAR);
     }
 
     public static boolean valarCRMV(String validarCRMV) throws CRMVInvalidoException{
@@ -54,6 +54,6 @@ public class Validar implements Terminal{
         if (matcher.matches()) {
             return true;
         }
-        throw new CRMVInvalidoException(VERMELHO+"CRMV INVÁLIDO!"+RESETAR);
+        throw new CRMVInvalidoException(NEGRITO + VERMELHO+"CRMV INVÁLIDO!"+RESETAR);
     }
 }
