@@ -6,6 +6,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import components.*;
+import exceptions.CRMVInvalidoException;
+import exceptions.CpfInvalidoException;
 import exceptions.ListaVaziaException;
 import servicos.AgendaDia;
 import servicos.Servico;
@@ -109,11 +111,30 @@ public class Funcionario implements CRUD, Terminal{
 			String sobrenome = teclado.next();
 			nome += " "+sobrenome;
 			teclado.nextLine();
+			try {
+				Validar.validarLetras(nome);
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+				cadastrar();
+				return;
+			}
 			System.out.print(AZUL + "Digite o salário do funcionário: " + RESETAR);
 			Double salario = teclado.nextDouble();
 			teclado.nextLine();
-			System.out.print(AZUL + "Digite o CPF do funcionário: " + RESETAR) ;
-			String CPF = teclado.nextLine();
+			String CPF;
+			while(true){
+				try{
+					System.out.print(AZUL + "Digite o CPF do funcionário: " + RESETAR) ;
+					String cpfValidando = teclado.nextLine();
+					if(Validar.validarCPF(cpfValidando)) {
+						CPF = cpfValidando;
+						break; 
+					}
+				}
+				catch(CpfInvalidoException e){
+					System.out.println(e.getMessage());
+				}
+        }
 			System.out.print(AZUL + "\t\t\tEscolha o setor do funcionário:\nDigite 1 PARA SERVICOS_GERAIS ou 2 PARA CLINICA_VET : "+ RESETAR);
 			Integer escolha = teclado.nextInt();
 			teclado.nextLine();
@@ -127,12 +148,24 @@ public class Funcionario implements CRUD, Terminal{
 				lista_funcionarios.add(func);
 			} else if (escolha==2) {
 				setor = Setores.CLINICA_VET;
-				System.out.println("Insira o CRMV do Veterinário: ");
-				String crmv = teclado.nextLine();
-				System.out.println("Escolha a Especialização do Veterinário:\n 1 - CLINICO,\n" +
+				String crmv;
+				while(true){
+					try{
+						System.out.print(AZUL + "Insira o CRMV do Veterinário: " + RESETAR) ;
+						String CRMVValidando = teclado.nextLine();
+						if(Validar.valarCRMV(CRMVValidando)) {
+							crmv = CRMVValidando;
+							break; 
+						}
+					}
+					catch(CRMVInvalidoException e){
+						System.out.println(e.getMessage());
+					}
+				}
+				System.out.println(AZUL + "Escolha a Especialização do Veterinário:\n 1 - CLINICO,\n" +
 						" 2 - CIRURGIAO,\n" +
 						" 3 - ORTOPEDISTA,\n" +
-						" 4 - ONCOLOGISTA\n:");
+						" 4 - ONCOLOGISTA\n" + RESETAR);
 				EspecializacoesVet espec = null;
 				Integer escolha_espec = teclado.nextInt();
 				switch (escolha_espec){
@@ -149,44 +182,47 @@ public class Funcionario implements CRUD, Terminal{
 						espec = EspecializacoesVet.ONCOLOGISTA;
 						break;
 					default:
-						System.out.println("Escolha inválida.");
+						System.out.println(NEGRITO+ VERMELHO+"Escolha inválida."+RESETAR);
 						break;
 				} Veterinario vet = new Veterinario(salario, CPF, nome, setor, crmv, espec);
 					lista_funcionarios.add(vet);
-			}else System.out.println("OPÇÃO INVÁLIDA.");
+			}else System.out.println(NEGRITO+ VERMELHO+"OPÇÃO INVÁLIDA."+RESETAR);
 		}
 		catch(InputMismatchException e){
-			System.out.println("INSIRA UM VALOR VÁLIDO");
+			System.out.println(NEGRITO+ VERMELHO+"INSIRA UM VALOR VÁLIDO"+RESETAR);
 			return;
 		}
 	}
 
 	public static void listar() throws ListaVaziaException{
 		if(lista_funcionarios.size() < 1) {
-			throw new ListaVaziaException("Nenhum funcionario cadastrado!");
+			throw new ListaVaziaException(NEGRITO+ VERMELHO+"Nenhum funcionario cadastrado!"+RESETAR);
 		}
 		for(Funcionario funcionario: lista_funcionarios) {
-			System.out.printf("\nNome: %s\nMatricula: %s%nSalário: %.2f\nCPF: %s\nSetor: %s\n",funcionario.nome, funcionario.getMatricula(), funcionario.salario, funcionario.CPF, funcionario.setor);
+			System.out.printf(AMARELO+"\nNome: %s\nMatricula: %s%nSalário: %.2f\nCPF: %s\nSetor: %s\n"+RESETAR,funcionario.nome, funcionario.getMatricula(), funcionario.salario, funcionario.CPF, funcionario.setor);
 		}
 		
 	}
 
 	public static void atualizar() throws ListaVaziaException{
 		if(lista_funcionarios.size() < 1) {
-			throw new ListaVaziaException("Nenhum funcionario cadastrado!");
+			throw new ListaVaziaException(NEGRITO+ VERMELHO+"Nenhum funcionario cadastrado!"+RESETAR);
 		}
-		System.out.print("Digite a matrícula do funcionário que deseja atualizar os dados: ");
+		System.out.print(NEGRITO+MAGENTA+"Digite a matrícula do funcionário que deseja atualizar os dados: "+RESETAR);
 		String matFuncionarioAtt = teclado.nextLine();
 		for(Funcionario funcionario: lista_funcionarios){
 			if(funcionario.matricula.numero_matricula.equals(matFuncionarioAtt)){
-				System.out.printf("Digite novo salário do funcionário %s: ", funcionario.nome);
+				System.out.printf(NEGRITO+MAGENTA+"Digite novo salário do funcionário %s: ", funcionario.nome+RESETAR);
 				double novoSalario = teclado.nextDouble();
 				teclado.nextLine();
 				funcionario.setSalario(novoSalario);
-				System.out.println("Salário atualizado com sucesso!");
-				break;				
+				System.out.println(NEGRITO + VERDE+"Salário atualizado com sucesso!"+RESETAR);
+				return;				
 			}
 		}
+		System.out.println(NEGRITO+ VERMELHO+"Nenhum funcionario encontrado!"+RESETAR);
+		return;
+
 		
 	}
 
@@ -199,17 +235,19 @@ public class Funcionario implements CRUD, Terminal{
 	}
 	public static void deletar() throws ListaVaziaException{
 		if(lista_funcionarios.size() < 1) {
-			throw new ListaVaziaException("Nenhum funcionario cadastrado!");
+			throw new ListaVaziaException(NEGRITO+VERMELHO+"Nenhum funcionario cadastrado!"+RESETAR);
 		}
-		System.out.print("Digite a matrícula do funcionário que deseja demitir: ");
+		System.out.print(NEGRITO+MAGENTA+"Digite a matrícula do funcionário que deseja demitir: "+RESETAR);
 		String matFuncionarioDel = teclado.nextLine();
 		for(Funcionario funcionario: lista_funcionarios) {
 			if(funcionario.matricula.numero_matricula.equals(matFuncionarioDel)) {
 				lista_funcionarios.remove(funcionario);
-				System.out.println("Removido com sucesso!");
-				break;
+				System.out.println(NEGRITO+VERDE+"Removido com sucesso!"+RESETAR);
+				return;
 			}
 		}
+		System.out.println(NEGRITO+VERMELHO+"Nenhum funcionario encontrado!"+RESETAR);
+		return;
 		
 	}
 	//METODOS RELACIONADOS À AGENDA DO FUNCIONÁRIO
@@ -219,7 +257,7 @@ public class Funcionario implements CRUD, Terminal{
 		AgendaDia agenda = AgendaDiariaFuncionario.get(novo_servico.getData_servico());
 		agenda.agendarHorario(novo_servico.getHora_servico(), novo_servico);
 		}
-		else System.out.println("Horário escolhido não está disponível. Verifique outro funcionário.");
+		else System.out.println(NEGRITO+ VERMELHO+"Horário escolhido não está disponível. Verifique outro funcionário."+RESETAR);
 	}
 	public void desmarcarHorario(Servico servico){
 		AgendaDia agenda = AgendaDiariaFuncionario.get(servico.getData_servico());

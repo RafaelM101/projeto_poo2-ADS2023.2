@@ -79,10 +79,10 @@ public class Main implements Terminal {
                     break;
                 case 2:
                     LimparTela();
-                    System.out.print("""
+                    System.out.print(NEGRITO+MAGENTA+"""
                             Digite 1 para exibir todos os funcionários.
                             Digite 2 para exibir por matrícula.
-                            DIGITE A OPÇÃO ESCOLHIDA: """);
+                            DIGITE A OPÇÃO ESCOLHIDA: """+ RESETAR);
                     int escolha_listar = teclado.nextInt();
                     teclado.nextLine();
                     System.out.println("\n");
@@ -96,7 +96,7 @@ public class Main implements Terminal {
                     }
                     else if(escolha_listar == 2){
                         try{
-                            System.out.print("Digite a matrícula do funcionário: ");
+                            System.out.print(MAGENTA+"Digite a matrícula do funcionário: "+ RESETAR);
                             String matricula_consulta = teclado.nextLine();
                             Funcionario funcionario_consulta = Funcionario.consultarFuncionario(matricula_consulta);
                             if(funcionario_consulta instanceof Veterinario) {
@@ -137,7 +137,6 @@ public class Main implements Terminal {
             }
         }
     }
-
     public static void Menu_AgendarServico() throws ListaVaziaException {
         while(true){
             System.out.println(NEGRITO + VERDE + "\t\t\tMÓDULO DE AGENDAMENTO DE SERVIÇOS" + RESETAR);
