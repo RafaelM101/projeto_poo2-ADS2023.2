@@ -7,6 +7,7 @@ import components.Terminal;
 import exceptions.CpfInvalidoException;
 import exceptions.EmailInvalidoException;
 import exceptions.ListaVaziaException;
+import exceptions.SomenteLetrasException;
 import exceptions.TelefoneInvalidoException;
 import components.Validar;
 public class Tutor implements CRUD, Terminal {
@@ -68,8 +69,24 @@ public class Tutor implements CRUD, Terminal {
     //Cadastrar Tutor
     public static void cadastrar() {
         System.out.println(NEGRITO+PRETO+ " \t\t\t | CADASTRO DE TUTOR | \n" +RESETAR);
-        System.out.print(AMARELO+ "Digite o nome do Tutor: " +RESETAR);
-        String nome = teclado.nextLine();
+        //Cadastrar NOME
+        System.out.println(NEGRITO+AMARELO+ "NOME: Somente letras [A-Z]" +RESETAR);
+        String nome;
+        while(true) {
+            try {
+                System.out.print(AMARELO+ "Digite o nome do Tutor: " +RESETAR);
+                String nomeValidando = teclado.nextLine();
+                if (Validar.validarLetras(nomeValidando)) {
+                    nome = nomeValidando;
+                    break;
+                }
+            }
+            catch (SomenteLetrasException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        //Cadastrar CPF
+        System.out.println(NEGRITO+AMARELO+ "\nFormato do CPF: 000.000.000-00" +RESETAR);
         String cpf;
         while(true){
             try{
@@ -84,6 +101,8 @@ public class Tutor implements CRUD, Terminal {
                 System.out.println(e.getMessage());
             }
         }
+        //Cadastrar TELEFONE
+        System.out.println(NEGRITO+AMARELO+ "\nFormato do Telefone: (XXX)9XXXX-XXXX" +RESETAR);
         String telefone;
         while (true) {
             try {
@@ -98,6 +117,8 @@ public class Tutor implements CRUD, Terminal {
                 System.out.println(e.getMessage());
             }
         }
+        //Cadastrar EMAIL
+        System.out.println(NEGRITO+AMARELO+ "\nFormato do Email: aaaa@aaaaa.com" +RESETAR);
         String email;
         while (true) {
             try {
@@ -112,7 +133,8 @@ public class Tutor implements CRUD, Terminal {
                 System.out.println(e.getMessage());
             }
         }
-        System.out.println(CYAN+ "Endereço:" +RESETAR);
+        //Cadastrar ENDEREÇO
+        System.out.println(NEGRITO+AMARELO+ "\nENDEREÇO:" +RESETAR);
         System.out.print(AMARELO+ "Digite a rua: " +RESETAR);
         String rua = teclado.nextLine();
         System.out.print(AMARELO+ "Digite o bairro: " +RESETAR);
@@ -123,7 +145,7 @@ public class Tutor implements CRUD, Terminal {
         Endereco endereco = new Endereco(rua,bairro,numero);
         Tutor tutor = new Tutor(nome, cpf, telefone, email, endereco);
         lista_tutores.add(tutor);
-        System.out.println(NEGRITO+VERDE+ "Tutor cadastrado com sucesso!" +RESETAR);
+        System.out.println(NEGRITO+VERDE+ "\nTUTOR CADASTRADO COM SUCESSO!" +RESETAR);
     }
     //Listar Tutores com Nome, CPF e seus Pets
     public static void listar() throws ListaVaziaException {
@@ -310,13 +332,56 @@ public class Tutor implements CRUD, Terminal {
     //Cadastro de Tutor pela classe Pet
     public static void cadastrarPorPet(String cpf) {
         System.out.println(NEGRITO+PRETO+ " \t\t\t | CADASTRO DE TUTOR | \n" +RESETAR);
-        System.out.print(AMARELO+ "Digite o nome do Tutor: " +RESETAR);
-        String nome = teclado.nextLine();
-        System.out.print(AMARELO+ "Digite o telefone do Tutor: " +RESETAR);
-        String telefone = teclado.nextLine();
-        System.out.print(AMARELO+ "Digite o email do Tutor: " +RESETAR);
-        String email = teclado.nextLine();
-        System.out.println(CYAN+ "Endereço:" +RESETAR);
+        //Cadastrar NOME
+        System.out.println(NEGRITO+AMARELO+ "Formato do Nome: Somente letras [A-Z]" +RESETAR);
+        String nome;
+        while(true) {
+            try{
+                System.out.print(AMARELO+ "Digite o nome do Tutor: " +RESETAR);
+                String nomeValidando = teclado.nextLine();
+                if(Validar.validarLetras(nomeValidando)) {
+                    nome = nomeValidando;
+                    break;
+                }
+            }
+            catch (SomenteLetrasException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        //Cadastrar TELEFONE
+        System.out.println(NEGRITO+AMARELO+ "\nFormato do Telefone: (XXX)9XXXX-XXXX" +RESETAR);
+        String telefone;
+        while (true) {
+            try {
+                System.out.print(AMARELO+ "Digite o telefone do Tutor: " +RESETAR);
+                String telefoneValidar = teclado.nextLine();
+                if (Validar.validarTelefone(telefoneValidar)) {
+                    telefone = telefoneValidar;
+                    break;
+                }
+            }
+            catch (TelefoneInvalidoException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        //Cadastrar EMAIL
+        System.out.println(NEGRITO+AMARELO+ "\nFormato do Email: aaaa@aaaaa.com" +RESETAR);
+        String email;
+        while (true) {
+            try {
+                System.out.print(AMARELO+ "Digite o email do Tutor: " +RESETAR);
+                String emailValidando = teclado.nextLine();
+                if (Validar.validarEmail(emailValidando)) {
+                    email = emailValidando;
+                    break;
+                }
+            }
+            catch (EmailInvalidoException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        //Cadastrar ENDEREÇO
+        System.out.println(NEGRITO+AMARELO+ "\nENDEREÇO:" +RESETAR);
         System.out.print(AMARELO+ "Digite a rua: " +RESETAR);
         String rua = teclado.nextLine();
         System.out.print(AMARELO+ "Digite o bairro: " +RESETAR);
@@ -327,6 +392,6 @@ public class Tutor implements CRUD, Terminal {
         Endereco endereco = new Endereco(rua,bairro,numero);
         Tutor tutor = new Tutor(nome, cpf, telefone, email, endereco);
         lista_tutores.add(tutor);
-        System.out.println(NEGRITO+VERDE+ "Tutor cadastrado com sucesso!" +RESETAR);
+        System.out.println(NEGRITO+VERDE+ "\nTUTOR CADASTRADO COM SUCESSO!" +RESETAR);
     }
 }
