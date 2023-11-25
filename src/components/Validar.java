@@ -6,6 +6,7 @@ import exceptions.CRMVInvalidoException;
 import exceptions.CpfInvalidoException;
 import exceptions.EmailInvalidoException;
 import exceptions.SomenteLetrasException;
+import exceptions.TelefoneInvalidoException;
 
 
 public class Validar implements Terminal{
@@ -13,6 +14,8 @@ public class Validar implements Terminal{
     private static final String regexCpf = "^\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}$";
     //regex valida email
     private static final String regexEmail = "^[a-zA-Z0-9_!#$%&’*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
+    // regex valida telefone
+    private static final String regexTelefone = "^\\(0?\\d{2}\\)?\\s?9\\d{4}-?\\d{4}$";
     //regex valida letras
     private static final String regexLetras = ".*[0-9!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?].*";
     //regex valida CRMV
@@ -20,6 +23,7 @@ public class Validar implements Terminal{
     //cria o pattern pra usar o regex
     static Pattern patternCPF = Pattern.compile(regexCpf);
     static Pattern patternEmail = Pattern.compile(regexEmail);
+    static Pattern patternTelefone = Pattern.compile(regexTelefone);
     static Pattern patternLetras = Pattern.compile(regexLetras);
     static Pattern patternCRMV = Pattern.compile(regexCRMV);
 
@@ -39,6 +43,14 @@ public class Validar implements Terminal{
             return true;
         }
         throw new EmailInvalidoException(NEGRITO + VERMELHO+"EMAIL INVÁLIDO!"+RESETAR);
+    }
+
+    public static boolean validarTelefone(String validarTelefone) throws TelefoneInvalidoException{
+        matcher = patternTelefone.matcher(validarTelefone);
+        if (matcher.matches()) {
+            return true;
+        }
+        throw new TelefoneInvalidoException(NEGRITO + VERMELHO+ "TELEFONE INVÁLIDO!" +RESETAR);
     }
 
     public static boolean validarLetras(String validarLetras) throws SomenteLetrasException{
