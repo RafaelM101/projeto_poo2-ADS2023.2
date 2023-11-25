@@ -5,7 +5,9 @@ import Pets.Pet;
 import components.CRUD;
 import components.Terminal;
 import exceptions.CpfInvalidoException;
+import exceptions.EmailInvalidoException;
 import exceptions.ListaVaziaException;
+import exceptions.TelefoneInvalidoException;
 import components.Validar;
 public class Tutor implements CRUD, Terminal {
     private String nomeTutor;
@@ -82,10 +84,34 @@ public class Tutor implements CRUD, Terminal {
                 System.out.println(e.getMessage());
             }
         }
-        System.out.print(AMARELO+ "Digite o telefone do Tutor: " +RESETAR);
-        String telefone = teclado.nextLine();
-        System.out.print(AMARELO+ "Digite o email do Tutor: " +RESETAR);
-        String email = teclado.nextLine();
+        String telefone;
+        while (true) {
+            try {
+                System.out.print(AMARELO+ "Digite o telefone do Tutor: " +RESETAR);
+                String telefoneValidar = teclado.nextLine();
+                if (Validar.validarTelefone(telefoneValidar)) {
+                    telefone = telefoneValidar;
+                    break;
+                }
+            }
+            catch (TelefoneInvalidoException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        String email;
+        while (true) {
+            try {
+                System.out.print(AMARELO+ "Digite o email do Tutor: " +RESETAR);
+                String emailValidando = teclado.nextLine();
+                if (Validar.validarEmail(emailValidando)) {
+                    email = emailValidando;
+                    break;
+                }
+            }
+            catch (EmailInvalidoException e) {
+                System.out.println(e.getMessage());
+            }
+        }
         System.out.println(CYAN+ "Endereço:" +RESETAR);
         System.out.print(AMARELO+ "Digite a rua: " +RESETAR);
         String rua = teclado.nextLine();
@@ -164,10 +190,22 @@ public class Tutor implements CRUD, Terminal {
                     }
                     case 3: {
                         //Novo Email
-                        System.out.print(AMARELO+ "Digite o novo Email: " +RESETAR);
-                        String novoEmail = teclado.nextLine();
-                        tutor.setEmailTutor(novoEmail);
-                        System.out.println(NEGRITO+VERDE+ "O email foi atualizado." +RESETAR);
+                        String novoEmail;
+                        while (true) {
+                            try{
+                                System.out.print(AMARELO+ "Digite o novo Email: " +RESETAR);
+                                String novoEmailValidando= teclado.nextLine();
+                                if (Validar.validarEmail(novoEmailValidando)) {
+                                    novoEmail = novoEmailValidando;
+                                    tutor.setEmailTutor(novoEmail);
+                                    System.out.println(NEGRITO+VERDE+ "O email foi atualizado." +RESETAR);
+                                    break;
+                                }
+                            }
+                            catch(EmailInvalidoException e) {
+                                System.out.println(e.getMessage());
+                            }
+                        }
                         break;
                     }
                     case 4: {
