@@ -1,10 +1,12 @@
 package servicos;
+import components.Terminal;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-public class AgendaDia {
+public class AgendaDia implements Terminal {
 
     private HashMap<LocalTime, Servico> Agendamentos_dia = new HashMap<>();
     private Set<LocalTime> HoraDisponivel = new LinkedHashSet<>();
@@ -34,12 +36,12 @@ public class AgendaDia {
            }
        }
 
-       System.out.println("\tHorários Disponíveis:");
+       System.out.println(NEGRITO + CYAN +"\tHorários Disponíveis:" + RESETAR);
 
-       System.out.print("\t\tManhã: ");
+       System.out.print(NEGRITO + CYAN +"\t\tManhã: " + RESETAR);
        imprimirHorarios(horariosManha);
 
-       System.out.print("\t\tTarde: ");
+       System.out.print(NEGRITO + CYAN +"\t\tTarde: " + RESETAR);
        imprimirHorarios(horariosTarde);
 
        System.out.println();
@@ -47,9 +49,9 @@ public class AgendaDia {
 
     private void imprimirHorarios(List<LocalTime> horarios) {
         for (int i = 0; i < horarios.size(); i++) {
-            System.out.print(horarios.get(i));
+            System.out.print(VERDE + horarios.get(i) + RESETAR);
             if (i < horarios.size() - 1) {
-                System.out.print(", ");
+                System.out.print(VERDE + ", " + RESETAR);
             }
         }
         System.out.println();

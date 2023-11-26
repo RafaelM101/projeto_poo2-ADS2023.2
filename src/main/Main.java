@@ -4,6 +4,7 @@ package main;
 import Pets.Pet;
 import Tutores.Tutor;
 import components.*;
+import exceptions.DataInvalidaException;
 import exceptions.ListaVaziaException;
 import funcionarios.Funcionario;
 import funcionarios.Veterinario;
@@ -19,7 +20,7 @@ public class Main implements Terminal {
         System.out.println(CYAN + linha + RESETAR);
         System.out.println(CYAN + linha + RESETAR);
     }
-    public static void menu_Principal() throws ListaVaziaException {
+    public static void menu_Principal() throws ListaVaziaException, DataInvalidaException {
         while (true) {
             LimparTela();
             System.out.print("\t\t\t"+NEGRITO + PRETO + FUNDO_VERDE+ "SISTEMA DE GERENCIAMENTO AMIGOPET" + RESETAR + "\n");
@@ -134,7 +135,7 @@ public class Main implements Terminal {
             }
         }
     }
-    public static void Menu_AgendarServico() throws ListaVaziaException {
+    public static void Menu_AgendarServico() throws ListaVaziaException, DataInvalidaException {
         while(true){
             System.out.println(NEGRITO + VERDE + "\t\t\tMÓDULO DE AGENDAMENTO DE SERVIÇOS" + RESETAR);
             System.out.println(NEGRITO + CYAN + "Digite a opção desejada: " + RESETAR);
@@ -149,27 +150,32 @@ public class Main implements Terminal {
             teclado.nextLine();
             switch (escolha_user){
                 case 1:
+                    LimparTela();
                     Servico.cadastrar();
                     System.out.println(FUNDO_CYAN + PRETO + "Pressione enter para voltar ao menu do MODULO DE AGENDAMENTO DE SERVIÇOS..." + RESETAR);
                     teclado.nextLine();
                     break;
                 case 2:
+                    LimparTela();
                     Servico.atualizar();
                     System.out.println(FUNDO_CYAN + PRETO + "Pressione enter para voltar ao menu do MODULO DE AGENDAMENTO DE SERVIÇOS..." + RESETAR);
                     teclado.nextLine();
                     break;
                 case 3:
+                    LimparTela();
                     Servico.deletar();
                     System.out.println(FUNDO_CYAN + PRETO + "Pressione enter para voltar ao menu do MODULO DE AGENDAMENTO DE SERVIÇOS..." + RESETAR);
                     teclado.nextLine();
                     break;
                 case 4:
+                    LimparTela();
                     Servico.listar();
                     System.out.println(FUNDO_CYAN + PRETO + "Pressione enter para voltar ao menu do MODULO DE AGENDAMENTO DE SERVIÇOS..." + RESETAR);
                     teclado.nextLine();
 
                     break;
                 case 5:
+                    LimparTela();
                     System.out.println("Digite a matrícula do funcionário desejado: ");
                     String matricula_func = teclado.nextLine().strip();
                     Funcionario funcionario_agenda = Funcionario.consultarFuncionario(matricula_func);
@@ -311,7 +317,7 @@ public class Main implements Terminal {
         Funcionario.data_seed_funcionario();
 
     }
-    public static void main(String[] args) throws ListaVaziaException {
+    public static void main(String[] args) throws ListaVaziaException, DataInvalidaException {
         data_seed();
         menu_Principal();
     }

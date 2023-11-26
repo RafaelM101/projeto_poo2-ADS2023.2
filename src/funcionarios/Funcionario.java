@@ -20,7 +20,6 @@ public class Funcionario implements CRUD, Terminal{
 	protected String CPF;
 	protected String nome;
 	protected Setores setor;
-
 	private HashMap<LocalDate, AgendaDia> AgendaDiariaFuncionario;
 	protected static ArrayList<Funcionario> lista_funcionarios = new ArrayList<>();
 		
@@ -40,6 +39,9 @@ public class Funcionario implements CRUD, Terminal{
 			AgendaDia agendaDia = new AgendaDia();
 			AgendaDiariaFuncionario.put(currentDate, agendaDia);
 			if(currentDate.equals(LocalDate.now())){
+				if(LocalTime.now().isAfter(LocalTime.of(18,30))){
+					continue;
+				}
 				agendaDia.removerHorario(LocalTime.now());
 			}
 			}
@@ -57,7 +59,6 @@ public class Funcionario implements CRUD, Terminal{
 		return matricula.numero_matricula;
 	}
 
-
 	public double getSalario() {
 		return salario;
 	}
@@ -74,7 +75,6 @@ public class Funcionario implements CRUD, Terminal{
 	public void setSetor(Setores setor) {
 		this.setor = setor;
 	}
-
 
 	@Override
 	public String toString() {
@@ -153,7 +153,7 @@ public class Funcionario implements CRUD, Terminal{
 					try{
 						System.out.print(AZUL + "Insira o CRMV do Veterinário: " + RESETAR) ;
 						String CRMVValidando = teclado.nextLine();
-						if(Validar.valarCRMV(CRMVValidando)) {
+						if(Validar.validarCRMV(CRMVValidando)) {
 							crmv = CRMVValidando;
 							break; 
 						}
@@ -205,7 +205,7 @@ public class Funcionario implements CRUD, Terminal{
 	}
 
 	public static void atualizar() throws ListaVaziaException{
-		if(lista_funcionarios.size() < 1) {
+		if(lista_funcionarios.isEmpty()) {
 			throw new ListaVaziaException(NEGRITO+ VERMELHO+"Nenhum funcionario cadastrado!"+RESETAR);
 		}
 		System.out.print(NEGRITO+MAGENTA+"Digite a matrícula do funcionário que deseja atualizar os dados: "+RESETAR);
@@ -220,8 +220,6 @@ public class Funcionario implements CRUD, Terminal{
 				return;				
 			}
 		}
-		System.out.println(NEGRITO+ VERMELHO+"Nenhum funcionario encontrado!"+RESETAR);
-		return;
 
 		
 	}
@@ -267,10 +265,6 @@ public class Funcionario implements CRUD, Terminal{
 		AgendaDia agenda = AgendaDiariaFuncionario.get(data);
 		return agenda.verificarHorario(hora);
 	}
-	public void remarcarHorario(Servico servico){
-		AgendaDia agenda = AgendaDiariaFuncionario.get(servico.getData_servico());
-		agenda.mudarHorario(servico.getHora_servico(), servico);
-	}
 	public void listarAgenda(){
 		for (Map.Entry<LocalDate, AgendaDia> entry : AgendaDiariaFuncionario.entrySet()) {
 			LocalDate data_agenda = entry.getKey();
@@ -283,8 +277,7 @@ public class Funcionario implements CRUD, Terminal{
 
 	public void imprimirAgendaDia(LocalDate dia){
 		AgendaDia agenda_escolhida = AgendaDiariaFuncionario.get(dia);
-
-		System.out.printf("\tFUNCIONÁRIO %s\n\tAGENDA DIA: %s ",this.nome,formatter.format(dia));
+		System.out.printf(CYAN + NEGRITO +"\tFUNCIONÁRIO: %s\n\tAGENDA DIA: %s ",this.nome,formatter.format(dia) + RESETAR);
 		System.out.println(" ");
 		agenda_escolhida.imprimirAgenda();
 	}
