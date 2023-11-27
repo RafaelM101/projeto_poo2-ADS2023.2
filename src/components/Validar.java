@@ -5,12 +5,6 @@ import java.util.regex.Pattern;
 
 import exceptions.*;
 
-import exceptions.CRMVInvalidoException;
-import exceptions.CpfInvalidoException;
-import exceptions.EmailInvalidoException;
-import exceptions.SomenteLetrasException;
-import exceptions.TelefoneInvalidoException;
-
 
 
 public class Validar implements Terminal{
@@ -18,19 +12,23 @@ public class Validar implements Terminal{
     //regex valida email
     private static final String regexEmail = "^[a-zA-Z0-9_!#$%&’*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
     // regex valida telefone
-    private static final String regexTelefone = "^\\(0?\\d{2}\\)?\\s?9\\d{4}-?\\d{4}$";
+    private static final String regexTelefone = "^\\((0\\d{2}|\\d{2})\\)\\s?9\\d{4}-?\\d{4}$";
     //regex valida letras
     private static final String regexLetras = ".*[0-9!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?].*";
     //regex valida CRMV
     private static final String regexCRMV = "^CRMV-(AC|AL|AP|AM|BA|CE|DF|ES|GO|MA|MT|MS|MG|PA|PB|PR|PE|PI|RJ|RN|RS|RO|RR|SC|SP|SE|TO) \\d{4}$";
+    //regex valida Data
     private static final String regexData = "^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/[0-9]{4}$";
+    //regex valida Matricula
+    private static final String regexMatricula = "^\\d{4}$";
+
     static Pattern patternCPF = Pattern.compile(regexCpf);
     static Pattern patternEmail = Pattern.compile(regexEmail);
     static Pattern patternTelefone = Pattern.compile(regexTelefone);
     static Pattern patternLetras = Pattern.compile(regexLetras);
     static Pattern patternCRMV = Pattern.compile(regexCRMV);
-
     static Pattern patternDate = Pattern.compile(regexData);
+    static Pattern patternMatricula = Pattern.compile(regexMatricula);
 
     //faz a operação
     static Matcher matcher;
@@ -80,6 +78,14 @@ public class Validar implements Terminal{
             return true;
         }
         throw new DataInvalidaException(VERMELHO + "\n\t\t\tDATA INVÁLIDA. INSIRA NO FORMATO dd/mm/aaaa." + RESETAR);
+    }
+
+    public static boolean ValidarMatricula(String validarMatricula) throws MatriculaInvalidaException {
+        matcher = patternMatricula.matcher(validarMatricula);
+        if (matcher.matches()) {
+            return true;
+        }
+        throw new MatriculaInvalidaException(NEGRITO+VERMELHO+ "MATRÍCULA INVÁLIDA!" +RESETAR);
     }
 
 }
