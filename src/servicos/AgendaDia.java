@@ -74,16 +74,8 @@ public class AgendaDia implements Terminal {
         }
     }
 
-    public void mudarHorario(LocalTime horario, Servico servico){
-        desmarcarHorario(horario);
-        agendarHorario(horario, servico);
-    }
-
     public boolean verificarHorario(LocalTime horario){;
         return this.HoraDisponivel.contains(horario);
     }
 
-    public void removerHorario(LocalTime horarioatual){
-        this.HoraDisponivel.remove(horarioatual);
-    }
 }

@@ -24,6 +24,9 @@ public class Validar implements Terminal{
     //regex valida CRMV
     private static final String regexCRMV = "^CRMV-(AC|AL|AP|AM|BA|CE|DF|ES|GO|MA|MT|MS|MG|PA|PB|PR|PE|PI|RJ|RN|RS|RO|RR|SC|SP|SE|TO) \\d{4}$";
     private static final String regexData = "^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/[0-9]{4}$";
+
+    private static final String regexHora = "^(0[8-9]|1[0-7]):(00|30)$";
+
     static Pattern patternCPF = Pattern.compile(regexCpf);
     static Pattern patternEmail = Pattern.compile(regexEmail);
     static Pattern patternTelefone = Pattern.compile(regexTelefone);
@@ -31,6 +34,7 @@ public class Validar implements Terminal{
     static Pattern patternCRMV = Pattern.compile(regexCRMV);
 
     static Pattern patternDate = Pattern.compile(regexData);
+    private static final Pattern patternHora = Pattern.compile(regexHora);
 
     //faz a operação
     static Matcher matcher;
@@ -82,4 +86,11 @@ public class Validar implements Terminal{
         throw new DataInvalidaException(VERMELHO + "\n\t\t\tDATA INVÁLIDA. INSIRA NO FORMATO dd/mm/aaaa." + RESETAR);
     }
 
+    public static boolean validarHora(String validarHora) throws HoraInvalidaException{
+        matcher = patternHora.matcher(validarHora);
+        if(matcher.matches()){
+            return true;
+        }
+        throw new HoraInvalidaException(VERMELHO + "\n\t\t\tHORA INVÁLIDA. INSIRA NO FORMATO hh:mm . Lembrando de se atentar aos horários disponíveis." + RESETAR);
+    }
 }

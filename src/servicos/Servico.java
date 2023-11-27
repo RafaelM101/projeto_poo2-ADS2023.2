@@ -6,6 +6,7 @@ import components.Terminal;
 import components.Validar;
 import exceptions.DataInvalidaException;
 import exceptions.EscolhaInvalidaException;
+import exceptions.HoraInvalidaException;
 import exceptions.ListaVaziaException;
 import funcionarios.Funcionario;
 import funcionarios.Veterinario;
@@ -18,6 +19,8 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.InputMismatchException;
+
+import static main.Main.LimparTela;
 
 
 public class Servico implements CRUD, Terminal {
@@ -174,7 +177,6 @@ public class Servico implements CRUD, Terminal {
 
             for (int i = 0; i <= 7; i++) {
                 if (i == 0 && LocalTime.now().isAfter(LocalTime.of(18, 30))) {
-                    continue;
                 } else {
                     lista_datas.add(formatter.format(LocalDate.now().plusDays(i)));
                 }
@@ -201,12 +203,18 @@ public class Servico implements CRUD, Terminal {
         System.out.println(" ");
         funcionario_servico.imprimirAgendaDia(data_escolhida);
         while(true){
+            try{
             System.out.print(AMARELO + NEGRITO +"\nInsira o horário que será realizado o serviço: " + RESETAR);
             String horario = teclado.next();
+            Validar.validarHora(horario);
             teclado.nextLine();
             horario_escolhido = LocalTime.parse(horario);
             if(!(funcionario_servico.verificarHorario(data_escolhida,horario_escolhido))){
                 System.out.println(VERMELHO + "\t\t\t\nO Horário digitado não está disponível para esse funcionário. Insira um horário disponível.\n" + RESETAR);
+                continue;
+            }}
+            catch (HoraInvalidaException e){
+                System.out.println(e.getMessage());
                 continue;
             }
             break;
@@ -243,13 +251,16 @@ public class Servico implements CRUD, Terminal {
                 if (servico.getData_servico().equals(data_escolhida)) {
                     Collections.sort(lista_servicos, new ServicoComparator());
                     System.out.println(servico);
+                    LimparTela();
                 }
             }
         } else {
             Collections.sort(lista_servicos, new ServicoComparator());
             System.out.println("Lista de serviços cadastrados");
             for (Servico servico : lista_servicos) {
-                System.out.println(servico.toString());
+                LimparTela();
+                System.out.println("\n" + servico.toString());
+                LimparTela();
             }
         }
         }
@@ -280,10 +291,11 @@ public class Servico implements CRUD, Terminal {
                 Validar.ValidarDate(data);
                 System.out.print(NEGRITO + AMARELO +"\nInsira o horário cadastrado do agendamento que será alterado: " + RESETAR);
                 horario = teclado.next().trim();
+                Validar.validarHora(horario);
                 teclado.nextLine();
                 servico_atualizar = Servico.ConsultarServico(matricula, data, horario);
                 atributos_originais = Servico.clonarAtributos(servico_atualizar);
-            } catch (DataInvalidaException | ListaVaziaException e) {
+            } catch (DataInvalidaException | ListaVaziaException | HoraInvalidaException e) {
                 System.out.println("\t\t\t" + e.getMessage());
                 System.out.println(VERMELHO + "\n\t\t\tPressione" + RESETAR + " " + FUNDO_AMARELO + VERMELHO + "ENTER" + RESETAR + VERMELHO + " para tentar novamente ou " + RESETAR + FUNDO_AMARELO + VERMELHO + "digite 1" + RESETAR + VERMELHO + " " + "para voltar ao menu do Módulo de Agendamento de Serviços." + RESETAR + VERMELHO + RESETAR);
                 String escolha = teclado.nextLine();
@@ -311,7 +323,7 @@ public class Servico implements CRUD, Terminal {
                         servico_atualizar.setData_servico(LocalDate.parse(data_nova, formatter));
                         if (funcionario.verificarHorario(servico_atualizar.getData_servico(), servico_atualizar.getHora_servico())) {
                             funcionario.agendarHorario(servico_atualizar);
-                            System.out.println(CYAN + NEGRITO + "\nNOVA DATA ALTERADA COM SUCESSO!" + RESETAR);
+                            System.out.println(CYAN + NEGRITO + "\nDATA ALTERADA COM SUCESSO!" + RESETAR);
                             System.out.println(CYAN + NEGRITO +"\tAGENDAMENTO ORIGINAL:" + RESETAR);
                             System.out.println(VERMELHO +atributos_originais + RESETAR);
                             System.out.println(CYAN + "AGENDAMENTO ATUAL:" + RESETAR);
@@ -327,12 +339,17 @@ public class Servico implements CRUD, Terminal {
                     }
                     break;
                 case 2:
+                    try {
                     funcionario.desmarcarHorario(servico_atualizar);
                     System.out.println("Digite o novo HORARIO do serviço: ");
                     String horario_novo = teclado.nextLine().strip();
+                    Validar.validarHora(horario_novo);
                     servico_atualizar.setHora_servico(LocalTime.parse(horario_novo));
                     if (funcionario.verificarHorario(servico_atualizar.getData_servico(), servico_atualizar.getHora_servico())) {
                         funcionario.agendarHorario(servico_atualizar);
+                    }}
+                    catch (HoraInvalidaException e){
+                        System.out.println(e.getMessage());
                     }
                     break;
                 case 3:
@@ -410,9 +427,10 @@ public class Servico implements CRUD, Terminal {
                 Validar.ValidarDate(data);
                 System.out.println("Insira o horário cadastrado do serviço que será desmarcado: ");
                 horario = teclado.next().trim();
+                Validar.validarHora(horario);
                 teclado.nextLine();
                 servico_delete = Servico.ConsultarServico(matricula,data,horario);
-        } catch (DataInvalidaException | ListaVaziaException e){
+        } catch (DataInvalidaException | ListaVaziaException | HoraInvalidaException e){
             System.out.println("\t\t\t"+e.getMessage());
             System.out.println(VERMELHO + "\t\t\tPressione"+ RESETAR + " " +FUNDO_AMARELO + VERMELHO+ "ENTER" +RESETAR + VERMELHO+ " para tentar novamente ou " + RESETAR + FUNDO_AMARELO + VERMELHO+ "digite 1" +RESETAR + VERMELHO + " " + "para voltar ao menu do Módulo de Agendamento de Serviços." + RESETAR + VERMELHO + RESETAR);
             String escolha = teclado.nextLine();
