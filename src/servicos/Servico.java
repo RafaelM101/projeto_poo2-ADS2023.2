@@ -173,20 +173,28 @@ public class Servico implements CRUD, Terminal {
             ArrayList<String> lista_datas = new ArrayList<>();
 
             for (int i = 0; i <= 7; i++) {
-                if(i==0 && LocalTime.now().isAfter(LocalTime.of(18,30))){}
-                else {lista_datas.add(formatter.format(LocalDate.now().plusDays(i)));}
+                if (i == 0 && LocalTime.now().isAfter(LocalTime.of(18, 30))) {
+                    continue;
+                } else {
+                    lista_datas.add(formatter.format(LocalDate.now().plusDays(i)));
+                }
             }
 
-            System.out.println(CYAN + NEGRITO +"\nDatas disponíveis para agendamentos: \n" + RESETAR);
+            System.out.println(CYAN + NEGRITO + "\nDatas disponíveis para agendamentos: \n" + RESETAR);
             Servico.imprimirDatas();
-            System.out.print(AMARELO + NEGRITO +"\n\nInsira a data que será realizada o serviço: " + RESETAR);
-            String data = teclado.nextLine();
+            String data = null;
+            try {
+                System.out.print(AMARELO + NEGRITO + "\n\nInsira a data que será realizada o serviço: " + RESETAR);
+                data = teclado.nextLine();
 
-            if (!(lista_datas.contains(data))) {
-                System.out.print(VERMELHO+"\t\t\t\nA Data escolhida não foi localizada. Verifique a data digitada e tente novamente.\n" + RESETAR);
-                continue;
+                if (!(lista_datas.contains(data))) {
+                    System.out.print(VERMELHO + "\t\t\t\nA Data escolhida não foi localizada. Verifique a data digitada e tente novamente.\n" + RESETAR);
+                    continue;
+                }
+                Validar.ValidarDate(data);
+            } catch (DataInvalidaException e) {
+                System.out.println(e.getMessage());
             }
-
             data_escolhida = LocalDate.parse(data, formatter);
             break;
         }
@@ -387,8 +395,9 @@ public class Servico implements CRUD, Terminal {
         }
     }
 
-    public static void deletar() throws ListaVaziaException {
+    public static void deletar(){
         String data, horario, matricula;
+        Servico servico_delete;
         while (true) {
             try {
                 System.out.println("Insira a matrícula do funcionário que está com esse serviço agendado: ");
@@ -402,7 +411,7 @@ public class Servico implements CRUD, Terminal {
                 System.out.println("Insira o horário cadastrado do serviço que será desmarcado: ");
                 horario = teclado.next().trim();
                 teclado.nextLine();
-                Servico.ConsultarServico(matricula,data,horario);
+                servico_delete = Servico.ConsultarServico(matricula,data,horario);
         } catch (DataInvalidaException | ListaVaziaException e){
             System.out.println("\t\t\t"+e.getMessage());
             System.out.println(VERMELHO + "\t\t\tPressione"+ RESETAR + " " +FUNDO_AMARELO + VERMELHO+ "ENTER" +RESETAR + VERMELHO+ " para tentar novamente ou " + RESETAR + FUNDO_AMARELO + VERMELHO+ "digite 1" +RESETAR + VERMELHO + " " + "para voltar ao menu do Módulo de Agendamento de Serviços." + RESETAR + VERMELHO + RESETAR);
@@ -410,10 +419,8 @@ public class Servico implements CRUD, Terminal {
             if(escolha.equals("1")) return;
             continue;
             }
-
             break;
         }
-            Servico servico_delete = ConsultarServico(matricula, data, horario);
             System.out.println("\nSERVIÇO A DESMARCAR:\n ");
             System.out.println("\n"+servico_delete);
             while(true) {
