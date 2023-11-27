@@ -11,6 +11,9 @@ public class AgendaDia implements Terminal {
     private HashMap<LocalTime, Servico> Agendamentos_dia = new HashMap<>();
     private Set<LocalTime> HoraDisponivel = new LinkedHashSet<>();
 
+    public Set<LocalTime> getHoraDisponivel() {
+       return this.HoraDisponivel;
+    }
 
     public AgendaDia(){
         String[] horariosString = {
@@ -39,9 +42,11 @@ public class AgendaDia implements Terminal {
        System.out.println(NEGRITO + CYAN +"\tHorários Disponíveis:" + RESETAR);
 
        System.out.print(NEGRITO + CYAN +"\t\tManhã: " + RESETAR);
+       Collections.sort(horariosManha);
        imprimirHorarios(horariosManha);
 
        System.out.print(NEGRITO + CYAN +"\t\tTarde: " + RESETAR);
+       Collections.sort(horariosTarde);
        imprimirHorarios(horariosTarde);
 
        System.out.println();

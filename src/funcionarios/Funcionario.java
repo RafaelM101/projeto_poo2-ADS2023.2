@@ -31,21 +31,28 @@ public class Funcionario implements CRUD, Terminal{
 		this.setor = setor;
 		this.AgendaDiariaFuncionario = new LinkedHashMap<>();
 
-		LocalDate date_agenda = LocalDate.now();
+		LocalDate date_agenda = LocalDate.now(), currentDate;
+		AgendaDia agendaDia;
 		formatter.format(date_agenda);
-
-		for (int i = 0; i < 8; i++) {
-			LocalDate currentDate = date_agenda.plusDays(i);
-			AgendaDia agendaDia = new AgendaDia();
-			AgendaDiariaFuncionario.put(currentDate, agendaDia);
-			if(currentDate.equals(LocalDate.now())){
-				if(LocalTime.now().isAfter(LocalTime.of(18,30))){
-					continue;
+		if(!(LocalTime.now().isAfter(LocalTime.of(18,30)))){
+			LocalTime hora_atual = LocalTime.now();
+			agendaDia = new AgendaDia();
+			AgendaDiariaFuncionario.put(date_agenda, agendaDia);
+			Iterator<LocalTime> iterator = agendaDia.getHoraDisponivel().iterator();
+			while (iterator.hasNext()) {
+				LocalTime hora = iterator.next();
+				if (hora.isBefore(hora_atual)) {
+					iterator.remove();
+				} else {
+					break;
 				}
-				agendaDia.removerHorario(LocalTime.now());
-			}
-			}
 		}
+		for (int i = 1; i < 8; i++) {
+			currentDate = date_agenda.plusDays(i);
+			agendaDia = new AgendaDia();
+			AgendaDiariaFuncionario.put(currentDate, agendaDia);
+			}
+	}}
 	
 	public String getSetor() {
 		return setor.toString();
