@@ -191,7 +191,7 @@ public class Main implements Terminal {
                             System.out.print(NEGRITO + AMARELO +"Digite a matrícula do funcionário desejado: " + RESETAR);
                             matricula_func = teclado.nextLine().strip();
                             if (Funcionario.consultarFuncionario(matricula_func) == null) {
-                                throw new ListaVaziaException(VERMELHO + "\n\t\t\tERRO: A matrícula digitada não está associada à nenhum funcionário cadastrado, PRESSIONE ENTER para TENTAR NOVAMENTE! ou 1 PARA CANCELAR E VOLTAR AO MENU PRINCIPAL.\n" + RESETAR);
+                                throw new ListaVaziaException(VERMELHO + "\n\t\t\tERRO: A matrícula digitada não está associada à nenhum funcionário cadastrado.\n\t\t\tPRESSIONE ENTER para TENTAR NOVAMENTE ou 1 PARA CANCELAR E VOLTAR AO MENU PRINCIPAL.\n" + RESETAR);
                             }
                             Funcionario funcionario_agenda = Funcionario.consultarFuncionario(matricula_func);
                             if(funcionario_agenda!=null){
