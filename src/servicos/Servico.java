@@ -97,6 +97,8 @@ public class Servico implements CRUD, Terminal {
 
     public static void cadastrar() {
         int servico;
+        LimparTela();
+        System.out.println(CYAN + "\n| CADASTRO DE AGENDAMENTOS |" + RESETAR);
         while (true) {
             try {
                 System.out.println(CYAN + "Escolha o tipo do serviço que será realizado:" + RESETAR);
@@ -229,23 +231,25 @@ public class Servico implements CRUD, Terminal {
         funcionario_servico.agendarHorario(novo_servico);
         System.out.println(CYAN + NEGRITO + "\t\t\t\nSERVIÇO CADASTRADO COM SUCESSO!\n" + RESETAR);
         System.out.println(novo_servico);
+        LimparTela();
 
     }
 
 
     public static void listar(){
         try{
+        LimparTela();
         if (lista_servicos.isEmpty()) {
             throw new ListaVaziaException("Não há nenhum serviço agendado, retornando ao menu do modulo de agendamento de serviços.");
         }
-        System.out.print("Deseja listar por data específica?\n1 - SIM\n2 - NÃO: ");
+        System.out.print(CYAN + "Deseja listar por data específica?\n1 - SIM\n2 - NÃO\nOPÇÃO: " + RESETAR);
         int option = teclado.nextInt();
         teclado.nextLine();
         if(option < 1 || option > 2){
-            throw new EscolhaInvalidaException(VERMELHO +"Escolha apenas entre 1 - Para listar por data específica\n2 - listar todos os agendamentos cadastrados.\n"+ RESETAR);
+            throw new EscolhaInvalidaException(VERMELHO +"ERRO: Escolha apenas entre 1 - Para listar por data específica\n2 - listar todos os agendamentos cadastrados.\n"+ RESETAR);
         }
         if (option==1) {
-            System.out.print("\nDigite a data dos serviços que deseja listar: ");
+            System.out.print(AMARELO + "\nDigite a data dos serviços que deseja listar: " + RESETAR);
             String data = teclado.nextLine();
             Validar.ValidarDate(data);
             LocalDate data_escolhida = LocalDate.parse(data, formatter);
@@ -260,7 +264,6 @@ public class Servico implements CRUD, Terminal {
             Collections.sort(lista_servicos, new ServicoComparator());
             System.out.println("Lista de serviços cadastrados");
             for (Servico servico : lista_servicos) {
-                LimparTela();
                 System.out.println("\n" + servico.toString());
                 LimparTela();
             }
@@ -281,6 +284,7 @@ public class Servico implements CRUD, Terminal {
         while (true) {
             try {
                 while (true){
+                    LimparTela();
                     System.out.println(CYAN + NEGRITO + "\t\t\t| ALTERAÇÃO DE AGENDAMENTO |" + RESETAR);
                     System.out.println(NEGRITO + AMARELO + "OBSERVAÇÃO: Para alterar um agendamento, é necessário ter em mão a matrícula do funcionário, a data e o horário." + RESETAR);
                     System.out.print(NEGRITO + AMARELO +"Insira a matrícula do funcionário que está com esse serviço agendado: " + RESETAR) ;
@@ -309,6 +313,7 @@ public class Servico implements CRUD, Terminal {
 
             break;
         }
+        LimparTela();
         System.out.println(CYAN + NEGRITO + "\n\t\t\tSERVIÇO LOCALIZADO!" + RESETAR);
         System.out.println(CYAN + "DADOS DO SERVIÇO:" + RESETAR);
         System.out.printf(CYAN + "\t\t\tFuncionário: %s", servico_atualizar.getNome_funcionario().getNome() + RESETAR);
@@ -332,6 +337,7 @@ public class Servico implements CRUD, Terminal {
             switch (option) {
                 case 1:
                     try {
+                        LimparTela();
                         System.out.println(CYAN + "\n| Alteração de Data de Agendamento |" + RESETAR);
                         System.out.println(NEGRITO + AMARELO + "\nDigite a nova DATA do serviço: " + RESETAR);
                         System.out.println(NEGRITO + AMARELO + "\tDatas disponíveis:\n" + RESETAR);
@@ -344,6 +350,7 @@ public class Servico implements CRUD, Terminal {
                         if (funcionario.verificarHorario(servico_atualizar.getData_servico(), servico_atualizar.getHora_servico())) {
                             funcionario.agendarHorario(servico_atualizar);
                             System.out.println(CYAN + NEGRITO + "\n\t\t\tDATA ALTERADA COM SUCESSO!\n" + RESETAR);
+                            LimparTela();
                             break;
 
                         } else {
@@ -355,6 +362,7 @@ public class Servico implements CRUD, Terminal {
                     break;
                 case 2:
                     try {
+                        LimparTela();
                         System.out.println(CYAN + "|\n Alteração de Horário de Agendamento |\n" + RESETAR);
                         funcionario.desmarcarHorario(servico_atualizar);
                         System.out.print(AMARELO + "Digite o novo HORARIO do serviço: " + RESETAR);
@@ -363,7 +371,8 @@ public class Servico implements CRUD, Terminal {
                         servico_atualizar.setHora_servico(LocalTime.parse(horario_novo));
                         if (funcionario.verificarHorario(servico_atualizar.getData_servico(), servico_atualizar.getHora_servico())) {
                             funcionario.agendarHorario(servico_atualizar);
-                            System.out.println(CYAN + "Horário alterado com sucesso!\n" + RESETAR);
+                            System.out.println(CYAN + NEGRITO + "\n\t\t\tHorário alterado com sucesso!\n" + RESETAR);
+                            LimparTela();
                         }
                     } catch (HoraInvalidaException e) {
                         System.out.println(e.getMessage());
@@ -373,8 +382,9 @@ public class Servico implements CRUD, Terminal {
                     int novo_tipo;
                     while (true) {
                         try {
+                            LimparTela();
                             System.out.println(CYAN + "|\n\t\t\t Alteração de Tipo de Agendamento |\n");
-                            System.out.println("Digite o novo TIPO do serviço: \n1 - BANHO\n2 - TOSA\n3 - CONSULTA:");
+                            System.out.println(AMARELO +"Digite o novo TIPO do serviço: \n1 - BANHO\n2 - TOSA\n3 - CONSULTA:" + RESETAR);
                             novo_tipo = teclado.nextInt();
                             teclado.nextLine();
                             if (novo_tipo < 1 || novo_tipo > 3) {
@@ -397,6 +407,7 @@ public class Servico implements CRUD, Terminal {
                             System.out.println(CYAN + "TIPO DO SERVIÇO ALTERADO PARA BANHO COM SUCESSO!" + RESETAR);
                             System.out.println(CYAN + "Pressione enter para voltar ao menu de Atualizar Agendamento." + RESETAR);
                             teclado.nextLine();
+                            LimparTela();
                             break;
                         case 2:
                             System.out.println(CYAN +"\n\t\t\t| Alteração de Tipo de Serviço Tosa |\n" + RESETAR);
@@ -405,6 +416,7 @@ public class Servico implements CRUD, Terminal {
                             System.out.println(CYAN + "TIPO DO SERVIÇO ALTERADO PARA TOSA COM SUCESSO!" + RESETAR);
                             System.out.println(CYAN + "Pressione enter para voltar ao menu de Atualizar Agendamento." + RESETAR);
                             teclado.nextLine();
+                            LimparTela();
                             break;
                         case 3:
                             try {
@@ -424,7 +436,8 @@ public class Servico implements CRUD, Terminal {
                                     servico_atualizar.setTipo_agendamento(ListaServicos.CONSULTA);
                                     servico_atualizar.setPreco(90.00f);
                                     funcionario.agendarHorario(servico_atualizar);
-                                    System.out.println(CYAN + "TIPO DE SERVIÇO ATUALIZADO PARA CONSULTA COM SUCESSO!\n**Também foi alterado o funcionário." + RESETAR);
+                                    System.out.println(CYAN + NEGRITO + "\n\t\t\tTIPO DE SERVIÇO ATUALIZADO PARA CONSULTA COM SUCESSO!\n**Também foi alterado o funcionário." + RESETAR);
+                                    LimparTela();
                                     break;
                                 }
                             } catch (EscolhaInvalidaException e) {
@@ -433,6 +446,7 @@ public class Servico implements CRUD, Terminal {
                     }
                     break;
                 case 4:
+                    LimparTela();
                     System.out.println(CYAN +"\n\t\t\t| Alteração de Funcionário |\n" + RESETAR);
                     System.out.println(CYAN + "Obs: É necessário verificar se o novo funcionário possui disponibilidade na Data e Horário atuais do serviço." + RESETAR);
                     funcionario.desmarcarHorario(servico_atualizar);
@@ -448,11 +462,13 @@ public class Servico implements CRUD, Terminal {
                     } else if (novo_funcionario.verificarHorario(servico_atualizar.getData_servico(), servico_atualizar.getHora_servico())) {
                         servico_atualizar.setNome_funcionario(novo_funcionario);
                         novo_funcionario.agendarHorario(servico_atualizar);
-                        System.out.println(CYAN + "ALTERAÇÃO DE FUNCIONÁRIO FEITA COM SUCESSO!" + RESETAR);
+                        System.out.println(CYAN + "\n\t\t\tALTERAÇÃO DE FUNCIONÁRIO FEITA COM SUCESSO!" + RESETAR);
+                        LimparTela();
                         break;
                     }
                 default:
-                    System.out.println("VERIFIQUE AS ALTERAÇÕES REALIZADAS NO SERVIÇO:");
+                    LimparTela();
+                    System.out.println(NEGRITO + CYAN + "\t\t\tVERIFIQUE AS ALTERAÇÕES REALIZADAS NO SERVIÇO:" + RESETAR);
                     System.out.println(CYAN + NEGRITO + "\tAGENDAMENTO ORIGINAL:" + RESETAR);
                     System.out.println(VERMELHO + atributos_originais + RESETAR);
                     System.out.println(CYAN + "AGENDAMENTO APÓS ALTERAÇÕES:" + RESETAR);
@@ -468,6 +484,8 @@ public class Servico implements CRUD, Terminal {
         Servico servico_delete;
         while (true) {
             try {
+                LimparTela();
+                System.out.println(CYAN + NEGRITO + "\n| DESMARCAR AGENDAMENTO |\n" + RESETAR);
                 System.out.println("Insira a matrícula do funcionário que está com esse serviço agendado: ");
                 matricula = teclado.nextLine().strip();
                 if(Funcionario.consultarFuncionario(matricula)==null){
