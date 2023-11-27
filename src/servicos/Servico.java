@@ -11,6 +11,7 @@ import funcionarios.Funcionario;
 import funcionarios.Veterinario;
 import main.Main;
 
+import javax.sound.midi.SysexMessage;
 import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -214,31 +215,40 @@ public class Servico implements CRUD, Terminal {
     }
 
 
-    public static void listar() throws ListaVaziaException {
+    public static void listar(){
+        try{
         if (lista_servicos.isEmpty()) {
-            throw new ListaVaziaException("Não há nenhum serviço agendado.");
+            throw new ListaVaziaException("Não há nenhum serviço agendado, retornando ao menu do modulo de agendamento de serviços.");
         }
-        System.out.print("Deseja listar por data específica?\nDIGITE S ou N: ");
-        String option = teclado.next().toUpperCase().strip();
+        System.out.print("Deseja listar por data específica?\n1 - SIM\n2 - NÃO: ");
+        int option = teclado.nextInt();
         teclado.nextLine();
-        if (option.equals("S")) {
+        if(option < 1 || option > 2){
+            throw new EscolhaInvalidaException(VERMELHO +"Escolha apenas entre 1 - Para listar por data específica\n2 - listar todos os agendamentos cadastrados.\n"+ RESETAR);
+        }
+        if (option==1) {
             System.out.print("\nDigite a data dos serviços que deseja listar: ");
             String data = teclado.nextLine();
+            Validar.ValidarDate(data);
             LocalDate data_escolhida = LocalDate.parse(data, formatter);
             for (Servico servico : lista_servicos) {
                 if (servico.getData_servico().equals(data_escolhida)) {
                     Collections.sort(lista_servicos, new ServicoComparator());
-                    System.out.println(servico.toString());
+                    System.out.println(servico);
                 }
             }
-        } else if (option.equals("N")) {
+        } else {
             Collections.sort(lista_servicos, new ServicoComparator());
             System.out.println("Lista de serviços cadastrados");
             for (Servico servico : lista_servicos) {
                 System.out.println(servico.toString());
             }
-        } else {
-            System.out.println("Opção inválida.");
+        }
+        }
+        catch (ListaVaziaException | DataInvalidaException | EscolhaInvalidaException e){
+            System.out.println(e.getMessage());
+        }catch (InputMismatchException e){
+        System.out.println(VERMELHO + "\n\t\t\tEscolha entre os números: 1 - PARA LISTAR POR DATA ESPECIFICA\n 2 - PARA LISTAR TODOS OS AGENDAMENTOS CADASTRADOS." + RESETAR);
         }
 
     }
