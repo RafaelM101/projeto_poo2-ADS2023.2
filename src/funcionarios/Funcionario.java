@@ -232,7 +232,7 @@ public class Funcionario implements CRUD, Terminal{
 		return null;
 	}
 	public static void deletar() throws ListaVaziaException{
-		if(lista_funcionarios.size() < 1) {
+		if(lista_funcionarios.isEmpty()) {
 			throw new ListaVaziaException(NEGRITO+VERMELHO+"Nenhum funcionario cadastrado!"+RESETAR);
 		}
 		System.out.print(NEGRITO+MAGENTA+"Digite a matrícula do funcionário que deseja demitir: "+RESETAR);
@@ -250,10 +250,10 @@ public class Funcionario implements CRUD, Terminal{
 	}
 	//METODOS RELACIONADOS À AGENDA DO FUNCIONÁRIO
 	public void agendarHorario(Servico novo_servico){
-		if(verificarHorario(novo_servico.getData_servico(), novo_servico.getHora_servico()))
-			{
-		AgendaDia agenda = AgendaDiariaFuncionario.get(novo_servico.getData_servico());
-		agenda.agendarHorario(novo_servico.getHora_servico(), novo_servico);
+		Funcionario func = novo_servico.getNome_funcionario();
+		if(func.verificarHorario(novo_servico.getData_servico(), novo_servico.getHora_servico())){
+			AgendaDia agenda = AgendaDiariaFuncionario.get(novo_servico.getData_servico());
+			agenda.agendarHorario(novo_servico.getHora_servico(), novo_servico);
 		}
 		else System.out.println(NEGRITO+ VERMELHO+"Horário escolhido não está disponível. Verifique outro funcionário."+RESETAR);
 	}
@@ -263,8 +263,8 @@ public class Funcionario implements CRUD, Terminal{
 	}
 	public boolean verificarHorario(LocalDate data, LocalTime hora){
 		AgendaDia agenda = AgendaDiariaFuncionario.get(data);
-		return agenda.verificarHorario(hora);
-	}
+        return agenda.verificarHorario(hora);
+    }
 	public void listarAgenda(){
 		for (Map.Entry<LocalDate, AgendaDia> entry : AgendaDiariaFuncionario.entrySet()) {
 			LocalDate data_agenda = entry.getKey();

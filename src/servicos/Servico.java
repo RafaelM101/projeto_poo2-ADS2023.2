@@ -90,8 +90,6 @@ public class Servico implements CRUD, Terminal {
     }
 
     public static void cadastrar() {
-
-
         int servico;
         while (true) {
             try {
@@ -111,15 +109,18 @@ public class Servico implements CRUD, Terminal {
 
         }
 
-        ListaServicos tipo_servico = ListaServicos.NULO;
-        float preco_servico = 0.00f;
+        ListaServicos tipo_servico;
+        float preco_servico;
         if (servico == 1) {
+            System.out.println(VERDE + "\n\t\t\tServiço escolhido: BANHO." + RESETAR);
             tipo_servico = ListaServicos.BANHO;
             preco_servico = 45.00f;
         } else if (servico == 2) {
+            System.out.println(VERDE + "\n\t\t\tServiço escolhido: CONSULTA VETERINÁRIA" + RESETAR);
             tipo_servico = ListaServicos.CONSULTA;
             preco_servico = 90.00f;
         } else{
+            System.out.println(VERDE + "\n\t\t\tServiço escolhido: TOSA." + RESETAR);
             tipo_servico = ListaServicos.TOSA;
             preco_servico = 60.00f;
         }
@@ -135,7 +136,7 @@ public class Servico implements CRUD, Terminal {
             }
 
             funcionario_servico = Funcionario.consultarFuncionario(matricula);
-
+            System.out.printf(VERDE + "\n\t\t\tFuncionário escolhido: %s.\n", funcionario_servico.getNome() + RESETAR);
             if (tipo_servico != ListaServicos.CONSULTA && funcionario_servico instanceof Veterinario) {
                 System.out.println(VERMELHO + "\n\t\t\tVeterinários não podem realizar outros serviços além de consultas." + RESETAR);
                 continue;
@@ -163,7 +164,7 @@ public class Servico implements CRUD, Terminal {
         }
 
         Pet pet_servico = Pet.consultarPet(matriculaPet);
-
+        System.out.printf(VERDE + "\n\t\t\tPet escolhido: %s.\n", pet_servico.getNomePet() + RESETAR);
         LocalDate data_escolhida;
         LocalTime horario_escolhido;
         while (true) {
@@ -245,28 +246,28 @@ public class Servico implements CRUD, Terminal {
     public static void atualizar() {
         String data, horario, matricula;
         Servico servico_atualizar;
+        String atributos_originais;
         while (true) {
             try {
                 while (true){
-                System.out.println("Insira a matrícula do funcionário que está com esse serviço agendado: ");
+                System.out.print("Insira a matrícula do funcionário que está com esse serviço agendado: ");
                 matricula = teclado.nextLine().strip();
                 if(Funcionario.consultarFuncionario(matricula)==null){
                     throw new ListaVaziaException(VERMELHO +"\n\t\t\tA Matrícula informada não está associada à nenhum funcionário, tente novamente.\n" + RESETAR);
                 }
                 break;
                 }
-
-                System.out.println("Insira a data cadastrada do serviço que será desmarcado: ");
+                System.out.print(NEGRITO + AMARELO +"\nInsira a data cadastrada do agendamento que será alterado: " + RESETAR);
                 data = teclado.nextLine().trim();
                 Validar.ValidarDate(data);
-                System.out.println("Insira o horário cadastrado do serviço que será desmarcado: ");
+                System.out.print(NEGRITO + AMARELO +"\nInsira o horário cadastrado do agendamento que será alterado: " + RESETAR);
                 horario = teclado.next().trim();
                 teclado.nextLine();
-                Servico.ConsultarServico(matricula,data, horario);
                 servico_atualizar = Servico.ConsultarServico(matricula, data, horario);
+                atributos_originais = Servico.clonarAtributos(servico_atualizar);
             } catch (DataInvalidaException | ListaVaziaException e) {
                 System.out.println("\t\t\t" + e.getMessage());
-                System.out.println(VERMELHO + "\t\t\tPressione" + RESETAR + " " + FUNDO_AMARELO + VERMELHO + "ENTER" + RESETAR + VERMELHO + " para tentar novamente ou " + RESETAR + FUNDO_AMARELO + VERMELHO + "digite 1" + RESETAR + VERMELHO + " " + "para voltar ao menu do Módulo de Agendamento de Serviços." + RESETAR + VERMELHO + RESETAR);
+                System.out.println(VERMELHO + "\n\t\t\tPressione" + RESETAR + " " + FUNDO_AMARELO + VERMELHO + "ENTER" + RESETAR + VERMELHO + " para tentar novamente ou " + RESETAR + FUNDO_AMARELO + VERMELHO + "digite 1" + RESETAR + VERMELHO + " " + "para voltar ao menu do Módulo de Agendamento de Serviços." + RESETAR + VERMELHO + RESETAR);
                 String escolha = teclado.nextLine();
                 if (escolha.equals("1")) return;
                 continue;
@@ -276,16 +277,35 @@ public class Servico implements CRUD, Terminal {
         }
         Funcionario funcionario = servico_atualizar.getNome_funcionario();
         while (true) {
-            System.out.print(AMARELO + NEGRITO +"Digite o campo que deseja mudar:\n1- DATA\n2 - HORARIO\n3 - TIPO\n4 - FUNCIONARIO:" + RESETAR);
+            System.out.print(AMARELO + NEGRITO +"Digite o campo que deseja mudar:\n1 - DATA\n2 - HORARIO\n3 - TIPO\n4 - FUNCIONARIO: " + RESETAR);
             int option = teclado.nextInt();
+            teclado.nextLine();
             switch (option) {
                 case 1:
-                    System.out.println("Digite a nova DATA do serviço: ");
-                    String data_nova = teclado.nextLine().strip();
-                    servico_atualizar.setData_servico(LocalDate.parse(data_nova, formatter));
-                    funcionario.desmarcarHorario(servico_atualizar);
-                    if (funcionario.verificarHorario(servico_atualizar.getData_servico(), servico_atualizar.getHora_servico())) {
-                        funcionario.agendarHorario(servico_atualizar);
+                    try{
+                        System.out.println(NEGRITO + AMARELO +"Digite a nova DATA do serviço: " + RESETAR);
+                        System.out.println(NEGRITO + AMARELO +"\tDatas disponíveis:\n" + RESETAR);
+                        Servico.imprimirDatas();
+                        System.out.print(AMARELO + "\nDigite a nova data: " +RESETAR);
+                        String data_nova = teclado.nextLine().strip();
+                        Validar.ValidarDate(data_nova);
+                        funcionario.desmarcarHorario(servico_atualizar);
+                        servico_atualizar.setData_servico(LocalDate.parse(data_nova, formatter));
+                        if (funcionario.verificarHorario(servico_atualizar.getData_servico(), servico_atualizar.getHora_servico())) {
+                            funcionario.agendarHorario(servico_atualizar);
+                            System.out.println(CYAN + NEGRITO + "\nNOVA DATA ALTERADA COM SUCESSO!" + RESETAR);
+                            System.out.println(CYAN + NEGRITO +"\tAGENDAMENTO ORIGINAL:" + RESETAR);
+                            System.out.println(VERMELHO +atributos_originais + RESETAR);
+                            System.out.println(CYAN + "AGENDAMENTO ATUAL:" + RESETAR);
+                            System.out.println(servico_atualizar);
+                            break;
+
+                        }else{
+                            throw new EscolhaInvalidaException(VERMELHO + "\n\t\t\tO funcionário cadastrado neste serviço não possui disponibilidade de horário nesta nova data, tente outra data ou atualize o horário.\n" + RESETAR);
+                        }
+                    }
+                    catch (DataInvalidaException | EscolhaInvalidaException e){
+                        System.out.println(e.getMessage());
                     }
                     break;
                 case 2:
@@ -298,26 +318,35 @@ public class Servico implements CRUD, Terminal {
                     }
                     break;
                 case 3:
-                    System.out.println("Digite o novo TIPO do serviço: \nBANHO, TOSA, CONSULTA:");
-                    String novo_tipo = teclado.next().strip().toUpperCase();
-                    novo_tipo = novo_tipo.toUpperCase();
-                    teclado.nextLine();
+                    int novo_tipo = 0;
+                    while(true){
+                        try {
+                            System.out.println("Digite o novo TIPO do serviço: \n1 - BANHO\n2 - TOSA\n3 - CONSULTA:");
+                            novo_tipo = teclado.nextInt();
+                            teclado.nextLine();
+                            if(novo_tipo < 1 || novo_tipo > 3){throw new EscolhaInvalidaException(VERMELHO + "\n\t\t\tOpção não existe." + RESETAR);}
+                        } catch (InputMismatchException e) {
+                            System.out.println("Digite apenas um número:\n1 para BANHO\n2 para TOSA\n3 para CONSULTA");
+                        } catch (EscolhaInvalidaException e) {
+                            System.out.println(e.getMessage());
+                        }
+                        break;
+                    }
                     switch (novo_tipo) {
-                        case "BANHO":
+                        case 1:
                             servico_atualizar.setTipo_agendamento(ListaServicos.BANHO);
                             servico_atualizar.setPreco(45.00f);
                             break;
-                        case "TOSA":
+                        case 2:
                             servico_atualizar.setTipo_agendamento(ListaServicos.TOSA);
                             servico_atualizar.setPreco(60.00f);
-                        case "CONSULTA":
+                        case 3:
                             System.out.println("Será necessário alterar o funcionário, apenas veterinários podem realizar consultas.");
                             funcionario.desmarcarHorario(servico_atualizar);
                             System.out.println("Insira a matrícula do Veterinário que irá realizar a consulta: ");
                             String matricula_vet = teclado.next();
                             teclado.nextLine();
-                            if (Funcionario.consultarFuncionario(matricula_vet) instanceof Veterinario) ;
-                        {
+                            if (Funcionario.consultarFuncionario(matricula_vet) instanceof Veterinario) ;{
                             servico_atualizar.setNome_funcionario(Funcionario.consultarFuncionario(matricula_vet));
                             servico_atualizar.setTipo_agendamento(ListaServicos.CONSULTA);
                             servico_atualizar.setPreco(90.00f);
@@ -345,8 +374,6 @@ public class Servico implements CRUD, Terminal {
                     return;
             }
 
-
-            System.out.println("Caso não precise fazer mais nenhuma alteração digite sair...");
         }
     }
 
@@ -382,7 +409,8 @@ public class Servico implements CRUD, Terminal {
             while(true) {
                 int escolha = 0;
                 try {
-                    System.out.print("Tem certeza que deseja desmarcar o serviço?\nDigite 1 para SIM ou 2 para NÃO: ");
+                    System.out.print(NEGRITO + CYAN +"\nTem certeza que deseja desmarcar o serviço?\nDigite 1 para SIM ou 2 para NÃO: " + RESETAR);
+                    teclado.nextLine();
                     escolha = teclado.nextInt();
                     teclado.nextLine();
                     if (escolha != 1 && escolha != 2) {
@@ -393,7 +421,7 @@ public class Servico implements CRUD, Terminal {
                     continue;
                 }
                 if (escolha == 2) {
-                    System.out.println("Operação cancelada, pressione qualquer tecla para retornar ao menu do Módulo de Agendamento de Serviços.");
+                    System.out.println(NEGRITO + AMARELO +"Operação cancelada, pressione qualquer tecla para retornar ao menu do Módulo de Agendamento de Serviços." + RESETAR);
                     teclado.nextLine();
                     return;
                 }
@@ -422,12 +450,22 @@ public class Servico implements CRUD, Terminal {
     public static void imprimirDatas() {
         LocalDate datas = LocalDate.now();
         for (int i = 0; i <= 7; i++) {
-            if(LocalTime.now().isAfter(LocalTime.of(18,30))){
+            if(i==0&&LocalTime.now().isAfter(LocalTime.of(18,30))){
                 continue;
             }
             String dataFormatada = formatter.format(datas.plusDays(i));
             System.out.print(AMARELO + "| " + RESETAR + VERDE + dataFormatada + RESETAR + AMARELO + "| " + RESETAR);
         }
+
+    }
+
+    private static String clonarAtributos(Servico servico){
+        return AZUL + NEGRITO + "Data: " + RESETAR + MAGENTA +formatter.format(servico.data_servico) + "\n" + RESETAR +
+                AZUL + NEGRITO + "Horário: " + RESETAR + MAGENTA +servico.hora_servico + "\n" + RESETAR +
+                AZUL + NEGRITO+ "Funcionário:" + RESETAR + MAGENTA +servico.nome_funcionario.getNome() + "\n" + RESETAR +
+                AZUL + NEGRITO + "Tipo do serviço: " + RESETAR + MAGENTA +servico.tipo_agendamento + "\n" + RESETAR +
+                AZUL + NEGRITO + "Preço: " + RESETAR + MAGENTA +"R$" + servico.preco + "\n" + RESETAR +
+                AZUL + NEGRITO + "Nome do pet: " + RESETAR + MAGENTA + servico.pet_agendamento.getNomePet() + "\n" + RESETAR;
     }
 }
 

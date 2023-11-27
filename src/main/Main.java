@@ -10,6 +10,7 @@ import funcionarios.Funcionario;
 import funcionarios.Veterinario;
 import servicos.Servico;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main implements Terminal {
@@ -136,19 +137,26 @@ public class Main implements Terminal {
         }
     }
     public static void Menu_AgendarServico() throws ListaVaziaException, DataInvalidaException {
-        while(true){
+        while(true) {
             System.out.println(NEGRITO + VERDE + "\t\t\tMÓDULO DE AGENDAMENTO DE SERVIÇOS" + RESETAR);
             System.out.println(NEGRITO + CYAN + "Digite a opção desejada: " + RESETAR);
             System.out.println(NEGRITO + AZUL + "1 - Cadastrar um novo agendamento." + RESETAR);
             System.out.println(NEGRITO + AZUL + "2 - Remarcar/Alterar um agendamento." + RESETAR);
             System.out.println(NEGRITO + AZUL + "3 - Desmarcar um agendamento." + RESETAR);
-            System.out.println(NEGRITO + AZUL +"4 - Listar todos os agendamentos."+ RESETAR);
-            System.out.println(NEGRITO + AZUL+ "5 - Exibir Agenda de um Funcionário específico." + RESETAR);
+            System.out.println(NEGRITO + AZUL + "4 - Listar todos os agendamentos." + RESETAR);
+            System.out.println(NEGRITO + AZUL + "5 - Exibir Agenda de um Funcionário específico." + RESETAR);
             System.out.println(NEGRITO + AZUL + "6 - Voltar ao menu inicial." + RESETAR);
-            System.out.print(NEGRITO + CYAN + "DIGITE A OPÇÃO ESCOLHIDA: " + RESETAR);
-            int escolha_user = teclado.nextInt();
-            teclado.nextLine();
-            switch (escolha_user){
+            int escolha_user = 0;
+            try {
+                System.out.print(NEGRITO + CYAN + "DIGITE A OPÇÃO ESCOLHIDA: " + RESETAR);
+                escolha_user = teclado.nextInt();
+                teclado.nextLine();
+            } catch (InputMismatchException e) {
+                System.out.println(VERMELHO + "\n\t\t\tInsira apenas números. Pressione enter para voltar.\n" + RESETAR);
+                teclado.nextLine();
+                continue;
+            }
+            switch (escolha_user) {
                 case 1:
                     LimparTela();
                     Servico.cadastrar();
@@ -188,7 +196,7 @@ public class Main implements Terminal {
                     teclado.nextLine();
                     return;
             }
-    }}
+        }}
     public static void menu_Tutor() {
         while (true) {
             LimparTela();
