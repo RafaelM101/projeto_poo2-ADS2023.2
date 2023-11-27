@@ -286,8 +286,8 @@ public class Servico implements CRUD, Terminal {
                 while (true){
                     LimparTela();
                     System.out.println(CYAN + NEGRITO + "\t\t\t| ALTERAÇÃO DE AGENDAMENTO |" + RESETAR);
-                    System.out.println(NEGRITO + AMARELO + "OBSERVAÇÃO: Para alterar um agendamento, é necessário ter em mão a matrícula do funcionário, a data e o horário." + RESETAR);
-                    System.out.print(NEGRITO + AMARELO +"Insira a matrícula do funcionário que está com esse serviço agendado: " + RESETAR) ;
+                    System.out.println(CYAN + "OBSERVAÇÃO: Para alterar um agendamento, é necessário ter em mão a matrícula do funcionário, a data e o horário." + RESETAR);
+                    System.out.print(NEGRITO + AMARELO +"\nInsira a matrícula do funcionário que está com esse serviço agendado: " + RESETAR) ;
                     matricula = teclado.nextLine().strip();
                     if(Funcionario.consultarFuncionario(matricula)==null){
                         throw new ListaVaziaException(VERMELHO +"\n\t\t\tA Matrícula informada não está associada à nenhum funcionário, tente novamente.\n" + RESETAR);
@@ -316,17 +316,17 @@ public class Servico implements CRUD, Terminal {
         LimparTela();
         System.out.println(CYAN + NEGRITO + "\n\t\t\tSERVIÇO LOCALIZADO!" + RESETAR);
         System.out.println(CYAN + "DADOS DO SERVIÇO:" + RESETAR);
-        System.out.printf(CYAN + "\t\t\tFuncionário: %s", servico_atualizar.getNome_funcionario().getNome() + RESETAR);
-        System.out.printf(CYAN +"\n\t\t\tPet: %s",servico_atualizar.getPet_agendamento().getNomePet() + RESETAR);
-        System.out.printf(CYAN +"\n\t\t\tTipo: %s",servico_atualizar.getTipo_agendamento() + RESETAR);
-        System.out.printf( CYAN + "\n\t\t\tData: %s",servico_atualizar.getData_servico() + RESETAR);
-        System.out.printf(CYAN +"\n\t\t\tHora: %s",servico_atualizar.getHora_servico() + RESETAR);
+        System.out.printf(CYAN + "\t\tFuncionário: %s", servico_atualizar.getNome_funcionario().getNome() + RESETAR);
+        System.out.printf(CYAN +"\n\t\tPet: %s",servico_atualizar.getPet_agendamento().getNomePet() + RESETAR);
+        System.out.printf(CYAN +"\n\t\tTipo: %s",servico_atualizar.getTipo_agendamento() + RESETAR);
+        System.out.printf( CYAN + "\n\t\tData: %s",servico_atualizar.getData_servico() + RESETAR);
+        System.out.printf(CYAN +"\n\t\tHora: %s",servico_atualizar.getHora_servico() + RESETAR);
         Funcionario funcionario = servico_atualizar.getNome_funcionario();
         while (true) {
             int option;
             try {
 
-                System.out.print(CYAN + NEGRITO + "\nDigite o campo que deseja mudar:\n1 - DATA\n2 - HORARIO\n3 - TIPO\n4 - FUNCIONARIO"+ RESETAR + CYAN + "\nPRESSIONE QUALQUER OUTRO NÚMERO PARA FINALIZAR A ALTERAÇÃO NO AGENDAMENTO.\nOPÇÃO: " + RESETAR);
+                System.out.print(AMARELO + NEGRITO + "\nDigite o campo que deseja mudar:\n1 - DATA\n2 - HORARIO\n3 - TIPO\n4 - FUNCIONARIO"+ RESETAR + CYAN + "\nPRESSIONE QUALQUER OUTRO NÚMERO PARA FINALIZAR A ALTERAÇÃO NO AGENDAMENTO.\nOPÇÃO: " + RESETAR);
                 option = teclado.nextInt();
                 teclado.nextLine();
             } catch (InputMismatchException e) {
