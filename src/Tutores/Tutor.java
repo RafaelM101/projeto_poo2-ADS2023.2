@@ -1,6 +1,8 @@
 package Tutores;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
+
 import Pets.Pet;
 import components.CRUD;
 import components.Terminal;
@@ -86,7 +88,7 @@ public class Tutor implements CRUD, Terminal {
             }
         }
         //Cadastrar CPF
-        System.out.println(NEGRITO+AMARELO+ "\nFormato do CPF: 000.000.000-00" +RESETAR);
+        System.out.println(NEGRITO+AMARELO+ "\nFormato do CPF: XXX.XXX.XXX-XX" +RESETAR);
         String cpf;
         while(true){
             try{
@@ -139,9 +141,20 @@ public class Tutor implements CRUD, Terminal {
         String rua = teclado.nextLine();
         System.out.print(AMARELO+ "Digite o bairro: " +RESETAR);
         String bairro = teclado.nextLine();
-        System.out.print(AMARELO+ "Digite o número: " +RESETAR);
-        int numero = teclado.nextInt();
-        teclado.nextLine();
+        int numero;
+        while (true) {
+            try {
+                System.out.print(AMARELO+ "Digite o número: " +RESETAR);
+                int numeroValidar = teclado.nextInt();
+                teclado.nextLine();
+                numero = numeroValidar;
+                break;
+            }
+            catch (InputMismatchException e) {
+                System.out.println(NEGRITO+VERMELHO+ "Digite apenas o número da residência" +RESETAR);
+                teclado.nextLine();
+            }
+        }
         Endereco endereco = new Endereco(rua,bairro,numero);
         Tutor tutor = new Tutor(nome, cpf, telefone, email, endereco);
         lista_tutores.add(tutor);
@@ -168,6 +181,7 @@ public class Tutor implements CRUD, Terminal {
     public static void atualizar() {
         System.out.println(NEGRITO+PRETO+ " \t\t\t | ATUALIZAR CADASTRO DE TUTOR | \n" +RESETAR);
         String cpfBuscar;
+        System.out.println(NEGRITO+AMARELO+ "\nFormato do CPF: XXX.XXX.XXX-XX" +RESETAR);
         while(true){
             try{
                 System.out.print(AMARELO+ "Digite o CPF do Tutor que deseja atualizar: " +RESETAR);
@@ -183,35 +197,40 @@ public class Tutor implements CRUD, Terminal {
         }
         Tutor tutor = consultarTutor(cpfBuscar);
         if (tutor instanceof Tutor) {
-            System.out.println(PRETO+"Vamos atualizar o cadastro do Tutor " +RESETAR);
+            System.out.println(PRETO+"\n\t\t\t Vamos atualizar o cadastro do Tutor " +RESETAR);
             while (true) {
-                System.out.print(CYAN+ "Escolha opção do que deseja atualizar:" +RESETAR+AMARELO+ "\n"
-                    +"1 - Nome\n"
-                    +"2 - Telefone\n"
-                    +"3 - Email\n"
-                    +"4 - Endereço\n"
-                    +"5 - SAIR\n: " +RESETAR);
+                System.out.print(CYAN+ "\nEscolha opção do que deseja atualizar:" +RESETAR+AMARELO+ "\n"
+                    +"1 - Telefone\n"
+                    +"2 - Email\n"
+                    +"3 - Endereço\n"
+                    +"4 - CONCLUIR\n: " +RESETAR);
                 Integer escolhaAtualizar = teclado.nextInt();
                 teclado.nextLine();
                 switch (escolhaAtualizar) {
                     case 1: {
-                        //Novo Nome do Tutor
-                        System.out.print(AMARELO+ "Digite o novo Nome: " +RESETAR);
-                        String novoNome = teclado.nextLine();
-                        tutor.setNomeTutor(novoNome);
-                        System.out.println(NEGRITO+VERDE+ "O nome foi atualizado." +RESETAR);
+                        //Novo Telefone
+                        System.out.println(NEGRITO+AMARELO+ "\nFormato do Telefone: (XXX)9XXXX-XXXX" +RESETAR);
+                        String novoTelefone;
+                        while (true) {
+                            try {
+                                System.out.print(AMARELO+ "Digite o novo telefone do Tutor: " +RESETAR);
+                                String telefoneValidar = teclado.nextLine();
+                                if(Validar.validarTelefone(telefoneValidar)) {
+                                    novoTelefone = telefoneValidar;
+                                    tutor.setTelefoneTutor(novoTelefone);
+                                    System.out.println(NEGRITO+VERDE+ "\nO TELEFONE FOI ATUALIZADO." +RESETAR);
+                                    break;
+                                }
+                            }
+                            catch (TelefoneInvalidoException e) {
+                                System.out.println(e.getMessage());
+                            }
+                        }
                         break;
                     }
                     case 2: {
-                        //Novo Telefone
-                        System.out.print(AMARELO+ "Digite o novo Telefone: " +RESETAR);
-                        String novoTelefone = teclado.nextLine();
-                        tutor.setTelefoneTutor(novoTelefone);
-                        System.out.println(NEGRITO+VERDE+ "O telefone foi atualizado." +RESETAR);
-                        break;
-                    }
-                    case 3: {
                         //Novo Email
+                        System.out.println(NEGRITO+AMARELO+ "\nFormato do Email: aaaa@aaaaa.com" +RESETAR);
                         String novoEmail;
                         while (true) {
                             try{
@@ -220,7 +239,7 @@ public class Tutor implements CRUD, Terminal {
                                 if (Validar.validarEmail(novoEmailValidando)) {
                                     novoEmail = novoEmailValidando;
                                     tutor.setEmailTutor(novoEmail);
-                                    System.out.println(NEGRITO+VERDE+ "O email foi atualizado." +RESETAR);
+                                    System.out.println(NEGRITO+VERDE+ "\nO EMAIL FOI ATUALIZADO." +RESETAR);
                                     break;
                                 }
                             }
@@ -230,9 +249,9 @@ public class Tutor implements CRUD, Terminal {
                         }
                         break;
                     }
-                    case 4: {
+                    case 3: {
                         //Novo Endereço
-                        System.out.println(PRETO+ "Vamos atualizar o endereço do Tutor" +RESETAR);
+                        System.out.println(PRETO+ "\n\t\t Vamos atualizar o endereço do Tutor" +RESETAR);
                         Endereco endereco = tutor.getEnderecoTutor();
                         System.out.print(AMARELO+ "Digite a nova Rua: " +RESETAR);
                         String novaRua = teclado.nextLine();
@@ -240,14 +259,24 @@ public class Tutor implements CRUD, Terminal {
                         System.out.print(AMARELO+ "Digite o novo Bairro: " +RESETAR);
                         String novoBairro = teclado.nextLine();
                         endereco.setBairro(novoBairro);
-                        System.out.print(AMARELO+ "Digite o novo Número: " +RESETAR);
-                        int novoNumero = teclado.nextInt();
-                        teclado.nextLine();
-                        endereco.setNumero(novoNumero);
-                        System.out.println(NEGRITO+VERDE+ "O endereço foi atualizado." +RESETAR);
+                        while (true) {
+                            try {
+                                System.out.print(AMARELO+ "Digite o novo Número: " +RESETAR);
+                                int novoNumero = teclado.nextInt();
+                                teclado.nextLine();
+                                endereco.setNumero(novoNumero);
+                                break;
+                            }
+                            catch (InputMismatchException e) {
+                                System.out.println(NEGRITO+VERMELHO+ "Digite apenas o número da residência" +RESETAR);
+                                teclado.nextLine();
+                            }
+                        }
+                        System.out.println(NEGRITO+VERDE+ "\nO ENDEREÇO FOI ATUALIZADO." +RESETAR);
                         break;
                     }
                     default:{
+                        System.out.println(NEGRITO+VERDE+ "\nCADASTRO ATUALIZADO!" +RESETAR);
                         return;
                     }
                 }
@@ -260,6 +289,7 @@ public class Tutor implements CRUD, Terminal {
     public static void deletar() {
         System.out.println(NEGRITO+PRETO+ " \t\t\t | DELETAR TUTOR | \n" +RESETAR);
         String deletarCPF;
+        System.out.println(NEGRITO+AMARELO+ "\nFormato do CPF: XXX.XXX.XXX-XX" +RESETAR);
         while(true){
             try{
                 System.out.print(AMARELO+ "Digite o CPF do Tutor que deseja deletar: " +RESETAR);
@@ -286,6 +316,7 @@ public class Tutor implements CRUD, Terminal {
     public static void consulta() {
         System.out.println(NEGRITO+PRETO+ " \t\t\t | CONSULTAR TUTOR | \n" +RESETAR);
         String cpfConsulta;
+        System.out.println(NEGRITO+AMARELO+ "\nFormato do CPF: XXX.XXX.XXX-XX" +RESETAR);
         while(true){
             try{
                 System.out.print(AMARELO+ "Digite o CPF do Tutor que deseja consultar: " +RESETAR);
@@ -386,9 +417,20 @@ public class Tutor implements CRUD, Terminal {
         String rua = teclado.nextLine();
         System.out.print(AMARELO+ "Digite o bairro: " +RESETAR);
         String bairro = teclado.nextLine();
-        System.out.print(AMARELO+ "Digite o número: " +RESETAR);
-        int numero = teclado.nextInt();
-        teclado.nextLine();
+        int numero;
+        while (true) {
+            try {
+                System.out.print(AMARELO+ "Digite o número: " +RESETAR);
+                int numeroValidar = teclado.nextInt();
+                teclado.nextLine();
+                numero = numeroValidar;
+                break;
+            }
+            catch (InputMismatchException e) {
+                System.out.println(NEGRITO+VERMELHO+ "Digite apenas o número da residência" +RESETAR);
+                teclado.nextLine();
+            }
+        }
         Endereco endereco = new Endereco(rua,bairro,numero);
         Tutor tutor = new Tutor(nome, cpf, telefone, email, endereco);
         lista_tutores.add(tutor);
