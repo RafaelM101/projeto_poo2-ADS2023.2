@@ -21,6 +21,8 @@ public class Validar implements Terminal{
     private static final String regexData = "^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/[0-9]{4}$";
     //regex valida Matricula
     private static final String regexMatricula = "^\\d{4}$";
+    //regex valida Hora
+    private static final String regexHora = "^(0[8-9]|1[0-7]):(00|30)$";
 
     static Pattern patternCPF = Pattern.compile(regexCpf);
     static Pattern patternEmail = Pattern.compile(regexEmail);
@@ -29,7 +31,9 @@ public class Validar implements Terminal{
     static Pattern patternCRMV = Pattern.compile(regexCRMV);
     static Pattern patternDate = Pattern.compile(regexData);
     static Pattern patternMatricula = Pattern.compile(regexMatricula);
-
+    
+    private static final Pattern patternHora = Pattern.compile(regexHora);
+  
     //faz a operação
     static Matcher matcher;
     public static boolean validarCPF(String validarCpf) throws CpfInvalidoException{
@@ -88,4 +92,12 @@ public class Validar implements Terminal{
         throw new MatriculaInvalidaException(NEGRITO+VERMELHO+ "MATRÍCULA INVÁLIDA!" +RESETAR);
     }
 
+    public static boolean validarHora(String validarHora) throws HoraInvalidaException{
+        matcher = patternHora.matcher(validarHora);
+        if(matcher.matches()){
+            return true;
+        }
+        throw new HoraInvalidaException(VERMELHO + "\n\t\t\tHORA INVÁLIDA. INSIRA NO FORMATO hh:mm . Lembrando de se atentar aos horários disponíveis." + RESETAR);
+    }
+  
 }

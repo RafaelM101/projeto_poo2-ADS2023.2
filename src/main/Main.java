@@ -136,7 +136,7 @@ public class Main implements Terminal {
             }
         }
     }
-    public static void Menu_AgendarServico() throws ListaVaziaException, DataInvalidaException {
+    public static void Menu_AgendarServico(){
         while(true) {
             System.out.println(NEGRITO + VERDE + "\t\t\tMÓDULO DE AGENDAMENTO DE SERVIÇOS" + RESETAR);
             System.out.println(NEGRITO + CYAN + "Digite a opção desejada: " + RESETAR);
