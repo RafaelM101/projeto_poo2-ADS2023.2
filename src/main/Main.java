@@ -58,6 +58,9 @@ public class Main implements Terminal {
         }
     }
     public static void menu_Funcionario(){
+        //AQUI -----------------------------------------------
+        FuncionarioController f = new FuncionarioController();
+        //----------------------------------------------------
         while (true) {
             System.out.println(AZUL + NEGRITO +"\t\t\tMÓDULO DE GERENCIAMENTO DE FUNCIONÁRIOS" + RESETAR);
             System.out.println(AMARELO + NEGRITO + "Escolha a ação que deseja realizar: " + RESETAR);
@@ -75,7 +78,7 @@ public class Main implements Terminal {
                     return;
                 case 1:
                     LimparTela();
-                    FuncionarioController f = new FuncionarioController();
+                    //E USA ASSIM:
                     f.cadastrar();
                     break;
                 case 2:
@@ -89,7 +92,7 @@ public class Main implements Terminal {
                     System.out.println("\n");
                     if(escolha_listar == 1) {
                         try{
-                            Funcionario.listar();
+                            f.listar();
                         }
                         catch(ListaVaziaException e) {
                             System.out.println(e.getMessage());
@@ -102,10 +105,10 @@ public class Main implements Terminal {
                             Funcionario funcionario_consulta = Funcionario.consultarFuncionario(matricula_consulta);
                             if(funcionario_consulta instanceof Veterinario) {
                                 Veterinario vet_consulta = (Veterinario) funcionario_consulta;
-                                System.out.printf("Nome: %s\nMatricula: %s%nSalário: %.2f\nCPF: %s\nSetor: %s\nCRMV: %s\nEspecialização: %s\n",vet_consulta.getNome(), vet_consulta.getMatricula(), vet_consulta.getSalario(), vet_consulta.getCPF(), vet_consulta.getSetor(), vet_consulta.getCRMV(), vet_consulta.getEscpecializacao());
+                                System.out.printf(AMARELO+"Nome: %s\nMatricula: %s%nSalário: %.2f\nCPF: %s\nSetor: %s\nCRMV: %s\nEspecialização: %s\n",vet_consulta.getNome(), vet_consulta.getMatricula(), vet_consulta.getSalario(), vet_consulta.getCPF(), vet_consulta.getSetor(), vet_consulta.getCRMV(), vet_consulta.getEscpecializacao()+RESETAR);
                             }
                             else{
-                                System.out.printf("Nome: %s\nMatricula: %s%nSalário: %.2f\nCPF: %s\nSetor: %s\n",funcionario_consulta.getNome(), funcionario_consulta.getMatricula(), funcionario_consulta.getSalario(), funcionario_consulta.getCPF(), funcionario_consulta.getSetor());
+                                System.out.printf(AMARELO+"Nome: %s\nMatricula: %s%nSalário: %.2f\nCPF: %s\nSetor: %s\n",funcionario_consulta.getNome(), funcionario_consulta.getMatricula(), funcionario_consulta.getSalario(), funcionario_consulta.getCPF(), funcionario_consulta.getSetor()+RESETAR);
                             }
                         }
                         catch(NullPointerException e ){
@@ -116,7 +119,8 @@ public class Main implements Terminal {
                 case 3:
                     try {
                         LimparTela();
-                        Funcionario.atualizar();
+                        //MAIS UM EXEMPLO:
+                        f.atualizar();
                     } catch (ListaVaziaException e) {
                         System.out.println(e.getMessage());
                     }
@@ -124,7 +128,7 @@ public class Main implements Terminal {
                 case 4:
                     try{
                         LimparTela();
-                        Funcionario.deletar();
+                        f.deletar();
                     }
                     catch(ListaVaziaException e) {
                         System.out.println(e.getMessage());

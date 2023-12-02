@@ -11,16 +11,26 @@ import components.Terminal;
 import components.Validar;
 import exceptions.CRMVInvalidoException;
 import exceptions.CpfInvalidoException;
+import exceptions.ListaVaziaException;
 import funcionarios.Funcionario;
 import funcionarios.Veterinario;
 
 public class FuncionarioController implements CRUD, Terminal{
+    //PRECISAMOS DESSE FUNCIONARIO FANTASMA PRA ACESSAR A CLASSE FUNCIONARIO
     private Funcionario funcionario = new Funcionario(null, NEGRITO, NEGRITO, null);
     
+    //CONSTRUTOR DA CLASSE PARA PORDER ACESSAR ELA
     public FuncionarioController() {
     }
 
+    //MÉTODO DO CRUD QUE ESTAVA EM FUNCIONARIO
     public void cadastrar(){
+        //FICA A MESMA COISA COM ALGUMAS EXCEÇÕES:
+        //ONDE ANTES TU ACESSAVA AS PROPRIEDADES COMO funcionario.nome AGORA FICAM funcionario.getNome()
+        //E A QUESTÃO DA LISTA STATIC VOCÊS VÃO TER QUE CRIAR UMA GET LISTA QUE RETORNA A LISTA PRA PODER ACESSAR ELA
+        //NA MAIN TU CRIA UMA INSTANCIA DA CLASSE CONTROLLER NO TEU MENU E TROCA O "Funcionario.algumMetodo()" por:
+        //"(o nome da variável de instância da classe controller q tu criou no teu menu).algumMetodo()" 
+        //NOTEM QUE ESSE "algumMetodo()" REFERE-SE AOS MESMOS MÉTODOS MAS QUE AGORA ESTÃO NA CLASSE CONTROLLER
             try{
                 System.out.println(MAGENTA + NEGRITO + "\n| Cadastro de Funcionários |\n\n"+ RESETAR);
                 System.out.print(AZUL + "Digite nome do funcionário: " + RESETAR);
@@ -111,5 +121,50 @@ public class FuncionarioController implements CRUD, Terminal{
                 return;
             }
     }
+    public void listar() throws ListaVaziaException{
+		if(funcionario.getListaF().size() < 1) {
+			throw new ListaVaziaException(NEGRITO+ VERMELHO+"Nenhum funcionario cadastrado!"+RESETAR);
+		}
+		for(Funcionario funcionario: funcionario.getListaF()) {
+			System.out.printf(AMARELO+"\nNome: %s\nMatricula: %s%nSalário: %.2f\nCPF: %s\nSetor: %s\n"+RESETAR,funcionario.getNome(), funcionario.getMatricula(), funcionario.getSalario(), funcionario.getCPF(), funcionario.getSetor());
+		}
+	}
+    public void atualizar() throws ListaVaziaException{
+		if(funcionario.getListaF().isEmpty()) {
+			throw new ListaVaziaException(NEGRITO+ VERMELHO+"Nenhum funcionario cadastrado!"+RESETAR);
+		}
+		System.out.print(NEGRITO+MAGENTA+"Digite a matrícula do funcionário que deseja atualizar os dados: "+RESETAR);
+		String matFuncionarioAtt = teclado.nextLine();
+		for(Funcionario funcionario: funcionario.getListaF()){
+			if(funcionario.getMatricula().equals(matFuncionarioAtt)){
+				System.out.printf(NEGRITO+MAGENTA+"Digite novo salário do funcionário %s: ", funcionario.getNome()+RESETAR);
+				double novoSalario = teclado.nextDouble();
+				teclado.nextLine();
+				funcionario.setSalario(novoSalario);
+				System.out.println(NEGRITO + VERDE+"Salário atualizado com sucesso!"+RESETAR);
+				return;				
+			}
+		}
+		System.out.println(NEGRITO+VERMELHO+"Nenhum funcionario encontrado!"+RESETAR);
+		return;
+		
+	}
+    public void deletar() throws ListaVaziaException{
+		if(funcionario.getMatricula().isEmpty()) {
+			throw new ListaVaziaException(NEGRITO+VERMELHO+"Nenhum funcionario cadastrado!"+RESETAR);
+		}
+		System.out.print(NEGRITO+MAGENTA+"Digite a matrícula do funcionário que deseja demitir: "+RESETAR);
+		String matFuncionarioDel = teclado.nextLine();
+		for(Funcionario funcionario: funcionario.getListaF()) {
+			if(funcionario.getMatricula().equals(matFuncionarioDel)) {
+				funcionario.getListaF().remove(funcionario);
+				System.out.println(NEGRITO+VERDE+"Removido com sucesso!"+RESETAR);
+				return;
+			}
+		}
+		System.out.println(NEGRITO+VERMELHO+"Nenhum funcionario encontrado!"+RESETAR);
+		return;
+		
+	}
 
 }
