@@ -184,10 +184,33 @@ public class Main implements Terminal {
                     break;
                 case 5:
                     LimparTela();
-                    System.out.println("Digite a matrícula do funcionário desejado: ");
-                    String matricula_func = teclado.nextLine().strip();
-                    Funcionario funcionario_agenda = Funcionario.consultarFuncionario(matricula_func);
-                    funcionario_agenda.listarAgenda();
+                    System.out.println(NEGRITO + CYAN +"\n\t\t\t| Listar Agenda de Funcionário |\n"+RESETAR);
+                    while(true) {
+                        String matricula_func;
+                        try {
+                            System.out.print(NEGRITO + AMARELO +"Digite a matrícula do funcionário desejado: " + RESETAR);
+                            matricula_func = teclado.nextLine().strip();
+                            if (Funcionario.consultarFuncionario(matricula_func) == null) {
+                                throw new ListaVaziaException(VERMELHO + "\n\t\t\tERRO: A matrícula digitada não está associada à nenhum funcionário cadastrado.\n\t\t\tPRESSIONE ENTER para TENTAR NOVAMENTE ou 1 PARA CANCELAR E VOLTAR AO MENU PRINCIPAL.\n" + RESETAR);
+                            }
+                            Funcionario funcionario_agenda = Funcionario.consultarFuncionario(matricula_func);
+                            if(funcionario_agenda!=null){
+                                funcionario_agenda.listarAgenda();
+                                break;
+                            }
+                        } catch (ListaVaziaException e) {
+                            System.out.print(e.getMessage());
+                            System.out.print(VERMELHO + "OPÇÃO: " + RESETAR);
+                            String option = teclado.nextLine();
+                            if(option.equals("1")){
+                                System.out.println("Retornando ao menu principal...");
+                                return;
+                            }
+                        }
+
+
+                    }
+
                     System.out.println("Pressione enter para voltar ao MODULO DE AGENDAMENTO DE SERVIÇOS...");
                     teclado.nextLine();
                     break;
