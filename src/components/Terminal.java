@@ -3,6 +3,7 @@ package components;
 public interface Terminal {
 
 
+
     // Formatação de texto
     public static final String NEGRITO = "\u001B[1m";
     public static final String FRACO = "\u001B[2m";
