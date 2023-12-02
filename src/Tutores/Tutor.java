@@ -199,13 +199,24 @@ public class Tutor implements CRUD, Terminal {
         if (tutor instanceof Tutor) {
             System.out.println(PRETO+"\n\t\t\t Vamos atualizar o cadastro do Tutor " +RESETAR);
             while (true) {
-                System.out.print(CYAN+ "\nEscolha opção do que deseja atualizar:" +RESETAR+AMARELO+ "\n"
-                    +"1 - Telefone\n"
-                    +"2 - Email\n"
-                    +"3 - Endereço\n"
-                    +"4 - CONCLUIR\n: " +RESETAR);
-                Integer escolhaAtualizar = teclado.nextInt();
-                teclado.nextLine();
+                Integer escolhaAtualizar;
+                while (true) {
+                    try{
+                        System.out.print(CYAN+ "\nEscolha opção do que deseja atualizar:" +RESETAR+AMARELO+ "\n"
+                            +"1 - Telefone\n"
+                            +"2 - Email\n"
+                            +"3 - Endereço\n"
+                            +"4 - CONCLUIR\n: " +RESETAR);
+                        Integer escolha = teclado.nextInt();
+                        teclado.nextLine();
+                        escolhaAtualizar = escolha;
+                        break;
+                    }
+                    catch (InputMismatchException e) {
+                        System.out.println(NEGRITO+VERMELHO+ "Insira apenas o dígito da opção desejada." +RESETAR);
+                        teclado.nextLine();
+                    }
+                }
                 switch (escolhaAtualizar) {
                     case 1: {
                         //Novo Telefone
