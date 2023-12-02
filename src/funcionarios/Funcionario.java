@@ -122,7 +122,6 @@ public class Funcionario implements CRUD, Terminal{
 				Validar.validarLetras(nome);
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
-				cadastrar();
 				return;
 			}
 			System.out.print(AZUL + "Digite o salário do funcionário: " + RESETAR);
@@ -189,9 +188,14 @@ public class Funcionario implements CRUD, Terminal{
 						espec = EspecializacoesVet.ONCOLOGISTA;
 						break;
 					default:
+						teclado.nextLine();
 						System.out.println(NEGRITO+ VERMELHO+"Escolha inválida."+RESETAR);
 						break;
-				} Veterinario vet = new Veterinario(salario, CPF, nome, setor, crmv, espec);
+				}
+				if(espec == null){
+					return;
+				} 
+				Veterinario vet = new Veterinario(salario, CPF, nome, setor, crmv, espec);
 					lista_funcionarios.add(vet);
 			}else System.out.println(NEGRITO+ VERMELHO+"OPÇÃO INVÁLIDA."+RESETAR);
 		}
