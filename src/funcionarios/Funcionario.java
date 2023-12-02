@@ -208,7 +208,8 @@ public class Funcionario implements CRUD, Terminal{
 		for(Funcionario funcionario: lista_funcionarios) {
 			System.out.printf(AMARELO+"\nNome: %s\nMatricula: %s%nSalário: %.2f\nCPF: %s\nSetor: %s\n"+RESETAR,funcionario.nome, funcionario.getMatricula(), funcionario.salario, funcionario.CPF, funcionario.setor);
 		}
-		
+		System.out.println(NEGRITO+VERMELHO+"Nenhum funcionario encontrado!"+RESETAR);
+		return;
 	}
 
 	public static void atualizar() throws ListaVaziaException{
@@ -227,7 +228,8 @@ public class Funcionario implements CRUD, Terminal{
 				return;				
 			}
 		}
-
+		System.out.println(NEGRITO+VERMELHO+"Nenhum funcionario encontrado!"+RESETAR);
+		return;
 		
 	}
 

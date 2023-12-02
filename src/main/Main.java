@@ -107,7 +107,7 @@ public class Main implements Terminal {
                             }
                         }
                         catch(NullPointerException e ){
-                            System.out.println("Nenhum funcionario encontrado!");
+                            System.out.println(NEGRITO+VERMELHO+"Nenhum funcionario encontrado!"+RESETAR);
                         }
                     }
                     break;
