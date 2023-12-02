@@ -7,6 +7,7 @@ import Pets.Pet;
 import Tutores.Endereco;
 import Tutores.Tutor;
 import components.*;
+import controllers.FuncionarioController;
 import exceptions.ListaVaziaException;
 import funcionarios.Funcionario;
 import funcionarios.Veterinario;
@@ -75,7 +76,8 @@ public class Main implements Terminal {
                     return;
                 case 1:
                     LimparTela();
-                    Funcionario.cadastrar();
+                    FuncionarioController f = new FuncionarioController();
+                    f.cadastrar();
                     break;
                 case 2:
                     LimparTela();

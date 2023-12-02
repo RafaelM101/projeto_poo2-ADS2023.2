@@ -49,7 +49,7 @@ public class Validar implements Terminal{
         throw new SomenteLetrasException(VERMELHO+"INSIRA SOMENTE LETRAS!"+RESETAR);
     }
 
-    public static boolean valarCRMV(String validarCRMV) throws CRMVInvalidoException{
+    public static boolean validarCRMV(String validarCRMV) throws CRMVInvalidoException{
         matcher = patternCRMV.matcher(validarCRMV);
         if (matcher.matches()) {
             return true;

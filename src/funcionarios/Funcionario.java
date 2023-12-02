@@ -44,6 +44,10 @@ public class Funcionario implements CRUD, Terminal{
 			}
 			}
 		}
+
+	public ArrayList<Funcionario> getListaF(){
+		return lista_funcionarios;
+	}
 	
 	public String getSetor() {
 		return setor.toString();
@@ -153,7 +157,7 @@ public class Funcionario implements CRUD, Terminal{
 					try{
 						System.out.print(AZUL + "Insira o CRMV do Veterinário: " + RESETAR) ;
 						String CRMVValidando = teclado.nextLine();
-						if(Validar.valarCRMV(CRMVValidando)) {
+						if(Validar.validarCRMV(CRMVValidando)) {
 							crmv = CRMVValidando;
 							break; 
 						}
