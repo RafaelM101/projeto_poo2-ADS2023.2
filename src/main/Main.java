@@ -5,12 +5,16 @@ import Pets.Pet;
 import Tutores.Tutor;
 import components.*;
 import controllers.FuncionarioController;
+import controllers.ServicoController;
 import exceptions.DataInvalidaException;
+import exceptions.EscolhaInvalidaException;
 import exceptions.ListaVaziaException;
 import funcionarios.Funcionario;
 import funcionarios.Veterinario;
+import servicos.ListaServicos;
 import servicos.Servico;
 
+import java.awt.desktop.SystemSleepEvent;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -22,19 +26,34 @@ public class Main implements Terminal {
         System.out.println(CYAN + linha + RESETAR);
         System.out.println(CYAN + linha + RESETAR);
     }
-    public static void menu_Principal() throws ListaVaziaException, DataInvalidaException {
+    public static void menu_Principal(){
         while (true) {
             LimparTela();
-            System.out.print("\t\t\t"+NEGRITO + PRETO + FUNDO_VERDE+ "SISTEMA DE GERENCIAMENTO AMIGOPET" + RESETAR + "\n");
-            System.out.println(NEGRITO + AMARELO +"Escolha o módulo que deseja acessar:"+RESETAR);
+            System.out.print("\t\t\t" + NEGRITO + PRETO + FUNDO_VERDE + "SISTEMA DE GERENCIAMENTO AMIGOPET" + RESETAR + "\n");
+            System.out.println(NEGRITO + AMARELO + "Escolha o módulo que deseja acessar:" + RESETAR);
             System.out.print(NEGRITO + CYAN + "1 - MODULO DE GERENCIAMENTO DE FUNCIONÁRIOS\n" + RESETAR);
             System.out.print(NEGRITO + CYAN + "2 - MODULO DE GERENCIAMENTO DE TUTORES\n" + RESETAR);
             System.out.print(NEGRITO + CYAN + "3 - MODULO DE AGENDAMENTO DE SERVIÇOS\n" + RESETAR);
             System.out.print(NEGRITO + CYAN + "4 - MODULO DE GERENCIAMENTO DE PETS\n" + RESETAR);
             System.out.print(NEGRITO + CYAN + "5 - FINALIZAR PROGRAMA\n" + RESETAR);
-            System.out.print(NEGRITO + AMARELO +"DIGITE A OPÇÃO ESCOLHIDA: " + RESETAR);
-            int escolha_user = teclado.nextInt();
-            teclado.nextLine();
+            System.out.print(NEGRITO + AMARELO + "DIGITE A OPÇÃO ESCOLHIDA: " + RESETAR);
+            int escolha_user = 0;
+            try {
+                escolha_user = teclado.nextInt();
+                if (escolha_user < 1 || escolha_user > 5) {
+                    throw new EscolhaInvalidaException(VERMELHO + "\n\t\t\tO número escolhido não corresponde a nenhuma opção disponível, verifique e tente novamente.\n" + RESETAR);
+                }
+                teclado.nextLine();
+            } catch (EscolhaInvalidaException e) {
+                System.out.println(e.getMessage());
+                teclado.nextLine();
+                continue;
+
+            }catch (InputMismatchException f){
+                System.out.println(VERMELHO + "\n\t\t\tInsira apenas números!\n" + RESETAR);
+                teclado.nextLine();
+                continue;
+            }
             switch (escolha_user) {
                 case 1:
                     LimparTela();
@@ -62,17 +81,32 @@ public class Main implements Terminal {
         FuncionarioController f = new FuncionarioController();
         //----------------------------------------------------
         while (true) {
-            System.out.println(AZUL + NEGRITO +"\t\t\tMÓDULO DE GERENCIAMENTO DE FUNCIONÁRIOS" + RESETAR);
+            System.out.println(AZUL + NEGRITO + "\t\t\tMÓDULO DE GERENCIAMENTO DE FUNCIONÁRIOS" + RESETAR);
             System.out.println(AMARELO + NEGRITO + "Escolha a ação que deseja realizar: " + RESETAR);
             System.out.println(MAGENTA + NEGRITO + "1 - Cadastrar um novo funcionário." + RESETAR);
             System.out.println(MAGENTA + NEGRITO + "2 - Listar funcionários." + RESETAR);
             System.out.println(MAGENTA + NEGRITO + "3 - Atualizar salário de um funcionário." + RESETAR);
             System.out.println(MAGENTA + NEGRITO + "4 - Demitir um funcionário." + RESETAR);
             System.out.println(MAGENTA + NEGRITO + "5 - Voltar ao menu principal." + RESETAR);
-            System.out.print(AMARELO + NEGRITO +"DIGITE A OPÇÃO ESCOLHIDA: " + RESETAR);
-            int escolha_user = teclado.nextInt();
-            teclado.nextLine();
-            System.out.println("");
+            System.out.print(AMARELO + NEGRITO + "DIGITE A OPÇÃO ESCOLHIDA: " + RESETAR);
+            int escolha_user;
+            try {
+                escolha_user = teclado.nextInt();
+                teclado.nextLine();
+                if(escolha_user < 1 || escolha_user > 5){
+                    throw new EscolhaInvalidaException(VERMELHO + "\n\t\t\tO número escolhido não corresponde à nenhuma opção disponível. Pressione ENTER e tente novamente.\n" + RESETAR);
+                }
+                System.out.println("");
+            } catch (EscolhaInvalidaException e) {
+                System.out.println(e.getMessage());
+                teclado.nextLine();
+                continue;
+
+            } catch (InputMismatchException ee) {
+                System.out.println(VERMELHO + "\n\t\t\tInsira apenas números!\n" + RESETAR);
+                teclado.nextLine();
+                continue;
+            }
             switch (escolha_user) {
                 case 6:
                     return;
@@ -83,36 +117,32 @@ public class Main implements Terminal {
                     break;
                 case 2:
                     LimparTela();
-                    System.out.print(NEGRITO+MAGENTA+"""
+                    System.out.print(NEGRITO + MAGENTA + """
                             Digite 1 para exibir todos os funcionários.
                             Digite 2 para exibir por matrícula.
-                            DIGITE A OPÇÃO ESCOLHIDA: """+ RESETAR);
+                            DIGITE A OPÇÃO ESCOLHIDA: """ + RESETAR);
                     int escolha_listar = teclado.nextInt();
                     teclado.nextLine();
                     System.out.println("\n");
-                    if(escolha_listar == 1) {
-                        try{
+                    if (escolha_listar == 1) {
+                        try {
                             f.listar();
-                        }
-                        catch(ListaVaziaException e) {
+                        } catch (ListaVaziaException e) {
                             System.out.println(e.getMessage());
                         }
-                    }
-                    else if(escolha_listar == 2){
-                        try{
-                            System.out.print(MAGENTA+"Digite a matrícula do funcionário: "+ RESETAR);
+                    } else if (escolha_listar == 2) {
+                        try {
+                            System.out.print(MAGENTA + "Digite a matrícula do funcionário: " + RESETAR);
                             String matricula_consulta = teclado.nextLine();
-                            Funcionario funcionario_consulta = Funcionario.consultarFuncionario(matricula_consulta);
-                            if(funcionario_consulta instanceof Veterinario) {
+                            Funcionario funcionario_consulta = FuncionarioController.consultarFuncionario(matricula_consulta);
+                            if (funcionario_consulta instanceof Veterinario) {
                                 Veterinario vet_consulta = (Veterinario) funcionario_consulta;
-                                System.out.printf(AMARELO+"Nome: %s\nMatricula: %s%nSalário: %.2f\nCPF: %s\nSetor: %s\nCRMV: %s\nEspecialização: %s\n",vet_consulta.getNome(), vet_consulta.getMatricula(), vet_consulta.getSalario(), vet_consulta.getCPF(), vet_consulta.getSetor(), vet_consulta.getCRMV(), vet_consulta.getEscpecializacao()+RESETAR);
+                                System.out.printf(AMARELO + "Nome: %s\nMatricula: %s%nSalário: %.2f\nCPF: %s\nSetor: %s\nCRMV: %s\nEspecialização: %s\n", vet_consulta.getNome(), vet_consulta.getMatricula(), vet_consulta.getSalario(), vet_consulta.getCPF(), vet_consulta.getSetor(), vet_consulta.getCRMV(), vet_consulta.getEscpecializacao() + RESETAR);
+                            } else {
+                                System.out.printf(AMARELO + "Nome: %s\nMatricula: %s%nSalário: %.2f\nCPF: %s\nSetor: %s\n", funcionario_consulta.getNome(), funcionario_consulta.getMatricula(), funcionario_consulta.getSalario(), funcionario_consulta.getCPF(), funcionario_consulta.getSetor() + RESETAR);
                             }
-                            else{
-                                System.out.printf(AMARELO+"Nome: %s\nMatricula: %s%nSalário: %.2f\nCPF: %s\nSetor: %s\n",funcionario_consulta.getNome(), funcionario_consulta.getMatricula(), funcionario_consulta.getSalario(), funcionario_consulta.getCPF(), funcionario_consulta.getSetor()+RESETAR);
-                            }
-                        }
-                        catch(NullPointerException e ){
-                            System.out.println(NEGRITO+VERMELHO+"Nenhum funcionario encontrado!"+RESETAR);
+                        } catch (NullPointerException e) {
+                            System.out.println(NEGRITO + VERMELHO + "Nenhum funcionario encontrado!" + RESETAR);
                         }
                     }
                     break;
@@ -126,11 +156,10 @@ public class Main implements Terminal {
                     }
                     break;
                 case 4:
-                    try{
+                    try {
                         LimparTela();
                         f.deletar();
-                    }
-                    catch(ListaVaziaException e) {
+                    } catch (ListaVaziaException e) {
                         System.out.println(e.getMessage());
                     }
                     break;
@@ -165,35 +194,32 @@ public class Main implements Terminal {
             switch (escolha_user) {
                 case 1:
                     LimparTela();
-                    Servico.cadastrar();
+                    ServicoController.cadastrar();
                     System.out.println(FUNDO_CYAN + PRETO + "Pressione enter para voltar ao menu do MODULO DE AGENDAMENTO DE SERVIÇOS..." + RESETAR);
                     teclado.nextLine();
                     break;
                 case 2:
                     LimparTela();
-                    Servico.atualizar();
+                    ServicoController.atualizar();
                     System.out.println(FUNDO_CYAN + PRETO + "Pressione enter para voltar ao menu do MODULO DE AGENDAMENTO DE SERVIÇOS..." + RESETAR);
                     teclado.nextLine();
                     break;
                 case 3:
                     LimparTela();
-                    Servico.deletar();
+                    ServicoController.deletar();
                     System.out.println(FUNDO_CYAN + PRETO + "Pressione enter para voltar ao menu do MODULO DE AGENDAMENTO DE SERVIÇOS..." + RESETAR);
                     teclado.nextLine();
                     break;
                 case 4:
                     LimparTela();
-                    Servico.listar();
+                    ServicoController.listar();
                     System.out.println(FUNDO_CYAN + PRETO + "Pressione enter para voltar ao menu do MODULO DE AGENDAMENTO DE SERVIÇOS..." + RESETAR);
                     teclado.nextLine();
 
                     break;
                 case 5:
                     LimparTela();
-                    System.out.println("Digite a matrícula do funcionário desejado: ");
-                    String matricula_func = teclado.nextLine().strip();
-                    Funcionario funcionario_agenda = Funcionario.consultarFuncionario(matricula_func);
-                    funcionario_agenda.listarAgenda();
+                    ServicoController.ListarAgendaFuncionario();
                     System.out.println("Pressione enter para voltar ao MODULO DE AGENDAMENTO DE SERVIÇOS...");
                     teclado.nextLine();
                     break;
@@ -328,7 +354,7 @@ public class Main implements Terminal {
     public static void data_seed() throws ListaVaziaException {
         Tutor.data_seed_tutor();
         Pet.data_seed_pet();
-        Funcionario.data_seed_funcionario();
+        FuncionarioController.data_seed_funcionario();
 
     }
     public static void main(String[] args) throws ListaVaziaException, DataInvalidaException {

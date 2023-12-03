@@ -2,6 +2,7 @@ package controllers;
 
 import static main.Main.LimparTela;
 
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 
 import components.CRUD;
@@ -17,12 +18,28 @@ import funcionarios.Veterinario;
 
 public class FuncionarioController implements CRUD, Terminal{
     //PRECISAMOS DESSE FUNCIONARIO FANTASMA PRA ACESSAR A CLASSE FUNCIONARIO
-    private Funcionario funcionario = new Funcionario(null, NEGRITO, NEGRITO, null);
-    
-    //CONSTRUTOR DA CLASSE PARA PORDER ACESSAR ELA
-    public FuncionarioController() {
-    }
 
+    public static ArrayList<Funcionario> lista_funcionarios = new ArrayList<>();
+    private Funcionario funcionario = new Funcionario(null, NEGRITO, NEGRITO, null);
+
+
+    //CONSTRUTOR DA CLASSE PARA PORDER ACESSAR ELA
+    public static void data_seed_funcionario() {
+        Funcionario funcionario_1 = new Funcionario(1500.55, "123.123.123-55", "Rafael Marques", Setores.SERVICOS_GERAIS);
+        FuncionarioController.lista_funcionarios.add(funcionario_1);
+        Funcionario funcionario_2 = new Funcionario(1500.55, "123.123.123-55", "Emmanoel Barros", Setores.SERVICOS_GERAIS);
+        FuncionarioController.lista_funcionarios.add(funcionario_2);
+        System.out.println(funcionario_1.toString());
+        System.out.println(funcionario_2.toString());
+
+        Veterinario veterinario_1 = new Veterinario(2500.55, "123.123.123-55", "Luísa Mell", Setores.CLINICA_VET,"1478-99", EspecializacoesVet.CLINICO);
+        FuncionarioController.lista_funcionarios.add(veterinario_1);
+        Veterinario veterinario_2 = new Veterinario(2500.55, "123.123.123-55", "Marina Ministra", Setores.CLINICA_VET,"5697-99", EspecializacoesVet.CIRURGIAO);
+        FuncionarioController.lista_funcionarios.add(veterinario_2);
+
+        System.out.println(veterinario_1.toString());
+        System.out.println(veterinario_2.toString());
+    }
     //MÉTODO DO CRUD QUE ESTAVA EM FUNCIONARIO
     public void cadastrar(){
         //FICA A MESMA COISA COM ALGUMAS EXCEÇÕES:
@@ -166,5 +183,16 @@ public class FuncionarioController implements CRUD, Terminal{
 		return;
 		
 	}
+
+    public static Funcionario consultarFuncionario(String matricula) {
+        for (Funcionario funcionario : lista_funcionarios) {
+            if (funcionario.getMatricula().equals(matricula)) {
+                return funcionario;}
+        }
+        return null;
+    }
+
+
+
 
 }
