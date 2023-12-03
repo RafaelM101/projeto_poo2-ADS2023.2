@@ -89,6 +89,7 @@ public class PetController implements CRUD, Terminal {
                                 teclado.nextLine();
                             }
                         }
+                        break;
                     } else {
                         System.out.println(NEGRITO+VERMELHO+ "\nMATRÍCULA NÃO CADASTRADA!" +RESETAR);
                         break;
@@ -382,6 +383,10 @@ public class PetController implements CRUD, Terminal {
         Tutor tutorDel = TutorController.consultarTutor(cpfTutor);
         if (tutorDel instanceof Tutor) {
             System.out.println(MAGENTA+ "Pets de " +RESETAR + tutorDel.getNomeTutor() + MAGENTA+ ":" +RESETAR);
+            if (tutorDel.getPets().size() < 1) {
+                System.out.println(NEGRITO+VERMELHO+ "\nNão possui nenhum Pet" +RESETAR);
+                return;
+            }
             for (Pet pet : tutorDel.getPets()) {
                 System.out.println(AZUL+ "Nome do Pet: " +RESETAR + pet.getNomePet() + "\n" +
                     AZUL+ "Matrícula: " +RESETAR + pet.getMatriculaPet()+"\n");    
