@@ -1,9 +1,8 @@
 package main;
 
-
-import Pets.Pet;
 import components.*;
 import controllers.FuncionarioController;
+import controllers.PetController;
 import controllers.ServicoController;
 import controllers.TutorController;
 import exceptions.DataInvalidaException;
@@ -308,26 +307,26 @@ public class Main implements Terminal {
                 switch (escolha_user){
                     case 1: {
                         LimparTela();
-                        Pet.cadastrar();
+                        PetController.cadastrar();
                         System.out.print(NEGRITO+CYAN+ "\nPressione enter para voltar ao menu do MODULO DE GERENCIAMENTO DE PET..." +RESETAR);
                         teclado.nextLine();
                         break;
                     } case 2: {
                         LimparTela();
-                        Pet.atualizar();
+                        PetController.atualizar();
                         System.out.print(NEGRITO+CYAN+ "\nPressione enter para voltar ao menu MODULO DE GERENCIAMENTO DE PET..." +RESETAR);
                         teclado.nextLine();
                         break;
                     } case 3: {
                         LimparTela();
-                        Pet.deletar();
+                        PetController.deletar();
                         System.out.print(NEGRITO+CYAN+ "\nPressione enter para voltar ao menu do MODULO DE GERENCIAMENTO DE PET..." +RESETAR);
                         teclado.nextLine();
                         break;
                     } case 4: {
                         try {
                             LimparTela();
-                            Pet.listar();
+                            PetController.listar();
                         }
                         catch (ListaVaziaException e) {
                             System.out.println(e.getMessage());
@@ -337,13 +336,13 @@ public class Main implements Terminal {
                         break; 
                     } case 5: {
                         LimparTela();
-                        Pet.atribuirPet_Tutor();
+                        PetController.atribuirPet_Tutor();
                         System.out.print(NEGRITO+CYAN+ "\nPressione enter para voltar ao menu do MODULO DE GERENCIAMENTO DE PET..." +RESETAR);
                         teclado.nextLine();
                         break;
                     } case 6: {
                         LimparTela();
-                        Pet.removerPet_Tutor();
+                        PetController.removerPet_Tutor();
                         System.out.print(NEGRITO+CYAN+ "\nPressione enter para voltar ao menu do MODULO DE GERENCIAMENTO DE PET..." +RESETAR);
                             teclado.nextLine();
                         break;
@@ -362,7 +361,7 @@ public class Main implements Terminal {
 
     public static void data_seed() throws ListaVaziaException {
         TutorController.data_seed_tutor();
-        Pet.data_seed_pet();
+        PetController.data_seed_pet();
         FuncionarioController.data_seed_funcionario();
 
     }

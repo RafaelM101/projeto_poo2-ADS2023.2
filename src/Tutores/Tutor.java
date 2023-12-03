@@ -63,5 +63,15 @@ public class Tutor implements CRUD, Terminal {
     public ArrayList<Pet> getPets() {
         return pets;
     }
+
+    //Adicionar Pet a lista de Pets
+    public void adicionarPet(Pet pet){
+        this.pets.add(pet);
+    }
+    
+    //Deletar Pet da lista de Pets
+    public void deletarPet(Pet pet) {
+        this.pets.remove(pet);
+    }
     
 }

@@ -18,7 +18,6 @@ import exceptions.TelefoneInvalidoException;
 public class TutorController implements CRUD, Terminal {
     
     protected static ArrayList<Tutor> lista_tutores = new ArrayList<>();
-    private ArrayList<Pet> pets = new ArrayList<>();
 
     //Data Seed
     public static void data_seed_tutor() throws ListaVaziaException {
@@ -320,16 +319,6 @@ public class TutorController implements CRUD, Terminal {
         } else {
             System.out.println(NEGRITO+VERMELHO+ "CPF não consta no sistema." +RESETAR);
         }
-    }
-    
-    //Adicionar Pet a lista de Pets
-    public void adicionarPet(Pet pet){
-        this.pets.add(pet);
-    }
-    
-    //Deletar Pet da lista de Pets
-    public void deletarPet(Pet pet) {
-        this.pets.remove(pet);
     }
     
     //Retorna um Tutor

@@ -95,14 +95,14 @@ public class ServicoController implements CRUD, Terminal{
             System.out.print(AMARELO + NEGRITO +"\nInsira a matrícula do Pet que irá receber esse serviço: " + RESETAR);
             matriculaPet = teclado.next();
             teclado.nextLine();
-            if (Pet.consultarPet(matriculaPet) == null) {
+            if (PetController.consultarPet(matriculaPet) == null) {
                 System.out.println(VERMELHO + "\n\t\t\tPet não encontrado. Verifique a matrícula digitada." + RESETAR);
                 continue;
             }
             break;
         }
 
-        Pet pet_servico = Pet.consultarPet(matriculaPet);
+        Pet pet_servico = PetController.consultarPet(matriculaPet);
         System.out.printf(VERDE + "\n\t\t\tPet escolhido: %s.\n", pet_servico.getNomePet() + RESETAR);
         LocalDate data_escolhida;
         LocalTime horario_escolhido;
