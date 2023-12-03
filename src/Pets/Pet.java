@@ -1,14 +1,12 @@
 package Pets;
 
 import Tutores.Tutor;
-import components.CRUD;
-import components.Matricula;
 
-import components.Terminal;
+import components.Matricula;
 import components.TipoEntidade;
 
 
-public abstract class Pet implements CRUD, Terminal {
+public abstract class Pet {
     protected String nomePet;
     protected Matricula matriculaPet;
     protected Integer idadePet;
@@ -21,7 +19,7 @@ public abstract class Pet implements CRUD, Terminal {
         this.idadePet = idadePet;
         this.donoPet = donoPet;
     }
-    
+
     //GETTERS AND SETTERS
     public String getNomePet() {
         return nomePet;
