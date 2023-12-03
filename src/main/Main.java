@@ -1,20 +1,16 @@
 package main;
 
-
-import Pets.Pet;
-import Tutores.Tutor;
 import components.*;
 import controllers.FuncionarioController;
+import controllers.PetController;
 import controllers.ServicoController;
+import controllers.TutorController;
 import exceptions.DataInvalidaException;
 import exceptions.EscolhaInvalidaException;
 import exceptions.ListaVaziaException;
 import funcionarios.Funcionario;
 import funcionarios.Veterinario;
-import servicos.ListaServicos;
-import servicos.Servico;
 
-import java.awt.desktop.SystemSleepEvent;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -231,129 +227,141 @@ public class Main implements Terminal {
         }}
     public static void menu_Tutor() {
         while (true) {
-            LimparTela();
-            System.out.println(NEGRITO+CYAN+ "\t\t\tMÓDULO DE GERENCIAMENTO DE TUTOR" +RESETAR);
-            System.out.println(NEGRITO+AMARELO+ "Digite a opção desejada: " +RESETAR);
-            System.out.println(NEGRITO+BRANCO+ "1 - Cadastrar um novo tutor." +RESETAR);
-            System.out.println(NEGRITO+BRANCO+ "2 - Lista todos os tutores." +RESETAR);
-            System.out.println(NEGRITO+BRANCO+ "3 - Atualizar o cadastro de um tutor existente." +RESETAR);
-            System.out.println(NEGRITO+BRANCO+ "4 - Apagar o cadastro de um tutor." +RESETAR);
-            System.out.println(NEGRITO+BRANCO+ "5 - Consultar tutor." +RESETAR);
-            System.out.println(NEGRITO+BRANCO+ "6 - Voltar ao menu inicial." +RESETAR);
-            System.out.print(NEGRITO+AMARELO+ "DIGITE A OPÇÃO ESCOLHIDA: " +RESETAR);
-            int escolha_user = teclado.nextInt();
-            teclado.nextLine();
-            switch (escolha_user){
-                case 1: {
-                    LimparTela();
-                    Tutor.cadastrar();
-                    System.out.print(NEGRITO+CYAN+ "\nPressione enter para voltar ao menu do MODULO DE GERENCIAMENTO DE TUTOR..." +RESETAR);
-                    teclado.nextLine();
-                    break;
-                } case 2: {
-                    try {
+            try {
+                LimparTela();
+                System.out.println(NEGRITO+CYAN+ "\t\t\tMÓDULO DE GERENCIAMENTO DE TUTOR" +RESETAR);
+                System.out.println(NEGRITO+AMARELO+ "Digite a opção desejada: " +RESETAR);
+                System.out.println(NEGRITO+BRANCO+ "1 - Cadastrar um novo tutor." +RESETAR);
+                System.out.println(NEGRITO+BRANCO+ "2 - Lista todos os tutores." +RESETAR);
+                System.out.println(NEGRITO+BRANCO+ "3 - Atualizar o cadastro de um tutor existente." +RESETAR);
+                System.out.println(NEGRITO+BRANCO+ "4 - Apagar o cadastro de um tutor." +RESETAR);
+                System.out.println(NEGRITO+BRANCO+ "5 - Consultar tutor." +RESETAR);
+                System.out.println(NEGRITO+BRANCO+ "6 - Voltar ao menu inicial." +RESETAR);
+                System.out.print(NEGRITO+AMARELO+ "DIGITE A OPÇÃO ESCOLHIDA: " +RESETAR);
+                int escolha_user = teclado.nextInt();
+                teclado.nextLine();
+                switch (escolha_user){
+                    case 1: {
                         LimparTela();
-                        Tutor.listar();
+                        TutorController.cadastrar();
+                        System.out.print(NEGRITO+CYAN+ "\nPressione enter para voltar ao menu do MODULO DE GERENCIAMENTO DE TUTOR..." +RESETAR);
+                        teclado.nextLine();
+                        break;
+                    } case 2: {
+                        try {
+                            LimparTela();
+                            TutorController.listar();
+                        }
+                        catch (ListaVaziaException e) {
+                            System.out.println(e.getMessage());
+                        }
+                        System.out.print(NEGRITO+CYAN+ "\nPressione enter para voltar ao menu MODULO DE GERENCIAMENTO DE TUTOR..." +RESETAR);
+                        teclado.nextLine();
+                        break;
+                    } case 3: {
+                        LimparTela();
+                        TutorController.atualizar();
+                        System.out.print(NEGRITO+CYAN+ "\nPressione enter para voltar ao menu do MODULO DE GERENCIAMENTO DE TUTOR..." +RESETAR);
+                        teclado.nextLine();
+                        break;
+                    } case 4: {
+                        LimparTela();
+                        TutorController.deletar();
+                        System.out.print(NEGRITO+CYAN+ "\nPressione enter para voltar ao menu do MODULO DE GERENCIAMENTO DE TUTOR..." +RESETAR);
+                        teclado.nextLine();
+                        break; 
+                    } case 5: {
+                        LimparTela();
+                        TutorController.consulta();
+                        System.out.print(NEGRITO+CYAN+ "\nPressione enter para voltar ao menu do MODULO DE GERENCIAMENTO DE TUTOR..." +RESETAR);
+                        teclado.nextLine();
+                        break;
+                    } default: {
+                        LimparTela();
+                        return;
                     }
-                    catch (ListaVaziaException e) {
-                        System.out.println(e.getMessage());
-                    }
-                    System.out.print(NEGRITO+CYAN+ "\nPressione enter para voltar ao menu MODULO DE GERENCIAMENTO DE TUTOR..." +RESETAR);
-                    teclado.nextLine();
-                    break;
-                } case 3: {
-                    LimparTela();
-                    Tutor.atualizar();
-                    System.out.print(NEGRITO+CYAN+ "\nPressione enter para voltar ao menu do MODULO DE GERENCIAMENTO DE TUTOR..." +RESETAR);
-                    teclado.nextLine();
-                    break;
-                } case 4: {
-                    LimparTela();
-                    Tutor.deletar();
-                    System.out.print(NEGRITO+CYAN+ "\nPressione enter para voltar ao menu do MODULO DE GERENCIAMENTO DE TUTOR..." +RESETAR);
-                    teclado.nextLine();
-                    break; 
-                } case 5: {
-                    LimparTela();
-                    Tutor.consulta();
-                    System.out.print(NEGRITO+CYAN+ "\nPressione enter para voltar ao menu do MODULO DE GERENCIAMENTO DE TUTOR..." +RESETAR);
-                    teclado.nextLine();
-                    break;
-                } default: {
-                    LimparTela();
-                    return;
-                }
-            }   
+                }  
+            }
+            catch (InputMismatchException e) {
+                System.out.println(NEGRITO+VERMELHO+ "Insira apenas o dígito da opção desejada." +RESETAR);
+                teclado.nextLine();
+            }
         }
     }
     public static void menu_Pet() {
         while (true) {
-            LimparTela();
-            System.out.println(NEGRITO+CYAN+ "\t\t\tMÓDULO DE GERENCIAMENTO DE PET" +RESETAR);
-            System.out.println(NEGRITO+AMARELO+ "Digite a opção desejada: " +RESETAR);
-            System.out.println(NEGRITO+BRANCO+ "1 - Cadastrar um Pet." +RESETAR);
-            System.out.println(NEGRITO+BRANCO+ "2 - Atualizar cadastro de Pet." +RESETAR);
-            System.out.println(NEGRITO+BRANCO+ "3 - Apagar o cadastro de um Pet." +RESETAR);
-            System.out.println(NEGRITO+BRANCO+ "4 - Listar todos os Pets cadastrados." +RESETAR);
-            System.out.println(NEGRITO+BRANCO+ "5 - Adicionar Pet a um Tutor existente" +RESETAR);
-            System.out.println(NEGRITO+BRANCO+ "6 - Remover Pet de um Tutor existente." +RESETAR);
-            System.out.println(NEGRITO+BRANCO+ "7 - Voltar ao menu inicial." +RESETAR);
-            System.out.print(NEGRITO+AMARELO+ "DIGITE A OPÇÃO ESCOLHIDA: " +RESETAR);
-            int escolha_user = teclado.nextInt();
-            teclado.nextLine();
-            switch (escolha_user){
-                case 1: {
-                    LimparTela();
-                    Pet.cadastrar();
-                    System.out.print(NEGRITO+CYAN+ "\nPressione enter para voltar ao menu do MODULO DE GERENCIAMENTO DE PET..." +RESETAR);
-                    teclado.nextLine();
-                    break;
-                } case 2: {
-                    LimparTela();
-                    Pet.atualizar();
-                    System.out.print(NEGRITO+CYAN+ "\nPressione enter para voltar ao menu MODULO DE GERENCIAMENTO DE PET..." +RESETAR);
-                    teclado.nextLine();
-                    break;
-                } case 3: {
-                    LimparTela();
-                    Pet.deletar();
-                    System.out.print(NEGRITO+CYAN+ "\nPressione enter para voltar ao menu do MODULO DE GERENCIAMENTO DE PET..." +RESETAR);
-                    teclado.nextLine();
-                    break;
-                } case 4: {
-                    try {
+            try {
+                LimparTela();
+                System.out.println(NEGRITO+CYAN+ "\t\t\tMÓDULO DE GERENCIAMENTO DE PET" +RESETAR);
+                System.out.println(NEGRITO+AMARELO+ "Digite a opção desejada: " +RESETAR);
+                System.out.println(NEGRITO+BRANCO+ "1 - Cadastrar um Pet." +RESETAR);
+                System.out.println(NEGRITO+BRANCO+ "2 - Atualizar cadastro de Pet." +RESETAR);
+                System.out.println(NEGRITO+BRANCO+ "3 - Apagar o cadastro de um Pet." +RESETAR);
+                System.out.println(NEGRITO+BRANCO+ "4 - Listar todos os Pets cadastrados." +RESETAR);
+                System.out.println(NEGRITO+BRANCO+ "5 - Adicionar Pet a um Tutor existente" +RESETAR);
+                System.out.println(NEGRITO+BRANCO+ "6 - Remover Pet de um Tutor existente." +RESETAR);
+                System.out.println(NEGRITO+BRANCO+ "7 - Voltar ao menu inicial." +RESETAR);
+                System.out.print(NEGRITO+AMARELO+ "DIGITE A OPÇÃO ESCOLHIDA: " +RESETAR);
+                int escolha_user = teclado.nextInt();
+                teclado.nextLine();
+                switch (escolha_user){
+                    case 1: {
                         LimparTela();
-                        Pet.listar();
-                    }
-                    catch (ListaVaziaException e) {
-                        System.out.println(e.getMessage());
-                    }
-                    System.out.print(NEGRITO+CYAN+ "\nPressione enter para voltar ao menu do MODULO DE GERENCIAMENTO DE PET..." +RESETAR);
-                    teclado.nextLine();
-                    break; 
-                } case 5: {
-                    LimparTela();
-                    Pet.atribuirPet_Tutor();
-                    System.out.print(NEGRITO+CYAN+ "\nPressione enter para voltar ao menu do MODULO DE GERENCIAMENTO DE PET..." +RESETAR);
-                    teclado.nextLine();
-                    break;
-                } case 6: {
-                    LimparTela();
-                    Pet.removerPet_Tutor();
-                    System.out.print(NEGRITO+CYAN+ "\nPressione enter para voltar ao menu do MODULO DE GERENCIAMENTO DE PET..." +RESETAR);
+                        PetController.cadastrar();
+                        System.out.print(NEGRITO+CYAN+ "\nPressione enter para voltar ao menu do MODULO DE GERENCIAMENTO DE PET..." +RESETAR);
                         teclado.nextLine();
-                    break;
-                } default: {
-                    LimparTela();
-                    return;
+                        break;
+                    } case 2: {
+                        LimparTela();
+                        PetController.atualizar();
+                        System.out.print(NEGRITO+CYAN+ "\nPressione enter para voltar ao menu MODULO DE GERENCIAMENTO DE PET..." +RESETAR);
+                        teclado.nextLine();
+                        break;
+                    } case 3: {
+                        LimparTela();
+                        PetController.deletar();
+                        System.out.print(NEGRITO+CYAN+ "\nPressione enter para voltar ao menu do MODULO DE GERENCIAMENTO DE PET..." +RESETAR);
+                        teclado.nextLine();
+                        break;
+                    } case 4: {
+                        try {
+                            LimparTela();
+                            PetController.listar();
+                        }
+                        catch (ListaVaziaException e) {
+                            System.out.println(e.getMessage());
+                        }
+                        System.out.print(NEGRITO+CYAN+ "\nPressione enter para voltar ao menu do MODULO DE GERENCIAMENTO DE PET..." +RESETAR);
+                        teclado.nextLine();
+                        break; 
+                    } case 5: {
+                        LimparTela();
+                        PetController.atribuirPet_Tutor();
+                        System.out.print(NEGRITO+CYAN+ "\nPressione enter para voltar ao menu do MODULO DE GERENCIAMENTO DE PET..." +RESETAR);
+                        teclado.nextLine();
+                        break;
+                    } case 6: {
+                        LimparTela();
+                        PetController.removerPet_Tutor();
+                        System.out.print(NEGRITO+CYAN+ "\nPressione enter para voltar ao menu do MODULO DE GERENCIAMENTO DE PET..." +RESETAR);
+                            teclado.nextLine();
+                        break;
+                    } default: {
+                        LimparTela();
+                        return;
+                    }
                 }
-            }   
+            }
+            catch (InputMismatchException e) {
+                System.out.println(NEGRITO+VERMELHO+ "Insira apenas o dígito da opção desejada." +RESETAR);
+                teclado.nextLine();
+            }
         }
     }
 
     public static void data_seed() throws ListaVaziaException {
-        Tutor.data_seed_tutor();
-        Pet.data_seed_pet();
+        TutorController.data_seed_tutor();
+        PetController.data_seed_pet();
         FuncionarioController.data_seed_funcionario();
 
     }
