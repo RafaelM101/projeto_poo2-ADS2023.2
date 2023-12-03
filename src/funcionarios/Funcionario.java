@@ -2,18 +2,16 @@ package funcionarios;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
+
 import java.util.*;
 
 import components.*;
-import exceptions.CRMVInvalidoException;
-import exceptions.CpfInvalidoException;
-import exceptions.ListaVaziaException;
+
 import servicos.AgendaDia;
 import servicos.Servico;
 
 import static controllers.FuncionarioController.lista_funcionarios;
-import static main.Main.LimparTela;
+
 
 public class Funcionario implements CRUD, Terminal{
 	protected Matricula matricula;
