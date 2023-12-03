@@ -12,6 +12,7 @@ import exceptions.ListaVaziaException;
 import servicos.AgendaDia;
 import servicos.Servico;
 
+import static controllers.FuncionarioController.lista_funcionarios;
 import static main.Main.LimparTela;
 
 public class Funcionario implements CRUD, Terminal{
@@ -21,7 +22,7 @@ public class Funcionario implements CRUD, Terminal{
 	protected String nome;
 	protected Setores setor;
 	private HashMap<LocalDate, AgendaDia> AgendaDiariaFuncionario;
-	protected static ArrayList<Funcionario> lista_funcionarios = new ArrayList<>();
+
 		
 	public Funcionario( Double salario, String CPF, String nome, Setores setor) {
 		this.matricula = Matricula.gerarMatricula(TipoEntidade.FUNCIONARIO);
@@ -98,30 +99,6 @@ public class Funcionario implements CRUD, Terminal{
 				"\t" +AZUL +"Setor: " + RESETAR + MAGENTA + setor + RESETAR +"\n\n";
 	}
 
-	public static void data_seed_funcionario() {
-		Funcionario funcionario_1 = new Funcionario(1500.55, "123.123.123-55", "Rafael Marques", Setores.SERVICOS_GERAIS);
-		Funcionario.lista_funcionarios.add(funcionario_1);
-		Funcionario funcionario_2 = new Funcionario(1500.55, "123.123.123-55", "Emmanoel Barros", Setores.SERVICOS_GERAIS);
-		Funcionario.lista_funcionarios.add(funcionario_2);
-		System.out.println(funcionario_1.toString());
-		System.out.println(funcionario_2.toString());
-
-		Veterinario veterinario_1 = new Veterinario(2500.55, "123.123.123-55", "Luísa Mell", Setores.CLINICA_VET,"1478-99", EspecializacoesVet.CLINICO);
-		Funcionario.lista_funcionarios.add(veterinario_1);
-		Veterinario veterinario_2 = new Veterinario(2500.55, "123.123.123-55", "Marina Ministra", Setores.CLINICA_VET,"5697-99", EspecializacoesVet.CIRURGIAO);
-		Funcionario.lista_funcionarios.add(veterinario_2);
-
-		System.out.println(veterinario_1.toString());
-		System.out.println(veterinario_2.toString());
-	}
-
-	public static Funcionario consultarFuncionario(String matricula) {
-		for (Funcionario funcionario : lista_funcionarios) {
-			if (funcionario.getMatricula().equals(matricula)) {
-				return funcionario;}
-		}
-		return null;
-	}	
 	//METODOS RELACIONADOS À AGENDA DO FUNCIONÁRIO
 	public void agendarHorario(Servico novo_servico){
 		Funcionario func = novo_servico.getNome_funcionario();
