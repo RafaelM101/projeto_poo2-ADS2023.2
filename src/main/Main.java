@@ -2,19 +2,16 @@ package main;
 
 
 import Pets.Pet;
-import Tutores.Tutor;
 import components.*;
 import controllers.FuncionarioController;
 import controllers.ServicoController;
+import controllers.TutorController;
 import exceptions.DataInvalidaException;
 import exceptions.EscolhaInvalidaException;
 import exceptions.ListaVaziaException;
 import funcionarios.Funcionario;
 import funcionarios.Veterinario;
-import servicos.ListaServicos;
-import servicos.Servico;
 
-import java.awt.desktop.SystemSleepEvent;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -247,14 +244,14 @@ public class Main implements Terminal {
                 switch (escolha_user){
                     case 1: {
                         LimparTela();
-                        Tutor.cadastrar();
+                        TutorController.cadastrar();
                         System.out.print(NEGRITO+CYAN+ "\nPressione enter para voltar ao menu do MODULO DE GERENCIAMENTO DE TUTOR..." +RESETAR);
                         teclado.nextLine();
                         break;
                     } case 2: {
                         try {
                             LimparTela();
-                            Tutor.listar();
+                            TutorController.listar();
                         }
                         catch (ListaVaziaException e) {
                             System.out.println(e.getMessage());
@@ -264,19 +261,19 @@ public class Main implements Terminal {
                         break;
                     } case 3: {
                         LimparTela();
-                        Tutor.atualizar();
+                        TutorController.atualizar();
                         System.out.print(NEGRITO+CYAN+ "\nPressione enter para voltar ao menu do MODULO DE GERENCIAMENTO DE TUTOR..." +RESETAR);
                         teclado.nextLine();
                         break;
                     } case 4: {
                         LimparTela();
-                        Tutor.deletar();
+                        TutorController.deletar();
                         System.out.print(NEGRITO+CYAN+ "\nPressione enter para voltar ao menu do MODULO DE GERENCIAMENTO DE TUTOR..." +RESETAR);
                         teclado.nextLine();
                         break; 
                     } case 5: {
                         LimparTela();
-                        Tutor.consulta();
+                        TutorController.consulta();
                         System.out.print(NEGRITO+CYAN+ "\nPressione enter para voltar ao menu do MODULO DE GERENCIAMENTO DE TUTOR..." +RESETAR);
                         teclado.nextLine();
                         break;
@@ -364,7 +361,7 @@ public class Main implements Terminal {
     }
 
     public static void data_seed() throws ListaVaziaException {
-        Tutor.data_seed_tutor();
+        TutorController.data_seed_tutor();
         Pet.data_seed_pet();
         FuncionarioController.data_seed_funcionario();
 
