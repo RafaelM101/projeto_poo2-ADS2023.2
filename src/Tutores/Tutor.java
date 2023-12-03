@@ -3,10 +3,8 @@ package Tutores;
 import java.util.ArrayList;
 
 import Pets.Pet;
-import components.CRUD;
-import components.Terminal;
 
-public class Tutor implements CRUD, Terminal {
+public class Tutor {
     private String nomeTutor;
     private String cpf_Tutor;
     private String telefoneTutor;
@@ -73,5 +71,5 @@ public class Tutor implements CRUD, Terminal {
     public void deletarPet(Pet pet) {
         this.pets.remove(pet);
     }
-    
+
 }
