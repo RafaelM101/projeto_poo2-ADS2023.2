@@ -2,8 +2,11 @@ package controllers;
 
 import static main.Main.LimparTela;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.Map;
 
 import components.CRUD;
 import components.EspecializacoesVet;
@@ -15,6 +18,8 @@ import exceptions.CpfInvalidoException;
 import exceptions.ListaVaziaException;
 import funcionarios.Funcionario;
 import funcionarios.Veterinario;
+import servicos.AgendaDia;
+import servicos.Servico;
 
 public class FuncionarioController implements CRUD, Terminal{
     //PRECISAMOS DESSE FUNCIONARIO FANTASMA PRA ACESSAR A CLASSE FUNCIONARIO
@@ -191,6 +196,42 @@ public class FuncionarioController implements CRUD, Terminal{
         }
         return null;
     }
+
+    //METODOS RELACIONADOS À AGENDA DO FUNCIONÁRIO
+    public static void agendarHorario(Servico novo_servico){
+        Funcionario func = novo_servico.getNome_funcionario();
+        if(verificarHorario(func,novo_servico.getData_servico(), novo_servico.getHora_servico())){
+            AgendaDia agenda = func.getAgendaDiariaFuncionario().get(novo_servico.getData_servico());
+            agenda.agendarHorario(novo_servico.getHora_servico(), novo_servico);
+        }
+        else System.out.println(NEGRITO+ VERMELHO+"Horário escolhido não está disponível. Verifique outro funcionário."+RESETAR);
+    }
+    public static void desmarcarHorario(Servico servico){
+        Funcionario func = servico.getNome_funcionario();
+        AgendaDia agenda = func.getAgendaDiariaFuncionario().get(servico.getData_servico());
+        agenda.desmarcarHorario(servico.getHora_servico());
+    }
+    public static boolean verificarHorario(Funcionario funcionario, LocalDate data, LocalTime hora){
+        AgendaDia agenda = funcionario.getAgendaDiariaFuncionario().get(data);
+        return agenda.verificarHorario(hora);
+    }
+    public static void listarAgenda(Funcionario funcionario){
+        for (Map.Entry<LocalDate, AgendaDia> entry : funcionario.getAgendaDiariaFuncionario().entrySet()) {
+            LocalDate data_agenda = entry.getKey();
+            String dateFormatted = data_agenda.format(formatter);
+            AgendaDia agendaDia = entry.getValue();
+            System.out.println("DATA: " + dateFormatted);
+            agendaDia.imprimirAgenda();
+        }
+    }
+
+    public static void imprimirAgendaDia(Funcionario funcionario, LocalDate dia){
+        AgendaDia agenda_escolhida = funcionario.getAgendaDiariaFuncionario().get(dia);
+        System.out.printf(CYAN + NEGRITO +"\tFUNCIONÁRIO: %s\n\tAGENDA DIA: %s ",funcionario.getNome(),formatter.format(dia) + RESETAR);
+        System.out.println(" ");
+        agenda_escolhida.imprimirAgenda();
+    }
+
 
 
 

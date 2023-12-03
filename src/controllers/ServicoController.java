@@ -13,13 +13,14 @@ import funcionarios.Veterinario;
 import servicos.ListaServicos;
 import servicos.Servico;
 import servicos.ServicoComparator;
-
+import java.util.Set;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.InputMismatchException;
 
+import static controllers.FuncionarioController.desmarcarHorario;
 import static main.Main.LimparTela;
 
 public class ServicoController implements CRUD, Terminal{
@@ -117,8 +118,8 @@ public class ServicoController implements CRUD, Terminal{
                 }
             }
 
-            System.out.println(CYAN + NEGRITO + "\nDatas disponíveis para agendamentos: \n" + RESETAR);
-            ServicoController.imprimirDatas();
+            System.out.println(CYAN + NEGRITO + "\nDatas disponíveis para agendamentos no Funcionário: \n" + RESETAR);
+            ServicoController.imprimirDatas(funcionario_servico);
             String data = null;
             try {
                 System.out.print(AMARELO + NEGRITO + "\n\nInsira a data que será realizada o serviço: " + RESETAR);
@@ -136,7 +137,7 @@ public class ServicoController implements CRUD, Terminal{
             break;
         }
         System.out.println(" ");
-        funcionario_servico.imprimirAgendaDia(data_escolhida);
+        FuncionarioController.imprimirAgendaDia(funcionario_servico,data_escolhida);
         while(true){
             try{
                 System.out.print(AMARELO + NEGRITO +"\nInsira o horário que será realizado o serviço: " + RESETAR);
@@ -144,7 +145,7 @@ public class ServicoController implements CRUD, Terminal{
                 Validar.validarHora(horario);
                 teclado.nextLine();
                 horario_escolhido = LocalTime.parse(horario);
-                if(!(funcionario_servico.verificarHorario(data_escolhida,horario_escolhido))){
+                if(!(FuncionarioController.verificarHorario(funcionario_servico,data_escolhida,horario_escolhido))){
                     System.out.println(VERMELHO + "\t\t\t\nO Horário digitado não está disponível para esse funcionário. Insira um horário disponível.\n" + RESETAR);
                     continue;
                 }}
@@ -159,7 +160,7 @@ public class ServicoController implements CRUD, Terminal{
         novo_servico.setData_servico(data_escolhida);
         novo_servico.setHora_servico(horario_escolhido);
         lista_servicos.add(novo_servico);
-        funcionario_servico.agendarHorario(novo_servico);
+        FuncionarioController.agendarHorario(novo_servico);
         System.out.println(CYAN + NEGRITO + "\t\t\t\nSERVIÇO CADASTRADO COM SUCESSO!\n" + RESETAR);
         System.out.println(novo_servico);
         LimparTela();
@@ -272,14 +273,14 @@ public class ServicoController implements CRUD, Terminal{
                         System.out.println(CYAN + "\n| Alteração de Data de Agendamento |" + RESETAR);
                         System.out.println(NEGRITO + AMARELO + "\nDigite a nova DATA do serviço: " + RESETAR);
                         System.out.println(NEGRITO + AMARELO + "\tDatas disponíveis:\n" + RESETAR);
-                        ServicoController.imprimirDatas();
+                        ServicoController.imprimirDatas(funcionario);
                         System.out.print(AMARELO + "\nDigite a nova data: " + RESETAR);
                         String data_nova = teclado.nextLine().strip();
                         Validar.ValidarDate(data_nova);
-                        funcionario.desmarcarHorario(servico_atualizar);
+                        FuncionarioController.desmarcarHorario(servico_atualizar);
                         servico_atualizar.setData_servico(LocalDate.parse(data_nova, formatter));
-                        if (funcionario.verificarHorario(servico_atualizar.getData_servico(), servico_atualizar.getHora_servico())) {
-                            funcionario.agendarHorario(servico_atualizar);
+                        if (FuncionarioController.verificarHorario(funcionario,servico_atualizar.getData_servico(), servico_atualizar.getHora_servico())) {
+                            FuncionarioController.agendarHorario(servico_atualizar);
                             System.out.println(CYAN + NEGRITO + "\n\t\t\tDATA ALTERADA COM SUCESSO!\n" + RESETAR);
                             LimparTela();
                             break;
@@ -295,13 +296,13 @@ public class ServicoController implements CRUD, Terminal{
                     try {
                         LimparTela();
                         System.out.println(CYAN + "|\n Alteração de Horário de Agendamento |\n" + RESETAR);
-                        funcionario.desmarcarHorario(servico_atualizar);
+                        FuncionarioController.desmarcarHorario(servico_atualizar);
                         System.out.print(AMARELO + "Digite o novo HORARIO do serviço: " + RESETAR);
                         String horario_novo = teclado.nextLine().strip();
                         Validar.validarHora(horario_novo);
                         servico_atualizar.setHora_servico(LocalTime.parse(horario_novo));
-                        if (funcionario.verificarHorario(servico_atualizar.getData_servico(), servico_atualizar.getHora_servico())) {
-                            funcionario.agendarHorario(servico_atualizar);
+                        if (FuncionarioController.verificarHorario(funcionario, servico_atualizar.getData_servico(), servico_atualizar.getHora_servico())) {
+                            FuncionarioController.agendarHorario(servico_atualizar);
                             System.out.println(CYAN + NEGRITO + "\n\t\t\tHorário alterado com sucesso!\n" + RESETAR);
                             LimparTela();
                         }
@@ -353,7 +354,7 @@ public class ServicoController implements CRUD, Terminal{
                             try {
                                 System.out.println(CYAN +"\n\t\t\t| Alteração de Tipo de Serviço Consulta Veterinária |\n" + RESETAR);
                                 System.out.println(NEGRITO + AMARELO + "Será necessário alterar o funcionário, apenas veterinários podem realizar consultas." + RESETAR);
-                                funcionario.desmarcarHorario(servico_atualizar);
+                                FuncionarioController.desmarcarHorario(servico_atualizar);
                                 System.out.println(NEGRITO + AMARELO + "Insira a matrícula do Veterinário que irá realizar a consulta ou pressione 1 para cancelar a operação: " + RESETAR);
                                 String matricula_vet = teclado.next();
                                 if (FuncionarioController.consultarFuncionario(matricula_vet) == null) {
@@ -366,7 +367,7 @@ public class ServicoController implements CRUD, Terminal{
                                     servico_atualizar.setNome_funcionario(FuncionarioController.consultarFuncionario(matricula_vet));
                                     servico_atualizar.setTipo_agendamento(ListaServicos.CONSULTA);
                                     servico_atualizar.setPreco(90.00f);
-                                    funcionario.agendarHorario(servico_atualizar);
+                                    FuncionarioController.agendarHorario(servico_atualizar);
                                     System.out.println(CYAN + NEGRITO + "\n\t\t\tTIPO DE SERVIÇO ATUALIZADO PARA CONSULTA COM SUCESSO!\n**Também foi alterado o funcionário." + RESETAR);
                                     LimparTela();
                                     break;
@@ -380,7 +381,7 @@ public class ServicoController implements CRUD, Terminal{
                     LimparTela();
                     System.out.println(CYAN +"\n\t\t\t| Alteração de Funcionário |\n" + RESETAR);
                     System.out.println(CYAN + "Obs: É necessário verificar se o novo funcionário possui disponibilidade na Data e Horário atuais do serviço." + RESETAR);
-                    funcionario.desmarcarHorario(servico_atualizar);
+                    FuncionarioController.desmarcarHorario(servico_atualizar);
                     System.out.println("Insira a matrícula do novo funcionário: ");
                     String matricula_funcionario = teclado.next().strip();
                     teclado.nextLine();
@@ -390,9 +391,9 @@ public class ServicoController implements CRUD, Terminal{
                         System.out.println(VERMELHO + "\n\t\t\tERRO: Não é possível cadastrar um Veterinário em um Serviço que não seja uma consulta nem Cadastrar um Funcionário que não é Veterinário em uma Consulta." + RESETAR);
                         System.out.println(VERMELHO + "\t\t\tverifique os dados e tente novamente." + RESETAR);
                         break;
-                    } else if (novo_funcionario.verificarHorario(servico_atualizar.getData_servico(), servico_atualizar.getHora_servico())) {
+                    } else if (FuncionarioController.verificarHorario(novo_funcionario,servico_atualizar.getData_servico(), servico_atualizar.getHora_servico())) {
                         servico_atualizar.setNome_funcionario(novo_funcionario);
-                        novo_funcionario.agendarHorario(servico_atualizar);
+                        FuncionarioController.agendarHorario(servico_atualizar);
                         System.out.println(CYAN + "\n\t\t\tALTERAÇÃO DE FUNCIONÁRIO FEITA COM SUCESSO!" + RESETAR);
                         LimparTela();
                         break;
@@ -460,8 +461,7 @@ public class ServicoController implements CRUD, Terminal{
                 teclado.nextLine();
                 return;
             }
-            Funcionario funcionario_servico = FuncionarioController.consultarFuncionario(servico_delete.getNome_funcionario().getMatricula());
-            funcionario_servico.desmarcarHorario(servico_delete);
+            FuncionarioController.desmarcarHorario(servico_delete);
             lista_servicos.remove(servico_delete);
             System.out.println(CYAN + NEGRITO + "AGENDAMENTO DESMARCADO COM SUCESSO!" + RESETAR);
             return;
@@ -482,13 +482,10 @@ public class ServicoController implements CRUD, Terminal{
         throw new ListaVaziaException(VERMELHO + "O serviço inserido não foi encontrado. Verifique os dados e tente novamente." + RESETAR);
     }
 
-    public static void imprimirDatas() {
-        LocalDate datas = LocalDate.now();
-        for (int i = 0; i <= 7; i++) {
-            if(i==0&&LocalTime.now().isAfter(LocalTime.of(18,30))){
-                continue;
-            }
-            String dataFormatada = formatter.format(datas.plusDays(i));
+    public static void imprimirDatas(Funcionario funcionario) {
+        Set<LocalDate> lista_datas = funcionario.getAgendaDiariaFuncionario().keySet();
+        for (LocalDate data : lista_datas) {
+            String dataFormatada = formatter.format(data);
             System.out.print(AMARELO + "| " + RESETAR + VERDE + dataFormatada + RESETAR + AMARELO + "| " + RESETAR);
         }
 
@@ -515,7 +512,7 @@ public class ServicoController implements CRUD, Terminal{
                 }
                 Funcionario funcionario_agenda = FuncionarioController.consultarFuncionario(matricula_func);
                 if (funcionario_agenda != null) {
-                    funcionario_agenda.listarAgenda();
+                    FuncionarioController.listarAgenda(funcionario_agenda);
                     break;
                 }
             } catch (ListaVaziaException e) {
