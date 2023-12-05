@@ -1,14 +1,19 @@
 package servicos;
-import java.time.LocalDate;
+import components.Terminal;
+
+
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
+
 import java.util.*;
 
-public class AgendaDia {
+public class AgendaDia implements Terminal {
 
     private HashMap<LocalTime, Servico> Agendamentos_dia = new HashMap<>();
     private Set<LocalTime> HoraDisponivel = new LinkedHashSet<>();
 
+    public Set<LocalTime> getHoraDisponivel() {
+       return this.HoraDisponivel;
+    }
 
     public AgendaDia(){
         String[] horariosString = {
@@ -17,66 +22,59 @@ public class AgendaDia {
                 "16:00", "16:30", "17:00", "17:30", "18:00", "18:30"
         };
         for ( String horario : horariosString) {
-            HoraDisponivel.add(LocalTime.parse(horario));
+            this.HoraDisponivel.add(LocalTime.parse(horario));
     }
     }
+    public void imprimirAgenda() {
+        List<LocalTime> horariosManha = new ArrayList<>();
+        List<LocalTime> horariosTarde = new ArrayList<>();
 
-   public void imprimirAgenda() {
-       List<LocalTime> horariosManha = new ArrayList<>();
-       List<LocalTime> horariosTarde = new ArrayList<>();
 
+        for (LocalTime hora : this.HoraDisponivel) {
+            if (hora.isBefore(LocalTime.of(12, 30))) {
+                horariosManha.add(hora);
+            } else {
+                horariosTarde.add(hora);
+            }
+        }
 
-       for (LocalTime hora : HoraDisponivel) {
-           if (hora.isBefore(LocalTime.of(12, 30))) {
-               horariosManha.add(hora);
-           } else {
-               horariosTarde.add(hora);
-           }
-       }
+        System.out.println(NEGRITO + CYAN +"\tHorários Disponíveis:" + RESETAR);
 
-       System.out.println("\tHorários Disponíveis:");
+        System.out.print(NEGRITO + CYAN +"\t\tManhã: " + RESETAR);
+        Collections.sort(horariosManha);
+        imprimirHorarios(horariosManha);
 
-       System.out.print("\t\tManhã: ");
-       imprimirHorarios(horariosManha);
+        System.out.print(NEGRITO + CYAN +"\t\tTarde: " + RESETAR);
+        Collections.sort(horariosTarde);
+        imprimirHorarios(horariosTarde);
 
-       System.out.print("\t\tTarde: ");
-       imprimirHorarios(horariosTarde);
-
-       System.out.println();
-   }
+        System.out.println();
+    }
 
     private void imprimirHorarios(List<LocalTime> horarios) {
         for (int i = 0; i < horarios.size(); i++) {
-            System.out.print(horarios.get(i));
+            System.out.print(VERDE + horarios.get(i) + RESETAR);
             if (i < horarios.size() - 1) {
-                System.out.print(", ");
+                System.out.print(VERDE + ", " + RESETAR);
             }
         }
         System.out.println();
     }
-       public void agendarHorario(LocalTime horario, Servico servico){
-        if(HoraDisponivel.contains(horario)){
-            Agendamentos_dia.put(horario, servico);
-            HoraDisponivel.remove(horario);
+    public void agendarHorario(LocalTime horario, Servico servico){
+        if(this.HoraDisponivel.contains(horario)){
+            this.Agendamentos_dia.put(horario, servico);
+            this.HoraDisponivel.remove(horario);
         }}
 
     public void desmarcarHorario(LocalTime horario){
-        if(Agendamentos_dia.get(horario)!=null){
-            Agendamentos_dia.remove(horario);
-            HoraDisponivel.add(horario);
+        if(this.Agendamentos_dia.get(horario)!=null){
+            this.Agendamentos_dia.remove(horario);
+            this.HoraDisponivel.add(horario);
         }
     }
 
-    public void mudarHorario(LocalTime horario, Servico servico){
-        desmarcarHorario(horario);
-        agendarHorario(horario, servico);
-    }
-
     public boolean verificarHorario(LocalTime horario){;
-        return HoraDisponivel.contains(horario);
+        return this.HoraDisponivel.contains(horario);
     }
 
-    public void removerHorario(LocalTime horarioatual){
-        HoraDisponivel.removeIf(hora -> hora.isBefore(horarioatual));
-    }
 }
