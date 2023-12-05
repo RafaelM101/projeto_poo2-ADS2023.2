@@ -9,19 +9,18 @@ import exceptions.*;
 
 public class Validar implements Terminal{
     private static final String regexCpf = "^\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}$";
-    //regex valida email
+
     private static final String regexEmail = "^[a-zA-Z0-9_!#$%&’*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
-    // regex valida telefone
+
     private static final String regexTelefone = "^\\((0\\d{2}|\\d{2})\\)\\s?9\\d{4}-?\\d{4}$";
-    //regex valida letras
+
     private static final String regexLetras = ".*[0-9!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?].*";
-    //regex valida CRMV
     private static final String regexCRMV = "^CRMV-(AC|AL|AP|AM|BA|CE|DF|ES|GO|MA|MT|MS|MG|PA|PB|PR|PE|PI|RJ|RN|RS|RO|RR|SC|SP|SE|TO) \\d{4}$";
-    //regex valida Data
+
     private static final String regexData = "^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/[0-9]{4}$";
-    //regex valida Matricula
+
     private static final String regexMatricula = "^\\d{4}$";
-    //regex valida Hora
+
     private static final String regexHora = "^(0[8-9]|1[0-7]):(00|30)$";
 
     static Pattern patternCPF = Pattern.compile(regexCpf);
@@ -34,14 +33,14 @@ public class Validar implements Terminal{
     
     private static final Pattern patternHora = Pattern.compile(regexHora);
   
-    //faz a operação
+
     static Matcher matcher;
     public static boolean validarCPF(String validarCpf) throws CpfInvalidoException{
         matcher = patternCPF.matcher(validarCpf);
         if(matcher.matches()) {
             return true;
         }
-        throw new CpfInvalidoException(NEGRITO + VERMELHO+"CPF INVÁLIDO!"+RESETAR);
+        throw new CpfInvalidoException(NEGRITO + VERMELHO+"CPF INVÁLIDO! INSIRA NO PADRÃO xxx.xxx.xxx-xx"+RESETAR);
     }
 
     public static boolean validarEmail(String validarEmail) throws EmailInvalidoException{
@@ -73,7 +72,7 @@ public class Validar implements Terminal{
         if (matcher.matches()) {
             return true;
         }
-        throw new CRMVInvalidoException(NEGRITO + VERMELHO+"CRMV INVÁLIDO!"+RESETAR);
+        throw new CRMVInvalidoException(NEGRITO + VERMELHO+"CRMV INVÁLIDO! Insira no padrão CRMV-UF XXXX , onde UF representa o Estado do CRMV."+RESETAR);
     }
 
     public static boolean ValidarDate(String validarData) throws DataInvalidaException {
