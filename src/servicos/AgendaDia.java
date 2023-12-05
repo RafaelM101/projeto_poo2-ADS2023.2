@@ -1,9 +1,9 @@
 package servicos;
 import components.Terminal;
 
-import java.time.LocalDate;
+
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
+
 import java.util.*;
 
 public class AgendaDia implements Terminal {
@@ -25,32 +25,31 @@ public class AgendaDia implements Terminal {
             this.HoraDisponivel.add(LocalTime.parse(horario));
     }
     }
+    public void imprimirAgenda() {
+        List<LocalTime> horariosManha = new ArrayList<>();
+        List<LocalTime> horariosTarde = new ArrayList<>();
 
-   public void imprimirAgenda() {
-       List<LocalTime> horariosManha = new ArrayList<>();
-       List<LocalTime> horariosTarde = new ArrayList<>();
 
+        for (LocalTime hora : this.HoraDisponivel) {
+            if (hora.isBefore(LocalTime.of(12, 30))) {
+                horariosManha.add(hora);
+            } else {
+                horariosTarde.add(hora);
+            }
+        }
 
-       for (LocalTime hora : this.HoraDisponivel) {
-           if (hora.isBefore(LocalTime.of(12, 30))) {
-               horariosManha.add(hora);
-           } else {
-               horariosTarde.add(hora);
-           }
-       }
+        System.out.println(NEGRITO + CYAN +"\tHorários Disponíveis:" + RESETAR);
 
-       System.out.println(NEGRITO + CYAN +"\tHorários Disponíveis:" + RESETAR);
+        System.out.print(NEGRITO + CYAN +"\t\tManhã: " + RESETAR);
+        Collections.sort(horariosManha);
+        imprimirHorarios(horariosManha);
 
-       System.out.print(NEGRITO + CYAN +"\t\tManhã: " + RESETAR);
-       Collections.sort(horariosManha);
-       imprimirHorarios(horariosManha);
+        System.out.print(NEGRITO + CYAN +"\t\tTarde: " + RESETAR);
+        Collections.sort(horariosTarde);
+        imprimirHorarios(horariosTarde);
 
-       System.out.print(NEGRITO + CYAN +"\t\tTarde: " + RESETAR);
-       Collections.sort(horariosTarde);
-       imprimirHorarios(horariosTarde);
-
-       System.out.println();
-   }
+        System.out.println();
+    }
 
     private void imprimirHorarios(List<LocalTime> horarios) {
         for (int i = 0; i < horarios.size(); i++) {
@@ -61,7 +60,7 @@ public class AgendaDia implements Terminal {
         }
         System.out.println();
     }
-       public void agendarHorario(LocalTime horario, Servico servico){
+    public void agendarHorario(LocalTime horario, Servico servico){
         if(this.HoraDisponivel.contains(horario)){
             this.Agendamentos_dia.put(horario, servico);
             this.HoraDisponivel.remove(horario);
