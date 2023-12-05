@@ -19,7 +19,6 @@ public class TutorController implements CRUD, Terminal {
     
     protected static ArrayList<Tutor> lista_tutores = new ArrayList<>();
 
-    //Data Seed
     public static void data_seed_tutor() throws ListaVaziaException {
         Endereco endereco_tutor = new Endereco("Rua Fim do mundo", "Garanhuns", 666);
         Tutor tutor_1 = new Tutor("Rayane","111.111.111-11","81-99999-8888","tutor@gmail.com", endereco_tutor);

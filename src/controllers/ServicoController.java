@@ -19,8 +19,6 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.InputMismatchException;
-
-import static controllers.FuncionarioController.desmarcarHorario;
 import static main.Main.LimparTela;
 
 public class ServicoController implements CRUD, Terminal{

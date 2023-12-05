@@ -22,13 +22,9 @@ import servicos.AgendaDia;
 import servicos.Servico;
 
 public class FuncionarioController implements CRUD, Terminal{
-    //PRECISAMOS DESSE FUNCIONARIO FANTASMA PRA ACESSAR A CLASSE FUNCIONARIO
-
     public static ArrayList<Funcionario> lista_funcionarios = new ArrayList<>();
     private Funcionario funcionario = new Funcionario(null, NEGRITO, NEGRITO, null);
 
-
-    //CONSTRUTOR DA CLASSE PARA PORDER ACESSAR ELA
     public static void data_seed_funcionario() {
         Funcionario funcionario_1 = new Funcionario(1500.55, "123.123.123-55", "Rafael Marques", Setores.SERVICOS_GERAIS);
         FuncionarioController.lista_funcionarios.add(funcionario_1);
@@ -45,14 +41,7 @@ public class FuncionarioController implements CRUD, Terminal{
         System.out.println(veterinario_1.toString());
         System.out.println(veterinario_2.toString());
     }
-    //MÉTODO DO CRUD QUE ESTAVA EM FUNCIONARIO
     public void cadastrar(){
-        //FICA A MESMA COISA COM ALGUMAS EXCEÇÕES:
-        //ONDE ANTES TU ACESSAVA AS PROPRIEDADES COMO funcionario.nome AGORA FICAM funcionario.getNome()
-        //E A QUESTÃO DA LISTA STATIC VOCÊS VÃO TER QUE CRIAR UMA GET LISTA QUE RETORNA A LISTA PRA PODER ACESSAR ELA
-        //NA MAIN TU CRIA UMA INSTANCIA DA CLASSE CONTROLLER NO TEU MENU E TROCA O "Funcionario.algumMetodo()" por:
-        //"(o nome da variável de instância da classe controller q tu criou no teu menu).algumMetodo()" 
-        //NOTEM QUE ESSE "algumMetodo()" REFERE-SE AOS MESMOS MÉTODOS MAS QUE AGORA ESTÃO NA CLASSE CONTROLLER
             try{
                 System.out.println(MAGENTA + NEGRITO + "\n| Cadastro de Funcionários |\n\n"+ RESETAR);
                 System.out.print(AZUL + "Digite nome do funcionário: " + RESETAR);

@@ -26,6 +26,7 @@ public class Main implements Terminal {
         while (true) {
             LimparTela();
             System.out.print("\t\t\t" + NEGRITO + PRETO + FUNDO_VERDE + "SISTEMA DE GERENCIAMENTO AMIGOPET" + RESETAR + "\n");
+            System.out.println("\n\t\t\t"+NEGRITO + FUNDO_AMARELO + PRETO +"Alunos: Rafael Marques, Emmanoel Barros e Kerlen Melo."+ RESETAR +"\n" +"\t\t\t" +FUNDO_AMARELO + NEGRITO + PRETO + "2º ADS - 2023.2" + RESETAR);
             System.out.println(NEGRITO + AMARELO + "Escolha o módulo que deseja acessar:" + RESETAR);
             System.out.print(NEGRITO + CYAN + "1 - MODULO DE GERENCIAMENTO DE FUNCIONÁRIOS\n" + RESETAR);
             System.out.print(NEGRITO + CYAN + "2 - MODULO DE GERENCIAMENTO DE TUTORES\n" + RESETAR);
@@ -73,9 +74,9 @@ public class Main implements Terminal {
         }
     }
     public static void menu_Funcionario(){
-        //AQUI -----------------------------------------------
+
         FuncionarioController f = new FuncionarioController();
-        //----------------------------------------------------
+
         while (true) {
             System.out.println(AZUL + NEGRITO + "\t\t\tMÓDULO DE GERENCIAMENTO DE FUNCIONÁRIOS" + RESETAR);
             System.out.println(AMARELO + NEGRITO + "Escolha a ação que deseja realizar: " + RESETAR);
@@ -373,12 +374,3 @@ public class Main implements Terminal {
 }
 
 
-//Modulo MENU PRINCIPAL(Rafael): Escolher entre os Módulo TUTOR, PET, FUNCIONARIO e AGENDAR SERVIÇO.
-//Modulo TUTOR(Kerlen): Cadastrar Tutor, Listar Todos os Tutores,
-//atualizar tutor existente, apagar tutor, Consultar Tutor por CPF, EXIBIR ENDEREÇO e TELEFONE DE TUTOR.
-
-//Modulo Funcionario: (Emmanuel )Cadastrar - Normal ou Veterinario, Listar Todos, Listar por matrícula, Atualizar Salário, Apagar
-
-//Modulo Agendar Serviço:(Rafael) CADASTRAR SERVIÇO, ATUALIZAR SERVIÇO, DESMARCAR SERVIÇO, Listar serviço por data, Listar todos, Exibir agenda de funcionário pela matrícula
-
-//Modulo Pet (Kerlen): CADASTRAR PET, ATUALIZAR PET, EXCLUIR PET, LISTAR TODOS OS PETS, Listar PET por funcionario,  Adicionar Pet em Tutor existente, Remover Pet de Tutor Existente,
